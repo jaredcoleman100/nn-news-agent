@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+{# Typography is the main change in the St Olav redesign. UnifrakturMaguntia is German textura
+   blackletter -- fifteenth century, central Europe. Olav Haraldsson died in 1030 and his shrine
+   is Nidaros, so blackletter was the wrong country and four centuries too late; it read as
+   "old-timey newspaper" rather than as anything Norwegian. Cormorant Unicase gives the
+   inscriptional Romanesque capitals of carved stone, which is what Nidaros actually looks like,
+   and Cormorant SC gives the small-caps rubric of a manuscript heading. EB Garamond stays for
+   body text: it is the only one of the three that is comfortable at 15px for 600 words. #}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@400;700&family=Cormorant+SC:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
 {# INDEXING. The internal build is never indexed: it renders other newsrooms' article text and
    machine translations of it, and it is not ours to publish. The public build IS indexed, from
    2026-10-04 on the editor's instruction ("index it"). Until then it carried noindex because no
@@ -22,24 +29,36 @@
      stays --ink: red at 15px fails contrast, and a masthead is not a reason to make a news site
      hard to read. Red and gold carry the ornament, the crest and the active nav chip only. */
   :root {
-    --bg: #fbfaf8; --panel: #ffffff; --ink: #1a1c1e; --muted: #6a7075;
-    --line: #e4e2dd; --accent: #ba0c2f; --chip: #f4eee9;
-    --gold: #a8842c; --royal: #00205b;
+    /* Parchment and the four pigments of a medieval Norwegian manuscript: iron-gall ink,
+       minium (the lead-red of rubricated initials), ultramarine, and gold leaf. The old palette
+       was flag colours on office white -- correct heraldry, wrong material. --ink is a warm
+       brown-black because iron gall oxidises brown, and on parchment a neutral black looks
+       printed rather than written. */
+    --bg: #f2e9d5; --panel: #faf3e2; --ink: #241b11; --muted: #64533c;
+    --line: #d9c9a7; --accent: #a81f23; --chip: #ece0c6;
+    --gold: #9c7a1a; --royal: #1c3c6e; --gules: #a81f23;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #16181a; --panel: #1e2124; --ink: #e8e6e3; --muted: #9aa0a6;
-      --line: #2e3237; --accent: #e8647c; --chip: #2a2529;
-      --gold: #d8b45c; --royal: #7f9ad1;
+      --bg: #17130d; --panel: #211b13; --ink: #ece0c6; --muted: #a2906f;
+      --line: #3a3024; --accent: #e0787a; --chip: #2b2318;
+      --gold: #d6b25c; --royal: #8aa8d8; --gules: #8d2227; --gules: #8d2227;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #16181a; --panel: #1e2124; --ink: #e8e6e3; --muted: #9aa0a6;
-    --line: #2e3237; --accent: #e8647c; --chip: #2a2529;
-      --gold: #d8b45c; --royal: #7f9ad1;
+    --bg: #17130d; --panel: #211b13; --ink: #ece0c6; --muted: #a2906f;
+    --line: #3a3024; --accent: #e0787a; --chip: #2b2318;
+    --gold: #d6b25c; --royal: #8aa8d8;
   }
   * { box-sizing: border-box; }
-  body { background: var(--bg); color: var(--ink); margin: 0 auto; max-width: 1140px;
+  /* A whisper of parchment tooth. Two near-invisible gradients, no image request: enough to stop
+     the ground reading as flat screen-white, not enough to fight 15px body text. The dark theme
+     gets the same treatment at lower amplitude -- lit stone, not a lightbox. */
+  body { background-color: var(--bg); color: var(--ink); margin: 0 auto; max-width: 1140px;
+         background-image:
+           radial-gradient(ellipse at 18% 12%, rgba(156,122,26,0.055), transparent 62%),
+           radial-gradient(ellipse at 84% 78%, rgba(100,83,60,0.045), transparent 58%);
+         background-attachment: fixed;
          padding-block: 26px; padding-left: 20px; padding-right: 20px;
          font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
   a { color: inherit; }
@@ -48,25 +67,42 @@
   .epigraph { font-family: "EB Garamond", Georgia, serif; font-style: italic;
               font-size: 0.92rem; color: var(--muted); max-width: 48ch;
               margin: 0 auto 13px; line-height: 1.5; }
+  /* The rubricated initial. ::first-letter on the Norwegian line only -- the English gloss and
+     the citation are separate spans, so they are untouched. Decoration, not content: a screen
+     reader reads the same sentence either way. */
+  .epigraph::first-letter { font-family: "Cormorant Unicase", Georgia, serif; font-style: normal;
+                            font-size: 2.45em; line-height: 0.82; float: left;
+                            margin: 0.06em 0.09em 0 0; color: var(--accent);
+                            text-shadow: 0 1px 0 rgba(156,122,26,0.55); }
   .epigraph .cite { display: block; font-style: normal; font-size: 0.68rem;
                     text-transform: uppercase; letter-spacing: 0.1em;
                     color: var(--gold); margin-top: 5px; }
   .epigraph .alt { display: block; font-style: normal; font-size: 0.78rem;
                    color: var(--muted); opacity: 0.8; margin-top: 4px; }
-  .masthead .rule { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink);
-                    height: 3px; opacity: 0.85; }
+  .masthead .rule { border-top: 2px solid var(--royal); border-bottom: 1px solid var(--accent);
+                    height: 4px; opacity: 0.9;
+                    box-shadow: inset 0 0 0 1px transparent, 0 1px 0 var(--gold); }
   .nameplate { display: flex; align-items: center; justify-content: center; gap: 14px;
                padding: 13px 0 4px; }
-  h1 { font-family: "UnifrakturMaguntia", "EB Garamond", Georgia, serif;
-       font-size: clamp(1.9rem, 7vw, 3.1rem); font-weight: 400; line-height: 1.05;
-       margin: 0; letter-spacing: 0.01em; }
-  .orn { width: 54px; height: 30px; color: var(--gold); flex: none; }
+  h1 { font-family: "Cormorant Unicase", "EB Garamond", Georgia, serif;
+       font-size: clamp(1.9rem, 6.6vw, 3rem); font-weight: 700; line-height: 1.06;
+       margin: 0; letter-spacing: 0.035em; color: var(--ink); }
+  /* Rubric headings. In a manuscript the heading is not bigger, it is RED and in another hand --
+     which is also why these carry no extra weight: the colour is doing the work. */
+  h2, h3 { font-family: "Cormorant SC", "EB Garamond", Georgia, serif; font-weight: 600;
+           letter-spacing: 0.04em; }
+  .md h2, .md h3, .md h4 { color: var(--accent); }
+  .orn { width: 66px; height: 37px; color: var(--gold); flex: none; }
+  /* The ribbon trick: a wide gold stroke, then a narrow --bg stroke down the middle, giving two
+     parallel contours from one path. .ribbon-o is drawn after, so it crosses OVER. */
+  .orn .ribbon-u, .orn .ribbon-o { stroke: currentColor; stroke-width: 5.2; }
+  .orn .eye { fill: var(--bg); stroke: currentColor; stroke-width: 1.1; }
   .orn.flip { transform: scaleX(-1); }
   .motto { font-family: "EB Garamond", Georgia, serif; font-style: italic;
            font-size: 0.95rem; color: var(--muted); margin: 0 0 11px;
            display: flex; align-items: center; justify-content: center; gap: 9px; }
   .crest { width: 46px; height: 55px; flex: none; }
-  .crest .field { fill: var(--accent); stroke: var(--gold); stroke-width: 2.2; }
+  .crest .field { fill: var(--gules); stroke: var(--gold); stroke-width: 2.2; }
   .crest .charge { fill: var(--gold); }
   .masthead .rule { border-top-color: var(--royal); border-bottom-color: var(--gold); }
   .standfirst { font-family: "EB Garamond", Georgia, serif; font-size: 0.86rem;
@@ -232,6 +268,12 @@
      body text, full contrast, never grey-on-grey. A disclosure a reader cannot read is not one. */
   .site-notice { max-width: 46rem; margin: 48px auto 32px; padding: 0 16px; }
   .site-notice .rule { margin-bottom: 18px; }
+  /* A section mark in the shape of the Nidaros rose window: eight petals in a ring. Explicitly
+     NOT the insignia of the Royal Norwegian Order of St Olav -- that is a live state decoration
+     with a crown and an enamelled cross, and putting it on an unofficial news site would claim an
+     endorsement that does not exist. Same reason the crest is the historic arms and not the
+     current official ones. A rose window is architecture; anyone may draw a building. */
+  .rosette { display: block; width: 26px; height: 26px; margin: 0 auto 14px; color: var(--gold); }
   .site-notice p { font-size: .82rem; line-height: 1.55; color: var(--ink); margin: 0 0 10px; }
   .site-notice .alt { display: block; color: var(--muted); font-style: italic; }
   .site-notice .fine { font-size: .76rem; color: var(--muted); }
@@ -270,18 +312,48 @@
   <div class="rule"></div>
   <div class="nameplate">
     <svg class="orn" viewBox="0 0 60 34" aria-hidden="true" focusable="false">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-        <path d="M4 17c6-11 14-11 20 0s14 11 20 0"/>
-        <path d="M4 17c6 11 14 11 20 0s14-11 20 0"/>
-        <path d="M50 10c4 3 4 11 0 14"/>
+      {# Urnes-style interlace: two ribbon strands woven through each other, closing in a
+         gripping-beast curl. This is the ornament of eleventh-century Norwegian stave-church
+         portals and carved stone -- contemporary with Olav himself -- and it replaces a generic
+         flourish that belonged to no particular place or century. #}
+      {# Drawn as a RIBBON, not a line: one wide gold stroke with a narrow background-coloured
+         stroke run down its centre, which is how you get the two parallel contours of Urnes
+         carving without hand-plotting both edges. The first attempt was a single thin stroke and
+         read as a pair of spectacles. The ribbon passes under itself once at the loop -- the
+         short gold segment drawn last is the over-crossing. #}
+      <g fill="none" stroke-linecap="round">
+        <path class="ribbon-u" d="M2 25C2 9 20 4 30 13c7 6 13 7 18 2"/>
+        <path class="ribbon-u" d="M48 15c4-4 9-1 8 4-1 4-6 5-9 2-2-2-1-5 1-5.6"/>
+        <path class="ribbon-o" d="M20 7.5c6 0 10 3 12 6.5"/>
+        <circle class="eye" cx="52.4" cy="19.2" r="1.25"/>
+      </g>
+      <g fill="none" stroke="var(--bg)" stroke-width="2" stroke-linecap="round">
+        <path d="M2 25C2 9 20 4 30 13c7 6 13 7 18 2"/>
+        <path d="M48 15c4-4 9-1 8 4-1 4-6 5-9 2-2-2-1-5 1-5.6"/>
+        <path d="M20 7.5c6 0 10 3 12 6.5"/>
       </g>
     </svg>
     <h1>{{ site.t.title[0] }}</h1>
     <svg class="orn flip" viewBox="0 0 60 34" aria-hidden="true" focusable="false">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-        <path d="M4 17c6-11 14-11 20 0s14 11 20 0"/>
-        <path d="M4 17c6 11 14 11 20 0s14-11 20 0"/>
-        <path d="M50 10c4 3 4 11 0 14"/>
+      {# Urnes-style interlace: two ribbon strands woven through each other, closing in a
+         gripping-beast curl. This is the ornament of eleventh-century Norwegian stave-church
+         portals and carved stone -- contemporary with Olav himself -- and it replaces a generic
+         flourish that belonged to no particular place or century. #}
+      {# Drawn as a RIBBON, not a line: one wide gold stroke with a narrow background-coloured
+         stroke run down its centre, which is how you get the two parallel contours of Urnes
+         carving without hand-plotting both edges. The first attempt was a single thin stroke and
+         read as a pair of spectacles. The ribbon passes under itself once at the loop -- the
+         short gold segment drawn last is the over-crossing. #}
+      <g fill="none" stroke-linecap="round">
+        <path class="ribbon-u" d="M2 25C2 9 20 4 30 13c7 6 13 7 18 2"/>
+        <path class="ribbon-u" d="M48 15c4-4 9-1 8 4-1 4-6 5-9 2-2-2-1-5 1-5.6"/>
+        <path class="ribbon-o" d="M20 7.5c6 0 10 3 12 6.5"/>
+        <circle class="eye" cx="52.4" cy="19.2" r="1.25"/>
+      </g>
+      <g fill="none" stroke="var(--bg)" stroke-width="2" stroke-linecap="round">
+        <path d="M2 25C2 9 20 4 30 13c7 6 13 7 18 2"/>
+        <path d="M48 15c4-4 9-1 8 4-1 4-6 5-9 2-2-2-1-5 1-5.6"/>
+        <path d="M20 7.5c6 0 10 3 12 6.5"/>
       </g>
     </svg>
   </div>
@@ -345,6 +417,16 @@
    applies: putting it on all seventy pages would train readers to skip the block that matters. #}
 <footer class="site-notice">
   <div class="rule"></div>
+  <svg class="rosette" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.3">
+      <circle cx="16" cy="16" r="13.2"/>
+      <circle cx="16" cy="16" r="4.1"/>
+      <g stroke-width="1.1">
+        <path d="M16 11.9V2.8M16 20.1v9.1M11.9 16H2.8M20.1 16h9.1"/>
+        <path d="M13.1 13.1 6.7 6.7M18.9 18.9l6.4 6.4M18.9 13.1l6.4-6.4M13.1 18.9l-6.4 6.4"/>
+      </g>
+    </g>
+  </svg>
   <p><b>{{ site.t.noticeWhat[0] }}</b><span class="alt">{{ site.t.noticeWhat[1] }}</span></p>
   <p>{{ site.t.noticeAi[0] }}<span class="alt">{{ site.t.noticeAi[1] }}</span></p>
   {% if navKey == "satire" %}
