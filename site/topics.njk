@@ -1,0 +1,25 @@
+---
+layout: base.njk
+navKey: topics
+pageTitle: "Categories / Kategorier"
+permalink: "topics/index.html"
+---
+{# The categories the BRIEFS cover -- not the whole archive's hits, which is /categories/ in the
+   internal build. See _data/topics.js for why the two are separate. #}
+<p class="sub">{{ topics.total }} {{ site.t.storiesWord[0] }} across {{ topics.list | length }} {{ site.t.categories[0] | lower }}, from {{ reports | length }} {{ site.t.briefs[0] | lower }}.
+<span class="alt">{{ topics.total }} {{ site.t.storiesWord[1] }} i {{ topics.list | length }} {{ site.t.categories[1] | lower }}, fra {{ reports | length }} {{ site.t.briefs[1] | lower }}.</span></p>
+
+{% if not topics.list | length %}
+  <p class="body empty">{{ site.t.noTopics[0] }}<br>{{ site.t.noTopics[1] }}</p>
+{% endif %}
+
+{% for desk in topics.desks %}
+  <h2 class="day">{{ desk.name[0] }} / {{ desk.name[1] }} · {{ desk.count }}</h2>
+  <ul class="browse cats">
+  {% for cat in desk.categories %}
+    <li><a href="{{ linkBase }}topic/{{ cat.key }}/">
+      <span>{{ cat.name }}</span>
+      <span class="n">{{ cat.count }}</span></a></li>
+  {% endfor %}
+  </ul>
+{% endfor %}

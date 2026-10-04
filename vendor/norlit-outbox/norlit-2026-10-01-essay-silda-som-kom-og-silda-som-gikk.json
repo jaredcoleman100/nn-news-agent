@@ -1,0 +1,42 @@
+{
+ "id": "norlit-2026-10-01-essay-silda-som-kom-og-silda-som-gikk",
+ "kind": "essay",
+ "date": "2026-10-01",
+ "title": "Silda som kom, og silda som gikk",
+ "title_en": "The Herring That Came, and the Herring That Went",
+ "body": "I et brev fra Nordland, datert februar 1869, forteller Jon Klæbo om storsilda som kom til øyene på Helgeland. Den hadde ikke vært kjent i de været i manns minne før 1865. Vinteren 1866–67 kom den «så grastjukt at det vart så reint for lite av salt og tre og farty». Og så kom de andre: «Det var noko for spekulantar og pengemenn.» Kjøpmenn fra Bergen, Stavanger og Haugesund ville ha sin del, og på holmene reiste det seg det ene gilde huset etter det andre.\n\nNeste vinter slo det feil. Silda var under land, men landvind og frost holdt den nede, og folket kom seg ikke på sjøen. Da den endelig kom, kom uværet med den, og mange mistet hele garnlenker. Klæbo og laget hans tjente femti daler mann. Brevet slutter ikke med pengene, men med julen de mistet: ingen julegrøt, ingen kveite, og mor som ikke kunne lese bønnen for dem julekvelden.\n\nNå råder havforskerne til nesten å doble makrellfangsten neste år. ICES anbefaler en samlet fangst på 352 938 tonn, 102 prosent mer enn i fjor, melder NRK Troms og Finnmark. Havforsker Are Salthaug forklarer at lavere uttak og mer toårig makrell i gytebestanden holder bestanden over den kritiske grensen.\n\nDet er gode nyheter, og det er forsker-nyheter: tall, gytebestand, grenser. Klæbos brev minner om det tallene ikke sier. Et godt år lokker kapitalen til, og kapitalen bygger hus på holmene som om fisken skulle bli. Havet bryr seg ikke om husene. Rådet om dobbel fangst er bygget på at uttaket var lavt. Det er en forskjell på å høste av en bestand som har fått hvile, og å bygge en ny økonomi på den.\n\nKlæbo skrev brevet sitt på vei hjem. Det han husket best fra den rike vinteren, var ikke silda, men at «alle båtlaga syng kveldsongen», så hele været ble som en syngende kirke. Fisken var lånt. Fellesskapet var deres eget.",
+ "body_en": "In a letter from Nordland dated February 1869, Jon Klæbo tells of the great herring that came to the islands of Helgeland. It had not been known in those fishing stations in living memory before 1865. In the winter of 1866–67 it came \"so thick as grass that there was far too little salt and timber and boats.\" *(translation)* And then the others came: \"That was something for speculators and moneyed men.\" *(translation)* Merchants from Bergen, Stavanger and Haugesund wanted their share, and on the islets one fine house went up after another.\n\nThe next winter it failed. The herring was close inshore, but land wind and frost kept it down, and the people could not get out to sea. When it finally came, the storm came with it, and many lost whole fleets of nets. Klæbo and his crew earned fifty dalers a man. The letter does not end with the money, but with the Christmas they lost: no Christmas porridge, no halibut, and mother not there to read the prayer for them on Christmas Eve.\n\nNow marine scientists advise nearly doubling the mackerel catch next year. ICES recommends a total catch of 352,938 tonnes, 102 percent more than last year, NRK Troms og Finnmark reports. Researcher Are Salthaug explains that lower catches and more two-year-old mackerel in the spawning stock keep the stock above the critical limit.\n\nIt is good news, and it is scientists' news: figures, spawning stock, limits. Klæbo's letter recalls what the figures don't say. A good year draws in capital, and capital builds houses on the islets as if the fish would stay. The sea does not care about the houses. The advice of a doubled catch rests on the fact that catches were low. There is a difference between harvesting a stock that has been rested and building a new economy on it.\n\nKlæbo wrote his letter on the way home. What he remembered best from the rich winter was not the herring but that \"all the boat crews sing the evening hymn\" *(translation)*, so that the whole station became like a singing church. The fish was borrowed. The fellowship was their own.",
+ "theme": "fisken, rikdommen og spekulantene",
+ "season": null,
+ "sources": [
+  {
+   "work_id": "bokselskap:nordlandsliv",
+   "author": "Jon Klæbo",
+   "title": "Nordlandsliv",
+   "year": null,
+   "url": "https://www.bokselskap.no/boker/nordlandsliv",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  }
+ ],
+ "news": [
+  "https://www.nrk.no/artikkel/rar-til-dobbelt-sa-mykje-fangst-etter-krisear-1529156"
+ ],
+ "gate": "publish",
+ "gate_reasons": [],
+ "checks": {
+  "quotations": 3,
+  "failing": 0,
+  "review_words": [],
+  "screen": {
+   "gate": "review",
+   "flags": [],
+   "style_verdict": "fix_required",
+   "not_applied": []
+  }
+ },
+ "ai_note": "Teksten er skrevet av en KI-modell (Claude) på grunnlag av tekster i Bokselskap, Wikikilden og andre frie samlinger. Alle sitater er kontrollert ord for ord mot kildene.",
+ "ai_note_en": "Written by an AI model (Claude) from texts in Bokselskap, Wikikilden and other open collections. Every quotation has been checked word for word against its source.",
+ "source_file": "innlegg\\2026-10-01-silda-som-kom.md",
+ "created_at": "2026-10-01T11:54:51+00:00"
+}

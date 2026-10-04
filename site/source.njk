@@ -1,0 +1,16 @@
+---
+layout: base.njk
+navKey: browse
+pagination:
+  data: collections.sources
+  size: 1
+  alias: src
+permalink: "source/{{ src.name | slugify }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ src.name }}"
+---
+{% from "card.njk" import list %}
+<p class="sub">{{ src.name }} — {{ src.items | length }} {{ site.t.items[0] }}
+  ({% if src.org == "own" %}{{ site.t.own[0] }}{% else %}{{ site.t.external[0] }}{% endif %})
+<span class="alt">{{ src.items | length }} {{ site.t.items[1] }}</span></p>
+{{ list(src.items, site, linkBase) }}

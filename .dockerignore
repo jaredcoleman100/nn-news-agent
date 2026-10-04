@@ -1,0 +1,20 @@
+# Secrets must never be baked into the image; the Dockerfile does `COPY . .`.
+.env
+.env.*
+!.env.example
+
+# Local noise
+__pycache__/
+*.pyc
+.venv/
+venv/
+run.log
+
+# Not needed at runtime
+eval/
+reference/
+supabase/
+archive/
+# Site SOURCE only. The worker serves the BUILT site, which it downloads from Storage as one
+# tar.gz -- it never builds anything, and has no Node. Building happens on the newsroom machine.
+site/

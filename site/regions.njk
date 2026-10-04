@@ -1,0 +1,22 @@
+---
+layout: base.njk
+navKey: regions
+pageTitle: "By region / Etter region"
+permalink: "regions/index.html"
+---
+{# Where the reporting came FROM, as distinct from what it is about (/topics/). See
+   _data/regions.js for why both exist. #}
+<p class="sub">{{ site.t.regionsLede[0] }}
+<span class="alt">{{ site.t.regionsLede[1] }}</span></p>
+
+{% if not regions.list | length %}
+  <p class="body empty">{{ site.t.noTopics[0] }}<br>{{ site.t.noTopics[1] }}</p>
+{% endif %}
+
+<ul class="browse cats">
+{% for r in regions.list %}
+  <li><a href="{{ linkBase }}region/{{ r.key }}/">
+    <span>{{ r.name[0] }}<span class="alt">{{ r.name[1] }}</span></span>
+    <span class="n">{{ r.count }}</span></a></li>
+{% endfor %}
+</ul>

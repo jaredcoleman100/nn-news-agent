@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+{# INDEXING. The internal build is never indexed: it renders other newsrooms' article text and
+   machine translations of it, and it is not ours to publish. The public build IS indexed, from
+   2026-10-04 on the editor's instruction ("index it"). Until then it carried noindex because no
+   editor had approved any draft -- all 24 are approved now, so that reason has lapsed rather
+   than been overridden. Flip it back by building internal, or set SITE_NOINDEX=1. #}
+{% if site.noindex %}<meta name="robots" content="noindex, nofollow">
+{% else %}<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{ site.origin }}/{{ page.url | replace("/", "", 1) }}">
+{% endif %}
+<title>{{ pageTitle or (site.t.title[0] + " / " + site.t.title[1]) }}</title>
+<style>
+  /* Royal colours. --accent is gules, the red of the arms and of the flag (#BA0C2F); --gold is
+     the lion's or; --royal is the flag's blue, used for rules and the masthead frame. Body text
+     stays --ink: red at 15px fails contrast, and a masthead is not a reason to make a news site
+     hard to read. Red and gold carry the ornament, the crest and the active nav chip only. */
+  :root {
+    --bg: #fbfaf8; --panel: #ffffff; --ink: #1a1c1e; --muted: #6a7075;
+    --line: #e4e2dd; --accent: #ba0c2f; --chip: #f4eee9;
+    --gold: #a8842c; --royal: #00205b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16181a; --panel: #1e2124; --ink: #e8e6e3; --muted: #9aa0a6;
+      --line: #2e3237; --accent: #e8647c; --chip: #2a2529;
+      --gold: #d8b45c; --royal: #7f9ad1;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16181a; --panel: #1e2124; --ink: #e8e6e3; --muted: #9aa0a6;
+    --line: #2e3237; --accent: #e8647c; --chip: #2a2529;
+      --gold: #d8b45c; --royal: #7f9ad1;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); margin: 0 auto; max-width: 1140px;
+         padding-block: 26px; padding-left: 20px; padding-right: 20px;
+         font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  a { color: inherit; }
+  /* ---- masthead ---- */
+  .masthead { text-align: center; margin: 0 0 20px; }
+  .epigraph { font-family: "EB Garamond", Georgia, serif; font-style: italic;
+              font-size: 0.92rem; color: var(--muted); max-width: 48ch;
+              margin: 0 auto 13px; line-height: 1.5; }
+  .epigraph .cite { display: block; font-style: normal; font-size: 0.68rem;
+                    text-transform: uppercase; letter-spacing: 0.1em;
+                    color: var(--gold); margin-top: 5px; }
+  .epigraph .alt { display: block; font-style: normal; font-size: 0.78rem;
+                   color: var(--muted); opacity: 0.8; margin-top: 4px; }
+  .masthead .rule { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink);
+                    height: 3px; opacity: 0.85; }
+  .nameplate { display: flex; align-items: center; justify-content: center; gap: 14px;
+               padding: 13px 0 4px; }
+  h1 { font-family: "UnifrakturMaguntia", "EB Garamond", Georgia, serif;
+       font-size: clamp(1.9rem, 7vw, 3.1rem); font-weight: 400; line-height: 1.05;
+       margin: 0; letter-spacing: 0.01em; }
+  .orn { width: 54px; height: 30px; color: var(--gold); flex: none; }
+  .orn.flip { transform: scaleX(-1); }
+  .motto { font-family: "EB Garamond", Georgia, serif; font-style: italic;
+           font-size: 0.95rem; color: var(--muted); margin: 0 0 11px;
+           display: flex; align-items: center; justify-content: center; gap: 9px; }
+  .crest { width: 46px; height: 55px; flex: none; }
+  .crest .field { fill: var(--accent); stroke: var(--gold); stroke-width: 2.2; }
+  .crest .charge { fill: var(--gold); }
+  .masthead .rule { border-top-color: var(--royal); border-bottom-color: var(--gold); }
+  .standfirst { font-family: "EB Garamond", Georgia, serif; font-size: 0.86rem;
+                color: var(--muted); margin: 9px 0 0; letter-spacing: 0.04em;
+                text-transform: uppercase; }
+  /* Below ~420px the flourishes crowd the name; the nameplate is the thing that must stay legible. */
+  @media (max-width: 420px) { .orn { display: none; } .nameplate { gap: 0; } }
+  h1 .alt, .sub .alt { display: block; font-size: 0.92rem; font-weight: 500; color: var(--muted);
+                       letter-spacing: 0; }
+  .sub { color: var(--muted); font-size: 0.85rem; margin: 0 0 18px; }
+  nav.top { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px;
+            padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  nav.top a { text-decoration: none; font-size: 0.82rem; padding: 5px 11px; border-radius: 20px;
+              background: var(--chip); color: var(--ink); }
+  nav.top a:hover { color: var(--accent); }
+  nav.top a[aria-current="page"] { background: var(--accent); color: var(--bg); }
+  h2.day { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em;
+           color: var(--muted); margin: 24px 0 10px; font-weight: 600; }
+  .item { background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
+          padding: 13px 15px; margin-bottom: 9px; }
+  /* English left, source right. Below 760px they stack, English first, each keeping its own
+     language tag so a stacked pair is still unambiguous. */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .col.nb { border-left: 1px solid var(--line); padding-left: 20px; }
+  @media (max-width: 760px) {
+    .pair { grid-template-columns: 1fr; gap: 16px 0; }
+    .col.nb { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 14px; }
+  }
+  .tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
+         color: var(--muted); font-weight: 600; margin: 0 0 5px; }
+  .item h3 { font-size: 1rem; margin: 0 0 5px; font-weight: 600; line-height: 1.35; }
+  .item h3 a { text-decoration: none; }
+  .item h3 a:hover { color: var(--accent); text-decoration: underline; }
+  .meta { font-size: 0.78rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 7px;
+          align-items: center; margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .chip { background: var(--chip); border-radius: 20px; padding: 2px 9px; font-size: 0.74rem; }
+  .chip.own { background: var(--accent); color: var(--bg); }
+  .body { margin: 7px 0 0; color: var(--muted); font-size: 0.89rem; }
+  .empty { font-style: italic; opacity: 0.7; }
+  .pager { display: flex; gap: 10px; align-items: center; justify-content: center;
+           margin: 26px 0 8px; font-size: 0.85rem; color: var(--muted); }
+  .pager a { text-decoration: none; padding: 6px 13px; border: 1px solid var(--line);
+             border-radius: 7px; background: var(--panel); }
+  .pager a:hover { color: var(--accent); }
+  ul.browse { list-style: none; padding: 0; margin: 0;
+              display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+  ul.browse a { display: flex; justify-content: space-between; gap: 10px; text-decoration: none;
+                background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+                padding: 9px 12px; font-size: 0.88rem; }
+  ul.browse a:hover { border-color: var(--accent); }
+  ul.browse .n { color: var(--muted); font-variant-numeric: tabular-nums; }
+  ul.browse.cats a { font-weight: 500; }
+  ul.browse.cats .alt { display: block; font-size: 0.78rem; color: var(--muted); font-weight: 400; }
+  .score { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+           color: var(--muted); margin: 14px 0 -4px; font-variant-numeric: tabular-nums; }
+  .cats-of { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+  .cats-of a { font-size: 0.74rem; background: var(--chip); border-radius: 20px;
+               padding: 2px 9px; text-decoration: none; }
+  .cats-of a:hover { color: var(--accent); }
+  article.full .body { color: var(--ink); font-size: 0.95rem; }
+  article.full .body p { margin: 0 0 10px; }
+  .orig { display: inline-block; margin-top: 4px; font-size: 0.85rem; }
+
+  /* ---- the digest, which is now the front page ---- */
+  .stamp { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em;
+           color: var(--muted); font-weight: 600; margin: 0 0 12px;
+           display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .digest { background: var(--panel); border: 1px solid var(--line); border-radius: 11px;
+            padding: 20px 22px; margin-bottom: 26px; }
+  h2.lede { font-size: 1.22rem; line-height: 1.3; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .brief { font-size: 0.93rem; }
+  .brief h2, .brief h3, .brief h4 { font-size: 0.76rem; text-transform: uppercase;
+            letter-spacing: 0.07em; color: var(--muted); margin: 18px 0 7px; font-weight: 700; }
+  .brief p { margin: 0 0 9px; }
+  .brief ul { margin: 0 0 11px; padding-left: 19px; }
+  .brief li { margin: 0 0 5px; }
+  .brief .empty { font-style: italic; color: var(--muted); }
+  /* A cited article: our claims about it, then where it came from. Flatter than .item on purpose --
+     the digest above is the thing being read; these are its footnotes. */
+  .story { border: 1px solid var(--line); border-left: 3px solid var(--accent);
+           border-radius: 0 9px 9px 0; padding: 12px 15px; margin-bottom: 9px;
+           background: var(--panel); }
+  .story h3 { font-size: 0.96rem; margin: 0; font-weight: 600; line-height: 1.35; }
+  ul.claims { margin: 11px 0 0; padding-left: 19px; font-size: 0.9rem; }
+  ul.claims li { margin: 0 0 5px; }
+  .story .meta a { font-size: 0.78rem; }
+  .chip.warn { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
+  .chip.ok { background: #1f5c3a; color: #fff; }
+  ul.browse.briefs a { display: grid; grid-template-columns: 1fr auto; align-items: start; }
+  /* The ethics warning. Deliberately not styled as an error: it is a note a reader should weigh,
+     and the same banner appears on most briefs, so shouting would make it invisible. */
+  .ethics { border: 1px solid var(--accent); border-left-width: 4px; border-radius: 0 8px 8px 0;
+            padding: 11px 14px; margin: 0 0 16px; background: var(--chip); }
+  .ethics-h { margin: 0 0 7px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+              letter-spacing: 0.06em; color: var(--accent); }
+  .ethics-h .alt, .ethics-f .alt { display: block; font-weight: 500; text-transform: none;
+                                   letter-spacing: 0; color: var(--muted); }
+  .ethics ul { margin: 0; padding-left: 18px; font-size: 0.86rem; }
+  .ethics li { margin: 0 0 4px; }
+  .ethics li .alt { display: block; color: var(--muted); font-size: 0.82rem; }
+  .ethics .cl { color: var(--muted); font-size: 0.76rem; }
+  .ethics-f { margin: 9px 0 0; font-size: 0.76rem; color: var(--muted); }
+  .orig-title { font-size: 0.85rem; color: var(--muted); margin: 10px 0 0;
+                padding-top: 9px; border-top: 1px dotted var(--line); }
+  .lang-tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em;
+              background: var(--chip); border-radius: 20px; padding: 2px 8px; margin-right: 7px; }
+  .explain { max-width: 760px; }
+  .explain p { margin: 0 0 10px; }
+  .explain p.alt { color: var(--muted); font-size: 0.9rem; margin: 0 0 20px; }
+  .figure { background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
+            padding: 12px 15px; font-size: 0.9rem; }
+  .figure b { font-variant-numeric: tabular-nums; }
+  .figure .alt { display: block; color: var(--muted); font-size: 0.84rem; margin-top: 5px; }
+  .langs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 22px; }
+  .langs .chip { font-size: 0.76rem; }
+  .langs .chip .n { color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 3px; }
+  ul.limits { padding-left: 19px; margin: 0 0 8px; }
+  ul.limits li { margin: 0 0 11px; }
+  ul.limits .alt { display: block; color: var(--muted); font-size: 0.87rem; }
+  .via { font-size: 0.72rem; color: var(--muted); }
+  .series-essay { display: block; text-decoration: none; background: var(--panel);
+                  border: 1px solid var(--accent); border-left-width: 4px;
+                  border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 0 0 6px; }
+  .series-essay:hover { border-color: var(--gold); }
+  .series-essay .label { display: block; font-size: 0.68rem; text-transform: uppercase;
+                         letter-spacing: 0.1em; color: var(--accent); font-weight: 700; }
+  .series-essay .label .alt { display: block; color: var(--muted); font-weight: 500;
+                              text-transform: none; letter-spacing: 0; font-size: 0.72rem; }
+  .series-essay .t { display: block; font-weight: 600; margin: 6px 0 0; }
+  .series-essay .sum { display: block; font-size: 0.86rem; color: var(--muted); margin-top: 5px; }
+  .series-essay .sum.alt { font-size: 0.8rem; opacity: 0.75; }
+  ol.contents { list-style: none; counter-reset: none; padding: 0; margin: 0 0 8px; }
+  ol.contents li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0 12px;
+                   padding: 12px 14px; margin-bottom: 8px; background: var(--panel);
+                   border: 1px solid var(--line); border-radius: 9px; }
+  ol.contents .no { font-family: "EB Garamond", Georgia, serif; font-size: 1.5rem;
+                    color: var(--gold); line-height: 1; text-align: right; }
+  ol.contents a { font-weight: 600; text-decoration: none; }
+  ol.contents a:hover { color: var(--accent); text-decoration: underline; }
+  ol.contents .sum { margin: 5px 0 0; font-size: 0.86rem; color: var(--muted); }
+  ol.contents .sum.alt { font-size: 0.8rem; opacity: 0.75; }
+  .md blockquote { margin: 12px 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--gold);
+                   color: var(--ink); font-style: italic; }
+  .md blockquote p { margin: 0 0 6px; }
+  .md h3, .md h4, .md h5 { font-size: 0.98rem; margin: 18px 0 7px; font-weight: 600; }
+  .md ul, .md ol { margin: 0 0 11px; padding-left: 20px; }
+  .md li { margin: 0 0 5px; }
+  .md hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
+  .md code { background: var(--chip); border-radius: 4px; padding: 1px 5px; font-size: 0.88em; }
+  .md em { font-style: italic; }
+  .entity-pic { margin: 11px 0 0; }
+  .entity-pic img { width: 100%; height: auto; max-height: 230px; object-fit: cover;
+                    border-radius: 7px; display: block; background: var(--chip); }
+  .entity-pic figcaption { font-size: 0.72rem; color: var(--muted); margin-top: 5px;
+                           display: flex; flex-wrap: wrap; gap: 4px 10px; }
+  .entity-pic .what { font-style: italic; }
+  .entity-pic .what .alt { display: block; font-style: normal; opacity: 0.75; }
+  .entity-pic .credit { margin-left: auto; }
+  .in-briefs { font-size: 0.76rem; color: var(--muted); margin-top: 8px; }
+  .in-briefs a { margin-right: 2px; }
+
+  /* The public notice at the foot of every page. Deliberately quiet but not hidden: smaller than
+     body text, full contrast, never grey-on-grey. A disclosure a reader cannot read is not one. */
+  .site-notice { max-width: 46rem; margin: 48px auto 32px; padding: 0 16px; }
+  .site-notice .rule { margin-bottom: 18px; }
+  .site-notice p { font-size: .82rem; line-height: 1.55; color: var(--ink); margin: 0 0 10px; }
+  .site-notice .alt { display: block; color: var(--muted); font-style: italic; }
+  .site-notice .fine { font-size: .76rem; color: var(--muted); }
+  .site-notice .stale { border-left: 3px solid var(--gold); padding-left: 12px; }
+  .site-notice .built-stamp { font-variant-numeric: tabular-nums; }
+  .site-notice .sat { border-left: 3px solid var(--accent); padding-left: 12px; }
+</style>
+</head>
+<body>
+{#
+  The masthead, in the register of a Norwegian paper before the war: fraktur title between double
+  rules, motto beneath in letterspaced small caps. Aftenposten, Morgenbladet and Bergens Tidende
+  all set their nameplates in fraktur well into the twentieth century, so this is the period style
+  rather than a pastiche of one.
+
+  THE ORNAMENT IS DRAWN HERE, NOT SOURCED. Two reasons, and the first is not aesthetic:
+
+  1. Norway's royal arms -- the gold lion with the axe -- and the King's cypher are protected
+     state symbols. Putting either on an unofficial news site implies royal endorsement, which is
+     both untrue and the kind of thing the law on national symbols exists to stop. The crown below
+     is a generic heraldic one: three fleurons on an arched band, the form any European armorial
+     uses, deliberately not the Norwegian crown with its arches, orb and cross.
+  2. An inline SVG costs no request, no font file and no third-party image whose licence someone
+     would have to check later. The interlace is drestil/urnes-style strapwork of my own drawing.
+
+  The title is a proper noun and is not translated. The Norwegian standfirst sits under the motto
+  and is dropped when it would repeat the name.
+#}
+<header class="masthead">
+  {# A line from the Daodejing, in older literary Norwegian, turning over each day. Rendered for
+     this site rather than quoted: the text is ancient and free, but every published Norwegian
+     translation is someone's copyright. See _data/epigraph.js. #}
+  <p class="epigraph" lang="nn">{{ epigraph.nb }}
+    <span class="cite">etter Daodejing, kap. {{ epigraph.ch }}</span>
+    <span class="alt" lang="en">{{ epigraph.en }}</span></p>
+  <div class="rule"></div>
+  <div class="nameplate">
+    <svg class="orn" viewBox="0 0 60 34" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M4 17c6-11 14-11 20 0s14 11 20 0"/>
+        <path d="M4 17c6 11 14 11 20 0s14-11 20 0"/>
+        <path d="M50 10c4 3 4 11 0 14"/>
+      </g>
+    </svg>
+    <h1>{{ site.t.title[0] }}</h1>
+    <svg class="orn flip" viewBox="0 0 60 34" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <path d="M4 17c6-11 14-11 20 0s14 11 20 0"/>
+        <path d="M4 17c6 11 14 11 20 0s14-11 20 0"/>
+        <path d="M50 10c4 3 4 11 0 14"/>
+      </g>
+    </svg>
+  </div>
+  {#
+    The crest: gules, a lion rampant or, crowned, bearing an axe. Drawn here rather than sourced.
+
+    This is the HISTORIC form of the Norwegian arms -- the medieval lion with the axe of St Olav,
+    in use since the thirteenth century and long out of copyright. It is deliberately NOT the
+    current official arms, standardised in 1992, nor the King's cypher: those are the regulated
+    versions, and reproducing them on an unofficial news site would read as a claim of royal
+    endorsement that is not true. The difference is the point, not a technicality.
+
+    Inline, so there is no image request and no third-party licence for someone to check later.
+  #}
+  <p class="motto">
+    <svg class="crest" viewBox="0 0 54 64" role="img"
+         aria-label="{{ site.t.crestAlt[0] }}">
+      <path class="field" d="M3 3h48v34c0 14-11 21-24 25C14 58 3 51 3 37V3z"/>
+      <g class="charge">
+        <path d="M30 17.5l-2.6-4.4h5.2L30 17.5z"/>
+        <path d="M24.5 16.5l2.5-2.6 2.2 3.4-2.1 1.9-2.6-2.7z" opacity="0"/>
+        <path d="M27.8 19.2c-3.6.7-6.6 3-7.9 6.3-1.1 2.7-1 5.2-.3 8.2.5 2.2.4 3.4-.5 5.1-.8 1.5-2.2 2.7-4 3.5l1 2.3c2.6-1.1 4.5-2.8 5.6-5 .5-1 .8-1.9.9-3 .9 1.8 1.4 3.6 1.5 5.7l2.5-.1c-.1-2.4-.6-4.5-1.6-6.6 1.6.9 3.2 1.4 5 1.6l.2-2.5c-2.3-.3-4.1-1.1-5.6-2.6-1.4-1.4-2-2.9-1.9-4.7.1-2.3 1.5-4.1 3.7-4.9 1.4-.5 2.6-.5 4.1-.2l1.5.4-.4-2.6c-1.3-.5-2.5-.8-3.8-.9z"/>
+        <path d="M32.4 20.6l1.6 1.9c2.4 2.9 4 5.7 5.2 9.2 1 3 1.4 5.6 1.4 9.1h2.5c0-3.8-.5-6.8-1.6-10.1-1.3-3.9-3.2-7.1-5.9-10.3l-1.5-1.8-1.7 2z"/>
+        <path d="M33.2 15.6l7.9-6.4 1.6 2-7.9 6.4-1.6-2z"/>
+        <path d="M39.5 6.3c2.7-.3 4.9 1.5 5.2 4 .3 2.4-1.3 4.5-3.8 5-2.5.4-4.8-1.3-5.2-3.8-.3-2.5 1.3-4.8 3.8-5.2zm.3 2.5c-1.1.2-1.8 1.2-1.6 2.3.1 1.1 1.1 1.8 2.2 1.6 1.1-.2 1.8-1.2 1.6-2.3-.2-1.1-1.1-1.8-2.2-1.6z"/>
+        <path d="M19 44.5c2.2 1.6 4.6 2.5 7.4 2.9l-.3 2.5c-3.2-.4-6.1-1.5-8.6-3.4l1.5-2z"/>
+      </g>
+    </svg>
+    <span>{{ site.t.motto[0] }}</span>
+  </p>
+  <div class="rule"></div>
+  {% if site.t.title[1] != site.t.title[0] %}<p class="standfirst">{{ site.t.title[1] }}</p>{% endif %}
+</header>
+{# The archive links exist only in the internal build. In the public one those templates are
+   never rendered at all (see site/_data/site.js), so linking to them would be a dead end. #}
+<nav class="top">
+  <a href="{{ linkBase }}"{% if navKey == "front" %} aria-current="page"{% endif %}>{{ site.t.front[0] }} / {{ site.t.front[1] }}</a>
+  <a href="{{ linkBase }}digests/"{% if navKey == "digests" %} aria-current="page"{% endif %}>{{ site.t.briefs[0] }} / {{ site.t.briefs[1] }}</a>
+  {# /topic/ is the briefs' categories and exists in both builds. The internal build also has
+     /categories/ over the whole archive, so the two carry different labels there to stop one
+     being mistaken for the other; in the public build /topic/ is the only such view, so it gets
+     the plain name. See site/_data/topics.js. #}
+  <a href="{{ linkBase }}topics/"{% if navKey == "topics" %} aria-current="page"{% endif %}>
+    {%- if site.internal %}{{ site.t.briefTopics[0] }} / {{ site.t.briefTopics[1] }}
+    {%- else %}{{ site.t.topics[0] }} / {{ site.t.topics[1] }}{% endif %}</a>
+  <a href="{{ linkBase }}regions/"{% if navKey == "regions" %} aria-current="page"{% endif %}>{{ site.t.regions[0] }} / {{ site.t.regions[1] }}</a>
+  <a href="{{ linkBase }}satire/"{% if navKey == "satire" %} aria-current="page"{% endif %}>{{ site.t.satire[0] }}</a>
+  <a href="{{ linkBase }}norlit/"{% if navKey == "norlit" %} aria-current="page"{% endif %}>{{ site.t.norlitNav[0] }}</a>
+  <a href="{{ linkBase }}about/"{% if navKey == "about" %} aria-current="page"{% endif %}>{{ site.t.about[0] }} / {{ site.t.about[1] }}</a>
+  {% if site.internal %}
+  <a href="{{ linkBase }}categories/"{% if navKey == "categories" %} aria-current="page"{% endif %}>{{ site.t.categories[0] }} / {{ site.t.categories[1] }}</a>
+  <a href="{{ linkBase }}everything/"{% if navKey == "everything" %} aria-current="page"{% endif %}>{{ site.t.everything[0] }} / {{ site.t.everything[1] }}</a>
+  <a href="{{ linkBase }}outlet/external/"{% if navKey == "external" %} aria-current="page"{% endif %}>{{ site.t.external[0] }} / {{ site.t.external[1] }}</a>
+  <a href="{{ linkBase }}outlet/own/"{% if navKey == "own" %} aria-current="page"{% endif %}>{{ site.t.own[0] }}</a>
+  <a href="{{ linkBase }}browse/"{% if navKey == "browse" %} aria-current="page"{% endif %}>{{ site.t.browse[0] }} / {{ site.t.browse[1] }}</a>
+  {% endif %}
+</nav>
+{{ content | safe }}
+{# THE PUBLIC NOTICE. On every page, because with the gate off a reader can arrive on any one of
+   them without passing a front door. `navKey == "satire"` adds the satire disclaimer only where it
+   applies: putting it on all seventy pages would train readers to skip the block that matters. #}
+<footer class="site-notice">
+  <div class="rule"></div>
+  <p><b>{{ site.t.noticeWhat[0] }}</b><span class="alt">{{ site.t.noticeWhat[1] }}</span></p>
+  <p>{{ site.t.noticeAi[0] }}<span class="alt">{{ site.t.noticeAi[1] }}</span></p>
+  {% if navKey == "satire" %}
+  <p class="sat">{{ site.t.noticeSatire[0] }}<span class="alt">{{ site.t.noticeSatire[1] }}</span></p>
+  {% endif %}
+  <p>{{ site.t.noticeRights[0] }}<span class="alt">{{ site.t.noticeRights[1] }}</span></p>
+  {% if built.stale %}
+  <p class="stale"><b>{{ site.t.staleWarn[0] }}</b><span class="alt">{{ site.t.staleWarn[1] }}</span></p>
+  {% endif %}
+  <p class="built-stamp fine">{{ site.t.builtAt[0] }} {{ built.day }} {{ built.time }} ({{ site.t.osloTime[0] }})
+    · {{ site.t.newestBrief[0] }} {{ built.newest or "--" }}
+    <span class="alt">{{ site.t.builtAt[1] }} {{ built.day }} {{ built.time }} ({{ site.t.osloTime[1] }})
+    · {{ site.t.newestBrief[1] }} {{ built.newest or "--" }}</span></p>
+  <p class="fine">{{ site.t.noticeCrest[0] }}<span class="alt">{{ site.t.noticeCrest[1] }}</span></p>
+</footer>
+</body>
+</html>

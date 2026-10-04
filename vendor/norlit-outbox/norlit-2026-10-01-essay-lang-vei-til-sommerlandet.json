@@ -1,0 +1,69 @@
+{
+ "id": "norlit-2026-10-01-essay-lang-vei-til-sommerlandet",
+ "kind": "essay",
+ "date": "2026-10-01",
+ "title": "Lang vei til sommerlandet",
+ "title_en": "A Long Way to the Summer Land",
+ "body": "I romanen *Fra Finmarken* (1881) beskriver Jens Andreas Friis vårflyttingen, når reindriftsfamiliene går fra vinterlandet på vidda ned mot kysten. Det går sakte, ofte ikke mer enn en mil om dagen. «Han har lang Vei, ikke sjelden 15-20 Mil, før han kommer til sin Sommerplads, og det tager lang Tid, før han kommer frem.» Med seg skal telt, teltstenger, gryter, kjeler, klær, barn og valper. Så lenge sledeføret varer, går det lett; når det slutter, må alt bæres.\n\nFriis var ikke same. Han var språkforsker, og han skrev om samene utenfra, med sin tids ord. Det samiske blikket på det samme livet kom først i 1910, da Johan Turi ga ut *Muitalus sámiid birra*, den første boken skrevet av en same på samisk om samisk liv. Men på ett punkt er Friis presis, og det er det som betyr noe her: reindriften er ikke et sted. Den er en vei. Den henger sammen fra vinterbeite til sommerbeite, og den tåler ikke å bli brutt på midten.\n\nAvslaget på den planlagte Davvi vindpark i Finnmark, på 800 megawatt, er omgjort, og saken er sendt tilbake til regulatoren, melder EnergyWatch. Saken skal altså vurderes på nytt.\n\nDet er lett å se et vindkraftanlegg som noe som tar et areal: så og så mange kvadratkilometer fjell. Friis' beskrivelse minner om at det kan ta noe annet, nemlig en strekning. En flyttlei er ikke et område man kan gi erstatning for et annet sted; det er en sammenheng, og den virker bare hel. Spørsmålet i saken om Davvi er derfor ikke bare hvor mye land vindparken trenger, men hvilke veier den står i.\n\nFriis skrev at flyttingen tar lang tid før man kommer fram. Det gjelder også saken.",
+ "body_en": "In the novel *From Finnmark* (1881), Jens Andreas Friis describes the spring migration, when reindeer-herding families move from the winter land on the plateau down towards the coast. It goes slowly, often no more than a Norwegian mile a day. \"He has a long way, not seldom 15–20 miles, before he reaches his summer place, and it takes a long time before he arrives.\" *(translation)* With them go tents, tent poles, pots, kettles, clothes, children and puppies. As long as the sledging snow lasts it goes easily; when it ends, everything must be carried.\n\nFriis was not Sámi. He was a linguist, and he wrote about the Sámi from outside, in the words of his time. The Sámi view of the same life came only in 1910, when Johan Turi published *Muitalus sámiid birra*, the first book written by a Sámi in Sámi about Sámi life. But on one point Friis is precise, and it is what matters here: reindeer herding is not a place. It is a route. It runs from winter pasture to summer pasture, and it does not survive being cut in the middle.\n\nThe rejection of the planned 800-megawatt Davvi wind farm in Finnmark has been overturned and the case sent back to the regulator, EnergyWatch reports. The matter will therefore be assessed again.\n\nIt is easy to see a wind farm as something that takes an area: so many square kilometres of mountain. Friis's description recalls that it can take something else, namely a stretch. A migration route is not an area for which one can be compensated somewhere else; it is a connection, and it only works whole. The question in the Davvi case is therefore not only how much land the wind farm needs, but which routes it stands in.\n\nFriis wrote that the migration takes a long time before one arrives. So does the case.",
+ "theme": "vindkraft, reindrift og hvem som eier veien",
+ "season": null,
+ "sources": [
+  {
+   "work_id": "bokselskap:lajla",
+   "author": "Jens Andreas Friis",
+   "title": "Fra Finmarken (Lajla)",
+   "year": 1881,
+   "url": "https://www.bokselskap.no/boker/lajla",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  }
+ ],
+ "news": [
+  "https://news.google.com/rss/articles/CBMie0FVX3lxTE9QeVhOMWhIZXNRTEhGOURycDR4aGRaOWRpLWxBdkpxNGFnXzZ5VVpVMmpUUjlBbjRHZmlFbl9kamtiS3g5Qzk3ZVR6d0NzUnZpWWRDY24yQWdWdG45aXhSWVNLZlpKaFVxY2JKZ3FsWmowOVdENEM4aER5OA?oc=5"
+ ],
+ "gate": "publish",
+ "gate_reasons": [],
+ "checks": {
+  "quotations": 1,
+  "failing": 0,
+  "review_words": [],
+  "screen": {
+   "gate": "blocked",
+   "flags": [
+    {
+     "flag": "minor_involved",
+     "severity": "block",
+     "clauses": [
+      "VVP 4.8"
+     ],
+     "evidence": [
+      "barn"
+     ]
+    },
+    {
+     "flag": "ethnicity_or_identity",
+     "severity": "review",
+     "clauses": [
+      "VVP 4.3",
+      "NN-SUPPLEMENT-1"
+     ],
+     "evidence": [
+      "same",
+      "samene",
+      "samisk",
+      "samiske"
+     ]
+    }
+   ],
+   "style_verdict": "fix_required",
+   "not_applied": [
+    "minor_involved"
+   ]
+  }
+ },
+ "ai_note": "Teksten er skrevet av en KI-modell (Claude) på grunnlag av tekster i Bokselskap, Wikikilden og andre frie samlinger. Alle sitater er kontrollert ord for ord mot kildene.",
+ "ai_note_en": "Written by an AI model (Claude) from texts in Bokselskap, Wikikilden and other open collections. Every quotation has been checked word for word against its source.",
+ "source_file": "innlegg\\2026-10-01-lang-vei.md",
+ "created_at": "2026-10-01T11:57:39+00:00"
+}

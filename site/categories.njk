@@ -1,0 +1,29 @@
+---
+layout: base.njk
+navKey: categories
+pageTitle: "Categories / Kategorier"
+permalink: "categories/index.html"
+---
+{# Was the front page until the digests took it over. The hits, grouped by beat, per desk. #}
+<p class="sub">{{ categories.total }} {{ site.t.hits[0] }} across {{ categories.list | length }} {{ site.t.categories[0] | lower }}, from {{ items | length }} {{ site.t.items[0] }} ingested.
+<span class="alt">{{ categories.total }} {{ site.t.hits[1] }} i {{ categories.list | length }} {{ site.t.categories[1] | lower }}, av {{ items | length }} {{ site.t.items[1] }}.</span></p>
+
+{% if categories.total == 0 %}
+  <p class="body empty">{{ site.t.noHits[0] }}<br>{{ site.t.noHits[1] }}</p>
+{% endif %}
+
+{% for desk in categories.desks %}
+  <h2 class="day">{{ desk.name[0] }} / {{ desk.name[1] }} · {{ desk.count }} {{ site.t.hits[0] }}</h2>
+  <ul class="browse cats">
+  {% for cat in desk.categories %}
+    <li><a href="{{ linkBase }}category/{{ cat.key }}/">
+      <span>{{ cat.name }}</span>
+      <span class="n">{{ cat.count }}</span></a></li>
+  {% endfor %}
+  </ul>
+{% endfor %}
+
+<p class="sub" style="margin-top:26px">
+  {{ site.t.everythingNote[0] }} <a href="{{ linkBase }}everything/">{{ site.t.everything[0] }}</a>.
+  <span class="alt">{{ site.t.everythingNote[1] }} <a href="{{ linkBase }}everything/">{{ site.t.everything[1] }}</a>.</span>
+</p>

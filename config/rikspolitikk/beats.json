@@ -1,0 +1,300 @@
+{
+  "_meta": {
+    "purpose": "Editorial beats for the national-politics satire desk. Each beat becomes an interest vector: embed `description` + `keywords`, score incoming items against it. A beat here answers where usable material comes from, not what the joke is — the joke is the template's job. `ethics_profile` names the clauses structurally in play before screen_report runs.",
+    "targets": "See config/rikspolitikk/products/satire-desk.json → `targets`. The desk's remit is the Norwegian political right acting in public roles. Keeping the roster in the product, not here, means retargeting the desk is a config edit rather than a beat rewrite.",
+    "note": "Beats are organised by CONTRADICTION TYPE rather than by party or policy area. A beat like `lovnad-mot-levering` scores items containing the gap between a stated position and an outcome, which is the raw material satire actually runs on. A beat organised as «immigration» would mostly return items that are simply sad.",
+    "threshold": "0.50, pinned per beat below. Measured against THIS desk's bge-m3 score distribution (455 items: median 0.428, p90 0.507, max 0.644); 0.50 sits near p90. It is not nord-norge's number - that desk measured 0.48 - and the beats table is shared, so the value lives here rather than relying on the column default. See supabase/SHARED-DATABASE.md."
+  },
+  "beats": [
+    {
+      "id": "lovnad-mot-levering",
+      "name": "Løfte mot leveranse",
+      "description": "Avstanden mellom det et parti gikk til valg på og det de stemte for, finansierte eller la i skuffen da de fikk mulighet til å handle. Omfatter budsjettrunder der et signaturløfte byttes bort, programposter som stilltiende forsvinner, og standpunkter som snus ved inntreden i eller uttreden av regjering. Skrivebordets hovedåre: motsetningen er dokumentert i begge ender, så vitsen hviler på papirer og ikke på en karakteristikk.",
+      "keywords_nb": [
+        "partiprogram",
+        "valgløfte",
+        "snuoperasjon",
+        "budsjettforlik",
+        "regjeringsplattform",
+        "stemte mot",
+        "stemte for",
+        "gikk bort fra",
+        "lovet",
+        "statsbudsjettet",
+        "revidert nasjonalbudsjett",
+        "representantforslag",
+        "kuvending",
+        "merknad i innstillingen"
+      ],
+      "keywords_en": [
+        "campaign promise",
+        "u-turn",
+        "budget deal",
+        "voted against",
+        "party programme",
+        "reversal"
+      ],
+      "watch_sources": [
+        "Høyre",
+        "Venstre",
+        "KrF",
+        "Altinget",
+        "NRK Norge",
+        "Aftenposten"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.4",
+          "VVP 4.14"
+        ],
+        "notes": "A promise-versus-delivery joke asserts a factual claim about what someone did. Verify the vote or the budget line against a primary record. A mis-summarised vote is a false factual statement about a named person with a punchline attached — worse than a dull joke, and the one failure mode on this desk that reaches a lawyer."
+      },
+      "threshold": 0.5
+    },
+    {
+      "id": "avgift-og-lommebok",
+      "name": "Avgifter og lommeboka",
+      "description": "Høyresidens signaturterreng innenriks: bompenger og drivstoffavgift, strømpris og strømstøtte, formuesskatt og utflytting til Sveits, gebyrer. Satirisk rikt fordi retorikken er absolutt («avgiftsfest», «skattesjokk») mens regnestykket som regel er marginalt, og fordi de samme partiene både fordømmer og vedtar avgifter.",
+      "keywords_nb": [
+        "bompenger",
+        "drivstoffavgift",
+        "elavgift",
+        "strømstøtte",
+        "formuesskatt",
+        "exit-skatt",
+        "Sveits",
+        "avgiftslette",
+        "avgiftsfest",
+        "skattesjokk",
+        "veibruksavgift",
+        "eiendomsskatt",
+        "moms"
+      ],
+      "keywords_en": [
+        "road toll",
+        "fuel tax",
+        "wealth tax",
+        "electricity price",
+        "capital flight",
+        "excise"
+      ],
+      "watch_sources": [
+        "Nettavisen",
+        "E24",
+        "VG innenriks",
+        "Altinget"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.4"
+        ],
+        "notes": "The numbers are the joke here, so the numbers have to be right. Never round a figure into a better punchline."
+      },
+      "threshold": 0.5
+    },
+    {
+      "id": "retorikk-og-utspill",
+      "name": "Retorikk og utspill",
+      "description": "Uttalelser, kronikker, pressekonferanser, Facebook-innlegg og intervjuglipp fra høyresidens politikere — materialet de selv fører i protokolls. Sterkeste kilde for satire fordi teksten er ordrett og etterprøvbar, slik at vitsen kan sitere i stedet for å karakterisere.",
+      "keywords_nb": [
+        "utspill",
+        "innlegg",
+        "kronikk",
+        "pressekonferanse",
+        "uttalte",
+        "sa til",
+        "Facebook-innlegg",
+        "partileder",
+        "landsmøte",
+        "spørretimen",
+        "interpellasjon"
+      ],
+      "keywords_en": [
+        "statement",
+        "op-ed",
+        "press conference",
+        "party congress",
+        "question time"
+      ],
+      "watch_sources": [
+        "Nettavisen Norsk debatt",
+        "NRK Ytring",
+        "VG innenriks",
+        "Dagbladet",
+        "Document.no"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 3.7",
+          "VVP 4.1",
+          "VVP 4.3"
+        ],
+        "notes": "VVP 3.7: a quotation must render what was actually meant — satire does not license clipping a quote into a different meaning. VVP 4.3 is the hard line: the target is the argument, never the speaker's origin, faith, health, sexuality or family."
+      },
+      "threshold": 0.5
+    },
+    {
+      "id": "regjering-og-storting",
+      "name": "Regjering og storting i bevegelse",
+      "description": "Statsrådsutnevnelser og avganger, komitéarbeid, mistillitsforslag, koalisjonsaritmetikk og koreografien i hvem som gir hvem skylden for hva. Prosedyrekomikk: politikkens innhold utført i en form som i seg selv er absurd.",
+      "keywords_nb": [
+        "statsråd",
+        "statsminister",
+        "regjeringskrise",
+        "mistillitsforslag",
+        "komitéhøring",
+        "statssekretær",
+        "habilitet",
+        "Stortinget",
+        "spørretime",
+        "budsjettforhandlinger",
+        "samarbeidsavtale"
+      ],
+      "keywords_en": [
+        "minister",
+        "cabinet",
+        "no-confidence",
+        "committee hearing",
+        "coalition",
+        "recusal"
+      ],
+      "watch_sources": [
+        "Altinget",
+        "NRK Norge",
+        "Aftenposten"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.4",
+          "VVP 4.14"
+        ],
+        "notes": "Recusal and conflict-of-interest stories are accusations until concluded. Until the person has answered, a joke may play on the situation but may not assert the wrongdoing as settled."
+      },
+      "threshold": 0.5
+    },
+    {
+      "id": "klima-og-olje",
+      "name": "Klimastandpunkt mot oljestandpunkt",
+      "description": "Holdes samtidig av det meste av norsk politikk, og skarpest på høyresiden: fortsatte konsesjonsrunder ved siden av utslippsmål, elektrifisering av sokkelen drevet av kraft fra land, vindkraft som bekjempes lokalt og etterspørres nasjonalt. Motsetningen er strukturell snarere enn personlig, og derfor skrivebordets tryggeste dype åre.",
+      "keywords_nb": [
+        "oljeboring",
+        "konsesjonsrunde",
+        "elektrifisering",
+        "utslippsmål",
+        "klimamål",
+        "vindkraft",
+        "havvind",
+        "sokkelen",
+        "klimaomstilling",
+        "grønn industri",
+        "kvoteplikt"
+      ],
+      "keywords_en": [
+        "drilling",
+        "licensing round",
+        "electrification",
+        "emissions target",
+        "wind power",
+        "shelf"
+      ],
+      "watch_sources": [
+        "NRK Norge",
+        "E24",
+        "Altinget",
+        "Klassekampen"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.4"
+        ],
+        "notes": "Emissions and production figures carry units and baselines. A joke built on a misread baseline is just an error in a funny voice."
+      },
+      "threshold": 0.5
+    },
+    {
+      "id": "velferd-og-privatisering",
+      "name": "Velferd, helse og private aktører",
+      "description": "Privat helseforsikring og kommersielle aktører i omsorg og skole, helsekøer, sykehusøkonomi, NAV. Håndteres med størst varsomhet på skrivebordet: politikerne er legitime mål, pasientene og brukerne er det ikke, og dette er beatet der de to er vanskeligst å holde fra hverandre.",
+      "keywords_nb": [
+        "helsekø",
+        "privat helseforsikring",
+        "kommersielle aktører",
+        "velferdsprofitt",
+        "sykehusøkonomi",
+        "fritt behandlingsvalg",
+        "NAV",
+        "eldreomsorg",
+        "barnehage",
+        "friskoler"
+      ],
+      "keywords_en": [
+        "waiting list",
+        "private health",
+        "welfare profit",
+        "hospital economy",
+        "elder care"
+      ],
+      "watch_sources": [
+        "Klassekampen",
+        "NRK Norge",
+        "Altinget",
+        "Aftenposten"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.1",
+          "VVP 4.3",
+          "VVP 4.7",
+          "VVP 4.8"
+        ],
+        "notes": "VVP 4.8: a child's interest outweighs the story. No case-study patient, pupil or care recipient may appear in a joke, named or identifiable, even sympathetically — they did not choose to be public, and the politician did."
+      },
+      "threshold": 0.5
+    },
+    {
+      "id": "innvandring-og-justis",
+      "name": "Innvandring og justis",
+      "description": "Høyresidens definerende saksfelt og skrivebordets mest risikable beat. Legitimt materiale: politikken, regnestykket, avstanden mellom annonserte tiltak og dokumentert effekt, den retoriske opptrappingen. Ikke materiale: menneskene politikken er rettet mot. En vits her virker mot beslutningstakeren, ellers går den ikke.",
+      "keywords_nb": [
+        "asylpolitikk",
+        "innstramminger",
+        "UDI",
+        "utvisning",
+        "integrering",
+        "statsborgerskap",
+        "grensekontroll",
+        "kriminalitetsstatistikk",
+        "soningskø",
+        "straffenivå"
+      ],
+      "keywords_en": [
+        "asylum policy",
+        "deportation",
+        "integration",
+        "citizenship",
+        "border control",
+        "sentencing"
+      ],
+      "watch_sources": [
+        "NRK Norge",
+        "Aftenposten",
+        "Document.no",
+        "Altinget"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.1",
+          "VVP 4.3",
+          "VVP 4.12"
+        ],
+        "notes": "VVP 4.3 governs this beat absolutely. The satirical subject is the minister, the measure or the claim — never an ethnic, national or religious group, and never an individual migrant. Test: if the joke would work just as well with the group swapped for another, it is aimed at the wrong thing; if it stops working without the group, it should not run at all."
+      },
+      "threshold": 0.5
+    }
+  ]
+}

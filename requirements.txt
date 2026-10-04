@@ -1,0 +1,16 @@
+anthropic
+supabase
+fastapi
+uvicorn
+httpx
+feedparser
+rank_bm25
+requests
+beautifulsoup4
+# sentence-transformers   # only for EMBEDDER=local (pulls PyTorch, ~2GB) - uncomment if you use it
+pdfplumber
+python-docx
+google-genai
+python-dotenv
+mcp
+tzdata          # Europe/Oslo for the scheduled-drafting guard; Windows ships no tz database

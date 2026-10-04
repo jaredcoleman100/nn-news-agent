@@ -1,0 +1,49 @@
+---
+layout: base.njk
+navKey: satire
+pageTitle: "Satire / Satire"
+permalink: "satire/index.html"
+---
+{#
+  The satire desk's briefs: jokes anchored to something a named politician on the Norwegian
+  political right actually said, quoted with a URL. That anchoring is the desk's first rule --
+  see templates/satire_desk.md, "find the fact first, then find the joke in it".
+
+  ONLY APPROVED BRIEFS APPEAR HERE. That is not caution I added on my own: the satire template
+  states "Nothing here is published. The editor chooses what, if anything, runs." Publishing the
+  desk's raw output would break the contract the desk was written under, and these are jokes about
+  named living people. The approval mechanism already exists -- reports.editor_decision, set from
+  the review page -- so this section is wired to it rather than around it.
+
+  Approve one and it appears here on the next build. Nothing else has to change.
+#}
+{% set drafted = reports | where("product", "satire-desk") %}
+{% set approved = drafted | where("decision", "approved") %}
+
+<p class="sub">{{ site.t.satireNote[0] }}
+<span class="alt">{{ site.t.satireNote[1] }}</span></p>
+
+{% if not approved | length %}
+  <p class="body empty">{{ site.t.noSatire[0] }}<br>{{ site.t.noSatire[1] }}</p>
+  {% if drafted | length %}
+  <p class="sub">{{ drafted | length }} {{ site.t.satireWaiting[0] }}
+  <span class="alt">{{ drafted | length }} {{ site.t.satireWaiting[1] }}</span></p>
+  {% endif %}
+{% else %}
+  {# Latest approved in full; the rest as an archive list, so the section keeps working as it
+     grows rather than becoming one endless page. #}
+  {% from "digest.njk" import digest %}
+  {{ digest(approved | first, site, linkBase, site.internal, images) }}
+
+  {% set older = approved | drop(1) %}
+  {% if older | length %}
+  <h2 class="day">{{ site.t.earlier[0] }} / {{ site.t.earlier[1] }} · {{ older | length }}</h2>
+  <ul class="browse briefs">
+  {% for r in older %}
+    <li><a href="{{ linkBase }}digest/{{ r.slug }}/">
+      <span>{{ r.headline_en or r.headline }}</span>
+      <span class="n">{{ r.day }}</span></a></li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+{% endif %}

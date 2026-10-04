@@ -1,0 +1,60 @@
+---
+pagination:
+  data: items
+  size: 1
+  alias: item
+permalink: "item/{{ item.slug }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ item.titleEn or item.title }}"
+  navKey: "{{ item.org }}"
+layout: base.njk
+---
+{% set cats = categories.byUrl[item.url] %}
+{% if cats %}
+<div class="cats-of">
+  {% for c in cats %}<a href="{{ linkBase }}category/{{ c.key }}/">{{ c.name }} · {{ c.score }}</a>{% endfor %}
+</div>
+{% endif %}
+<article class="item full">
+  <div class="pair">
+    <div class="col en">
+      <p class="tag">{{ site.t.english[0] }}</p>
+      {% if item.lang == "en" %}
+        <h3>{{ item.title }}</h3>
+        <div class="body">{% for p in item.body | paragraphs %}<p>{{ p }}</p>{% endfor %}</div>
+      {% elif item.titleEn %}
+        <h3>{{ item.titleEn }}</h3>
+        {% if item.bodyEn %}
+          <div class="body">{% for p in item.bodyEn | paragraphs %}<p>{{ p }}</p>{% endfor %}</div>
+        {% elif not item.body %}
+          <p class="body empty">{{ site.t.noSummary[0] }}</p>
+        {% else %}
+          <p class="body empty">{{ site.t.pending[0] }}</p>
+        {% endif %}
+      {% else %}
+        <h3>{{ item.title }}</h3>
+        <p class="body empty">{{ site.t.pending[0] }}</p>
+      {% endif %}
+    </div>
+    <div class="col nb">
+      <p class="tag">{{ site.t.norwegian[1] }}{% if item.lang %} · {{ item.lang }}{% endif %}</p>
+      <h3>{{ item.title }}</h3>
+      {% if item.body %}
+        <div class="body">{% for p in item.body | paragraphs %}<p>{{ p }}</p>{% endfor %}</div>
+      {% else %}
+        <p class="body empty">{{ site.t.noSummary[1] }}</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="meta">
+    <a class="chip{% if item.org == 'own' %} own{% endif %}"
+       href="{{ linkBase }}source/{{ item.source | slugify }}/" style="text-decoration:none">{{ item.source }}</a>
+    <a href="{{ linkBase }}day/{{ item.day }}/" style="color:inherit">{{ item.day }}</a>
+    {% if item.publishedAt %}<span>{{ item.publishedAt }}</span>{% endif %}
+  </div>
+  {% if item.url %}
+  <p class="orig"><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">
+    {{ site.t.readOriginal[0] }} / {{ site.t.readOriginal[1] }} →</a></p>
+  {% endif %}
+</article>
+<div class="pager"><a href="{{ linkBase }}everything/">← {{ site.t.backToIndex[0] }} / {{ site.t.backToIndex[1] }}</a></div>

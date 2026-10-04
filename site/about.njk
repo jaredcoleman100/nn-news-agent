@@ -1,0 +1,55 @@
+---
+layout: base.njk
+navKey: about
+pageTitle: "How this works / Slik fungerer det"
+permalink: "about/index.html"
+---
+{#
+  The explainer, for a reader who does not work here.
+
+  Copy lives in _data/aboutText.js; every NUMBER comes from _data/pipeline.js, which
+  core/reports_export.py measures on each build. Nothing on this page is a hand-typed figure,
+  because a page describing a monitoring system is worse than useless once its numbers have rotted.
+#}
+<p class="sub">{{ aboutText.lede[0] }}
+<span class="alt">{{ aboutText.lede[1] }}</span></p>
+
+<div class="explain">
+
+{% if pipeline.sources %}
+<p class="figure">
+  <b>{{ pipeline.sources }}</b> {{ aboutText.sourcesWord[0] }} ·
+  <b>{{ pipeline.language_count }}</b> {{ aboutText.languagesWord[0] }} ·
+  <b>{{ pipeline.items | num }}</b> {{ aboutText.itemsWord[0] }}
+  {%- if pipeline.hit_pct %} · <b>{{ pipeline.hit_pct }}%</b> {{ aboutText.hitRate[0] }}{% endif %}
+  <span class="alt">{{ pipeline.sources }} {{ aboutText.sourcesWord[1] }} ·
+    {{ pipeline.language_count }} {{ aboutText.languagesWord[1] }} ·
+    {{ pipeline.items | num }} {{ aboutText.itemsWord[1] }}
+    {%- if pipeline.hit_pct %} · {{ pipeline.hit_pct }}% {{ aboutText.hitRate[1] }}{% endif %}</span>
+</p>
+<p class="langs">
+  {%- for l in pipeline.languages %}<span class="chip">{{ site.t.langNames[l[0]][0] if site.t.langNames[l[0]] else l[0] }} <span class="n">{{ l[1] }}</span></span>{% endfor %}
+</p>
+{% endif %}
+
+{% for sec in aboutText.sections %}
+<h2 class="day">{{ loop.index }} · {{ sec.h[0] }} / {{ sec.h[1] }}</h2>
+<p>{{ sec.p[0] }}</p>
+<p class="alt">{{ sec.p[1] }}</p>
+{% endfor %}
+
+<h2 class="day">{{ aboutText.limitsH[0] }} / {{ aboutText.limitsH[1] }}</h2>
+<ul class="limits">
+  {% for l in aboutText.limits %}
+  <li>{{ l[0] }}<span class="alt">{{ l[1] }}</span></li>
+  {% endfor %}
+</ul>
+
+{% if pipeline.outlets | length %}
+<h2 class="day">{{ aboutText.outletsH[0] }} / {{ aboutText.outletsH[1] }}</h2>
+<p class="langs">
+  {%- for o in pipeline.outlets %}<span class="chip">{{ o }}</span>{% endfor %}
+</p>
+{% endif %}
+
+</div>

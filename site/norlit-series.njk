@@ -1,0 +1,42 @@
+---
+layout: base.njk
+navKey: norlit
+pageTitle: "The king in Norwegian literature / Kongen i norsk litteratur"
+permalink: "norlit/kongen/index.html"
+---
+{# Contents for the weekly series. One entry per chapter that has arrived; the page fills in as
+   the rest are written. Ordered by `chapter`, not by date -- every chapter so far carries the
+   same date, so date-order cannot separate them. #}
+<p class="sub">{{ site.t.seriesLede[0] }}
+<span class="alt">{{ site.t.seriesLede[1] }}</span></p>
+
+{% if not norlit.series | length %}
+  <p class="body empty">{{ site.t.noSeries[0] }}<br>{{ site.t.noSeries[1] }}</p>
+{% endif %}
+
+{% if norlit.seriesEssay %}
+{# The whole series condensed. Set above the numbered list and labelled rather than numbered:
+   rendering it as "0" beside 1-10 reads as a numbering bug, not as an overview. #}
+<a class="series-essay" href="{{ linkBase }}norlit/{{ norlit.seriesEssay.id }}/">
+  <span class="label">{{ site.t.wholeEssay[0] }}<span class="alt">{{ site.t.wholeEssay[1] }}</span></span>
+  <span class="t">{{ norlit.seriesEssay.title }}</span>
+  {% if norlit.seriesEssay.summary %}<span class="sum">{{ norlit.seriesEssay.summary }}</span>{% endif %}
+  {% if norlit.seriesEssay.summaryEn %}<span class="sum alt">{{ norlit.seriesEssay.summaryEn }}</span>{% endif %}
+</a>
+<h2 class="day">{{ site.t.chapters[0] }} / {{ site.t.chapters[1] }} · {{ norlit.series | length }}</h2>
+{% endif %}
+
+<ol class="contents">
+{% for c in norlit.series %}
+  <li>
+    <span class="no">{{ c.no }}</span>
+    <div>
+      <a href="{{ linkBase }}norlit/{{ c.id }}/">{{ c.title }}</a>
+      {% if c.summary %}<p class="sum">{{ c.summary }}</p>{% endif %}
+      {% if c.summaryEn %}<p class="sum alt">{{ c.summaryEn }}</p>{% endif %}
+    </div>
+  </li>
+{% endfor %}
+</ol>
+
+<div class="pager"><a href="{{ linkBase }}norlit/">← {{ site.t.allMagasin[0] }} / {{ site.t.allMagasin[1] }}</a></div>

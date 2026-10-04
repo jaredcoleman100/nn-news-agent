@@ -1,0 +1,15 @@
+---
+layout: base.njk
+navKey: browse
+pagination:
+  data: collections.days
+  size: 1
+  alias: d
+permalink: "day/{{ d.day }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ d.day }}"
+---
+{% from "card.njk" import list %}
+<p class="sub">{{ d.day }} — {{ d.items | length }} {{ site.t.items[0] }}
+<span class="alt">{{ d.items | length }} {{ site.t.items[1] }}</span></p>
+{{ list(d.items, site, linkBase) }}

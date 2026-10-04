@@ -1,0 +1,854 @@
+[
+  {
+    "name": "Altaposten",
+    "kind": "rss",
+    "url": "https://www.altaposten.no/rss",
+    "beat_hint": "regional-governance",
+    "active": true,
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "Eye on the Arctic",
+    "kind": "rss",
+    "url": "https://www.rcinet.ca/eye-on-the-arctic/feed/",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america"
+    }
+  },
+  {
+    "name": "High North News",
+    "kind": "sitemap",
+    "url": "https://www.highnorthnews.com/sitemap.xml",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "days": 4,
+      "lang": "nb",
+      "limit": 20,
+      "exclude": "/meninger/|/livet-i-arktis/|/notice/",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "iTromsø",
+    "kind": "rss",
+    "url": "https://www.itromso.no/rss",
+    "beat_hint": "demographics-periphery",
+    "active": true,
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "NRK Nordland",
+    "kind": "rss",
+    "url": "https://www.nrk.no/nordland/toppsaker.rss",
+    "active": true,
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "NRK Troms og Finnmark",
+    "kind": "rss",
+    "url": "https://www.nrk.no/tromsogfinnmark/toppsaker.rss",
+    "active": true,
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "PolarJournal",
+    "kind": "rss",
+    "url": "https://polarjournal.ch/de/feed/",
+    "beat_hint": "svalbard-climate",
+    "active": true,
+    "config": {
+      "lang": "de",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "SeverPost (Murmansk)",
+    "kind": "rss",
+    "url": "https://severpost.ru/rss.xml",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "note": "general Murmansk news, not a narrow beat outlet; needs a multilingual embedder (bge-m3) rather than trust_hint",
+    "config": {
+      "lang": "ru",
+      "region": "russia"
+    }
+  },
+  {
+    "name": "Sivilombudet",
+    "kind": "rss",
+    "url": "https://www.sivilombudet.no/feed/",
+    "beat_hint": "regional-governance",
+    "active": true,
+    "config": {
+      "lang": "nb",
+      "primary": true,
+      "region": "norway"
+    }
+  },
+  {
+    "name": "SSB",
+    "kind": "rss",
+    "url": "https://www.ssb.no/rss",
+    "beat_hint": "demographics-periphery",
+    "active": true,
+    "config": {
+      "lang": "nb",
+      "primary": true,
+      "region": "norway"
+    }
+  },
+  {
+    "name": "SVT Norrbotten",
+    "kind": "rss",
+    "url": "https://www.svt.se/nyheter/lokalt/norrbotten/rss.xml",
+    "beat_hint": "demographics-periphery",
+    "active": true,
+    "note": "general Swedish regional news; needs a multilingual embedder rather than trust_hint",
+    "config": {
+      "lang": "sv",
+      "region": "nordic"
+    }
+  },
+  {
+    "name": "SVT Sápmi",
+    "kind": "rss",
+    "url": "https://www.svt.se/nyheter/sapmi/rss.xml",
+    "beat_hint": "reconciliation-minorities",
+    "active": true,
+    "config": {
+      "lang": "sv",
+      "region": "nordic"
+    }
+  },
+  {
+    "name": "The Barents Observer",
+    "kind": "sitemap",
+    "url": "https://thebarentsobserver.com/sitemap.xml",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "days": 4,
+      "lang": "en",
+      "limit": 20,
+      "include": "/news/",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "Ávvir",
+    "kind": "rss",
+    "url": "https://avvir.no/feed/",
+    "beat_hint": "reconciliation-minorities",
+    "active": true,
+    "config": {
+      "lang": "se",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "cristin: sami-en",
+    "kind": "scholarly",
+    "url": "scholarly://cristin/sami-en",
+    "beat_hint": "reconciliation-minorities",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "cristin",
+      "query": "sami",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "category": "ARTICLE",
+      "region": "research"
+    }
+  },
+  {
+    "name": "cristin: svalbard",
+    "kind": "scholarly",
+    "url": "scholarly://cristin/svalbard",
+    "beat_hint": "svalbard-climate",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "cristin",
+      "query": "Svalbard",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "category": "ARTICLE",
+      "region": "research"
+    }
+  },
+  {
+    "name": "europepmc: sami-health",
+    "kind": "scholarly",
+    "url": "scholarly://europepmc/sami-health",
+    "beat_hint": "helse-nord",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "europepmc",
+      "query": "Sami indigenous health Norway",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "region": "research"
+    }
+  },
+  {
+    "name": "Fiskeribladet",
+    "kind": "rss",
+    "url": "https://www.fiskeribladet.no/rss",
+    "beat_hint": "fisheries",
+    "active": false,
+    "note": "behind Zephr paywall (checked 2026-09-14); /rss redirects to an SSO 404",
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "Forsvaret",
+    "kind": "rss",
+    "url": "https://www.forsvaret.no/aktuelt-og-presse/rss",
+    "beat_hint": "arctic-security",
+    "active": false,
+    "note": "site declares no RSS feed (checked 2026-09-14); all known paths 404",
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "NRK Sápmi",
+    "kind": "rss",
+    "url": "https://www.nrk.no/sapmi/toppsaker.rss",
+    "beat_hint": "reconciliation-minorities",
+    "active": false,
+    "note": "no RSS feed exists at any URL pattern (checked 2026-09-14); NRK publishes no sapmi feed",
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "NSD (Norrbotten)",
+    "kind": "rss",
+    "url": "https://www.nsd.se/rss",
+    "beat_hint": "demographics-periphery",
+    "active": false,
+    "note": "verified working but Swedish local politics dominated; a Boden election scored 0.653 on regional-governance, a false positive",
+    "config": {
+      "lang": "sv",
+      "region": "nordic"
+    }
+  },
+  {
+    "name": "openalex: arctic-security",
+    "kind": "scholarly",
+    "url": "scholarly://openalex/arctic-security",
+    "beat_hint": "arctic-security",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "openalex",
+      "query": "Arctic security Norway Russia military hybrid threat",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "region": "research"
+    }
+  },
+  {
+    "name": "openalex: barents-fisheries",
+    "kind": "scholarly",
+    "url": "scholarly://openalex/barents-fisheries",
+    "beat_hint": "fisheries",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "openalex",
+      "query": "Barents Sea fisheries cod stock quota management",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "region": "research"
+    }
+  },
+  {
+    "name": "openalex: green-colonialism",
+    "kind": "scholarly",
+    "url": "scholarly://openalex/green-colonialism",
+    "beat_hint": "green-colonialism",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "openalex",
+      "query": "reindeer herding wind power land use conflict",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "region": "research"
+    }
+  },
+  {
+    "name": "openalex: svalbard-permafrost",
+    "kind": "scholarly",
+    "url": "scholarly://openalex/svalbard-permafrost",
+    "beat_hint": "svalbard-climate",
+    "active": false,
+    "note": "RECONSTRUCTED 2026-09-14. This entry was present in sources.json but had never been seeded to Supabase, and was lost when the file was regenerated from the database. Rebuilt from the contract documented in plugins/sources/scholarly.py. The query is a best reconstruction, not the original: verify it returns sensible work, then set active=true.",
+    "config": {
+      "api": "openalex",
+      "query": "Svalbard permafrost thaw coastal erosion",
+      "days": 30,
+      "limit": 10,
+      "trust_hint": true,
+      "region": "research"
+    }
+  },
+  {
+    "name": "Polarkreisportal",
+    "kind": "rss",
+    "url": "https://www.polarkreisportal.de/feed",
+    "beat_hint": "svalbard-climate",
+    "active": false,
+    "note": "verified working; German polar-tourism focus, low relevance to Nord-Norge governance",
+    "config": {
+      "lang": "de",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "Sametinget",
+    "kind": "rss",
+    "url": "https://sametinget.no/rss",
+    "beat_hint": "reconciliation-minorities",
+    "active": false,
+    "note": "site declares no RSS feed (checked 2026-09-14); /rss, /feed, /nyheter/rss all 404",
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "Svalbardposten",
+    "kind": "rss",
+    "url": "https://www.svalbardposten.no/rss",
+    "beat_hint": "svalbard-climate",
+    "active": false,
+    "note": "site declares no RSS feed (checked 2026-09-14); /rss, /rss.xml, /feed all 404",
+    "config": {
+      "lang": "nb",
+      "region": "norway"
+    }
+  },
+  {
+    "name": "Yle (national)",
+    "kind": "rss",
+    "url": "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_UUTISET",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "note": "verified working but national Finnish coverage; needs a Lappi region filter before it is worth polling",
+    "config": {
+      "lang": "fi",
+      "region": "nordic"
+    }
+  },
+  {
+    "name": "Regard sur l'Arctique (RCI)",
+    "kind": "rss",
+    "url": "https://www.rcinet.ca/regard-sur-arctique/feed/",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "north-america"
+    }
+  },
+  {
+    "name": "Europa Azul (pesca)",
+    "kind": "rss",
+    "url": "https://europa-azul.es/feed/",
+    "beat_hint": "fisheries",
+    "active": true,
+    "config": {
+      "lang": "es",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "nordisch.info",
+    "kind": "rss",
+    "url": "https://www.nordisch.info/feed/",
+    "beat_hint": "regional-governance",
+    "active": true,
+    "config": {
+      "lang": "de",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "Nordlandblog",
+    "kind": "rss",
+    "url": "https://www.nordlandblog.de/feed/",
+    "beat_hint": "demographics-periphery",
+    "active": false,
+    "config": {
+      "lang": "de",
+      "region": "europe"
+    },
+    "_note": "OFF. Added and withdrawn the same day, 2026-09-28. The feed parses and the content is about Norway, but it is a camper-van travel blog: 29 of its 60 items scored as hits (48%, against an 8% archive average) because the `transport` beat is about roads, ferries and the kortbanenett and the blog is about driving in Norway. 'Wintercamping in Norwegen' and 'Diesel, Benzin und Spartipps' are not newsroom material. Its items and hits were deleted. A feed parsing is not evidence that it belongs in a brief."
+  },
+  {
+    "name": "Le Monde (international)",
+    "kind": "rss",
+    "url": "https://www.lemonde.fr/international/rss_full.xml",
+    "beat_hint": "arctic-security",
+    "active": false,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "RFI Europe",
+    "kind": "rss",
+    "url": "https://www.rfi.fr/fr/europe/rss",
+    "beat_hint": "arctic-security",
+    "active": false,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "El Pais (internacional)",
+    "kind": "rss",
+    "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada",
+    "beat_hint": "arctic-security",
+    "active": false,
+    "config": {
+      "lang": "es",
+      "region": "europe"
+    }
+  },
+  {
+    "name": "Google News 中文: 北极 / 挪威",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%E6%8C%AA%E5%A8%81%20OR%20%E5%8C%97%E6%9E%81%20OR%20%E6%96%AF%E7%93%A6%E5%B0%94%E5%B7%B4&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "zh",
+      "note": "Topic-filtered Google News feed, not a whole outlet. There is no Chinese, Japanese or Hindi equivalent of Regard sur l'Arctique, and the alternative -- NHK's international section, BBC Chinese, Amar Ujala -- is 40-125 items per fetch of national news in which Norway appears a few times a week. A query feed inverts that: in-language coverage of this desk's subject, at a volume the beats can actually rank. Expect football and chess noise, since 'Norway' is a sports term in all three; the beat threshold discards it.",
+      "why": "China calls itself a near-Arctic state, runs the Yellow River station at Ny-Alesund, promotes the Polar Silk Road, and is a major buyer of Norwegian seafood. Its Arctic shipping coverage is operational and detailed.",
+      "min_published": "2025-01-01",
+      "min_published_note": "Loose recency floor, set 2026-09-28. A Google News query returns what best matches the query, not what is recent: 89 of 100 items from this feed's first fetch were over a month old and one was from 2024. 2025-01-01 rather than something tighter because background that is a year old is often still the right context for an Arctic policy story -- this is a guard against absorbing an archive in bulk, not a news window. The brief's own window is unchanged and much tighter.",
+      "region": "asia"
+    }
+  },
+  {
+    "name": "Google News 日本語: 北極 / ノルウェー",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%E3%83%8E%E3%83%AB%E3%82%A6%E3%82%A7%E3%83%BC%20OR%20%E5%8C%97%E6%A5%B5%20OR%20%E3%82%B9%E3%83%90%E3%83%BC%E3%83%AB%E3%83%90%E3%83%AB&hl=ja&gl=JP&ceid=JP:ja",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "ja",
+      "note": "Topic-filtered Google News feed, not a whole outlet. There is no Chinese, Japanese or Hindi equivalent of Regard sur l'Arctique, and the alternative -- NHK's international section, BBC Chinese, Amar Ujala -- is 40-125 items per fetch of national news in which Norway appears a few times a week. A query feed inverts that: in-language coverage of this desk's subject, at a volume the beats can actually rank. Expect football and chess noise, since 'Norway' is a sports term in all three; the beat threshold discards it.",
+      "why": "Japan runs Arctic research through JAMSTEC, has a standing interest in the Northern Sea Route, and its shipping and energy firms partner directly with Norwegian ones -- the first fetch already carried NYK joining a Norwegian CCS project.",
+      "min_published": "2025-01-01",
+      "min_published_note": "Loose recency floor, set 2026-09-28. A Google News query returns what best matches the query, not what is recent: 89 of 100 items from this feed's first fetch were over a month old and one was from 2024. 2025-01-01 rather than something tighter because background that is a year old is often still the right context for an Arctic policy story -- this is a guard against absorbing an archive in bulk, not a news window. The brief's own window is unchanged and much tighter.",
+      "region": "asia"
+    }
+  },
+  {
+    "name": "Google News हिन्दी: आर्कटिक / नॉर्वे",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%E0%A4%A8%E0%A5%89%E0%A4%B0%E0%A5%8D%E0%A4%B5%E0%A5%87%20OR%20%E0%A4%86%E0%A4%B0%E0%A5%8D%E0%A4%95%E0%A4%9F%E0%A4%BF%E0%A4%95&hl=hi&gl=IN&ceid=IN:hi",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "hi",
+      "note": "Topic-filtered Google News feed, not a whole outlet. There is no Chinese, Japanese or Hindi equivalent of Regard sur l'Arctique, and the alternative -- NHK's international section, BBC Chinese, Amar Ujala -- is 40-125 items per fetch of national news in which Norway appears a few times a week. A query feed inverts that: in-language coverage of this desk's subject, at a volume the beats can actually rank. Expect football and chess noise, since 'Norway' is a sports term in all three; the beat threshold discards it.",
+      "why": "India is an Arctic Council observer with the Himadri station at Ny-Alesund and published an Arctic policy in 2022. Hindi-language Arctic coverage is thinner than English-language Indian coverage, so this is the sparsest of the three -- watch whether it earns its place.",
+      "min_published": "2025-01-01",
+      "min_published_note": "Loose recency floor, set 2026-09-28. A Google News query returns what best matches the query, not what is recent: 89 of 100 items from this feed's first fetch were over a month old and one was from 2024. 2025-01-01 rather than something tighter because background that is a year old is often still the right context for an Arctic policy story -- this is a guard against absorbing an archive in bulk, not a news window. The brief's own window is unchanged and much tighter.",
+      "region": "asia"
+    }
+  },
+  {
+    "name": "Google News العربية: القطب الشمالي / النرويج",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D9%86%D8%B1%D9%88%D9%8A%D8%AC%20OR%20%D8%A7%D9%84%D9%82%D8%B7%D8%A8%20%D8%A7%D9%84%D8%B4%D9%85%D8%A7%D9%84%D9%8A&hl=ar&gl=EG&ceid=EG:ar",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "ar",
+      "why": "Gulf and Levant press follows Arctic security closely, because Norway is Europe's largest gas supplier and therefore the competitor and complement to Qatari LNG. The first fetch led on Denmark expecting a long NATO presence in Greenland, from Asharq, and an Asharq Al-Awsat piece on Arctic confrontation.",
+      "verified": "2026-09-28: 101 items, every title in Arabic script.",
+      "min_published": "2025-01-01",
+      "min_published_note": "Loose recency floor, set 2026-09-28. A Google News query returns what best matches the query, not what is recent: 89 of 100 items from this feed's first fetch were over a month old and one was from 2024. 2025-01-01 rather than something tighter because background that is a year old is often still the right context for an Arctic policy story -- this is a guard against absorbing an archive in bulk, not a news window. The brief's own window is unchanged and much tighter.",
+      "region": "middle-east"
+    }
+  },
+  {
+    "name": "Google News Indonesia: Norwegia",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norwegia%20%28Arktik%20OR%20Svalbard%20OR%20hutan%20OR%20perikanan%20OR%20iklim%20OR%20energi%29%20-sepakbola%20-Liga&hl=id&gl=ID&ceid=ID:id",
+    "beat_hint": "green-colonialism",
+    "active": true,
+    "config": {
+      "lang": "id",
+      "why": "Norway and Indonesia run one of the largest bilateral climate agreements in existence -- results-based payments for avoided deforestation, USD 216m paid under it -- and Indonesian coverage of it is far more detailed than Norwegian. Also picks up Norges Bank and Svalbard.",
+      "query_note": "The bare query 'Norwegia OR Arktik' returned a page of Norway v Portugal football. The topic terms and the two exclusions cut that to one item in 101 without losing the climate material.",
+      "min_published": "2025-01-01",
+      "min_published_note": "Loose recency floor, set 2026-09-28. A Google News query returns what best matches the query, not what is recent: 89 of 100 items from this feed's first fetch were over a month old and one was from 2024. 2025-01-01 rather than something tighter because background that is a year old is often still the right context for an Arctic policy story -- this is a guard against absorbing an archive in bulk, not a news window. The brief's own window is unchanged and much tighter.",
+      "region": "asia"
+    }
+  },
+  {
+    "name": "Google News EN: Arctic affairs (AU edition)",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%28Arctic%20OR%20Svalbard%20OR%20Norway%29%20%28Antarctic%20OR%20research%20OR%20gas%20OR%20shipping%20OR%20defence%29%20-football%20-soccer&hl=en-AU&gl=AU&ceid=AU:en",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "why": "Named honestly: gl=AU biases Google's ranking, it does not restrict the feed to Australian outlets, and in practice it returns English-language Arctic trade and analysis press -- Lloyd's List on Arctic shipping volumes, The Diplomat on South Korean icebreakers, Japanese research vessels. That is a register the desk has none of; the three existing English sources are regional newsrooms, not shipping and policy trade press.",
+      "verified": "2026-09-28: 101 items, no sport after exclusions.",
+      "min_published": "2025-01-01",
+      "min_published_note": "Loose recency floor, set 2026-09-28. A Google News query returns what best matches the query, not what is recent: 89 of 100 items from this feed's first fetch were over a month old and one was from 2024. 2025-01-01 rather than something tighter because background that is a year old is often still the right context for an Arctic policy story -- this is a guard against absorbing an archive in bulk, not a news window. The brief's own window is unchanged and much tighter.",
+      "region": "global"
+    }
+  },
+  {
+    "name": "Google News Suomi: Norja / arktinen",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norja%20%28arktinen%20OR%20Huippuvuoret%20OR%20puolustus%20OR%20kalastus%29&hl=fi&gl=FI&ceid=FI:fi",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "fi",
+      "region": "nordic",
+      "min_published": "2025-01-01",
+      "why": "Finland shares the Arctic border question and joined NATO with Norway as its land link westward. First fetch led on Norwegian authorities seizing a Russian vessel -- carried in Finnish before most of the roster had it."
+    }
+  },
+  {
+    "name": "Google News Polska: Norwegia / Arktyka",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norwegia%20%28Arktyka%20OR%20Svalbard%20OR%20obronno%C5%9B%C4%87%20OR%20rybo%C5%82%C3%B3wstwo%29&hl=pl&gl=PL&ceid=PL:pl",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "pl",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "Poland is the largest NATO eastern-flank state and has a standing polar research presence at Hornsund on Svalbard. Its Arctic security coverage is detailed and fast."
+    }
+  },
+  {
+    "name": "Google News Eesti: Norra / Arktika",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norra%20%28Arktika%20OR%20Teravm%C3%A4ed%20OR%20kaitse%29&hl=et&gl=EE&ceid=EE:et",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "et",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "Baltic coverage reads Arctic security through the Russian border, which is this desk's first beat. ERR carried Norway telling the EU to stop moralising about Arctic oil."
+    }
+  },
+  {
+    "name": "Google News Latvija: Norvēģija / Arktika",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norv%C4%93%C4%A3ija%20%28Arktika%20OR%20aizsardz%C4%ABba%29&hl=lv&gl=LV&ceid=LV:lv",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "lv",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "As Estonia. First fetch carried NATO thwarting a Russian attempt on undersea cables in the Arctic."
+    }
+  },
+  {
+    "name": "Google News Lietuva: Norvegija / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norvegija%20%28Arktis%20OR%20gynyba%29&hl=lt&gl=LT&ceid=LT:lt",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "lt",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "As Estonia and Latvia. Carries some football; the beat threshold discards it."
+    }
+  },
+  {
+    "name": "KNR (Grønland)",
+    "kind": "rss",
+    "url": "https://knr.gl/da/rss.xml",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "da",
+      "region": "nordic",
+      "why": "Greenland's public broadcaster, in Danish. Added instead of a Danish query feed, which Google serves 51% Norwegian outlets because it conflates the two languages. Greenland is the subject of the week's biggest international story and the roster had no Danish-language source at all."
+    }
+  },
+  {
+    "name": "Google News Nederland: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Noorwegen%20%28Arctisch%20OR%20Spitsbergen%20OR%20defensie%20OR%20visserij%20OR%20energie%29&hl=nl&gl=NL&ceid=NL:nl",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "nl",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Italia: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norvegia%20%28Artico%20OR%20Svalbard%20OR%20difesa%20OR%20pesca%20OR%20energia%29&hl=it&gl=IT&ceid=IT:it",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "it",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Portugal: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Noruega%20%28%C3%81rtico%20OR%20Svalbard%20OR%20defesa%20OR%20pesca%20OR%20energia%29&hl=pt&gl=PT&ceid=PT:pt",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "pt",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Česko: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norsko%20%28Arktida%20OR%20%C5%A0picberky%20OR%20obrana%20OR%20rybolov%29&hl=cs&gl=CZ&ceid=CZ:cs",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "cs",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Slovensko: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=N%C3%B3rsko%20%28Arkt%C3%ADda%20OR%20%C5%A0picbergy%20OR%20obrana%20OR%20rybolov%29&hl=sk&gl=SK&ceid=SK:sk",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "sk",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Slovenija: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norve%C5%A1ka%20%28Arktika%20OR%20Svalbard%20OR%20obramba%20OR%20ribi%C5%A1tvo%29&hl=sl&gl=SI&ceid=SI:sl",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "sl",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News България: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%D0%9D%D0%BE%D1%80%D0%B2%D0%B5%D0%B3%D0%B8%D1%8F%20%28%D0%90%D1%80%D0%BA%D1%82%D0%B8%D0%BA%D0%B0%20OR%20%D0%A1%D0%B2%D0%B0%D0%BB%D0%B1%D0%B0%D1%80%D0%B4%20OR%20%D0%BE%D1%82%D0%B1%D1%80%D0%B0%D0%BD%D0%B0%20OR%20%D1%80%D0%B8%D0%B1%D0%BE%D0%BB%D0%BE%D0%B2%29&hl=bg&gl=BG&ceid=BG:bg",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "bg",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News România: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norvegia%20%28Arctica%20OR%20Svalbard%20OR%20ap%C4%83rare%20OR%20pescuit%29&hl=ro&gl=RO&ceid=RO:ro",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "ro",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Magyarország: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norv%C3%A9gia%20%28Arktisz%20OR%20Spitzberg%C3%A1k%20OR%20v%C3%A9delem%20OR%20hal%C3%A1szat%29&hl=hu&gl=HU&ceid=HU:hu",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "hu",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Ελλάδα: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%CE%9D%CE%BF%CF%81%CE%B2%CE%B7%CE%B3%CE%AF%CE%B1%20%28%CE%91%CF%81%CE%BA%CF%84%CE%B9%CE%BA%CE%AE%20OR%20%CE%A3%CE%B2%CE%AC%CE%BB%CE%BC%CF%80%CE%B1%CF%81%CE%BD%CF%84%20OR%20%CE%AC%CE%BC%CF%85%CE%BD%CE%B1%20OR%20%CE%B1%CE%BB%CE%B9%CE%B5%CE%AF%CE%B1%29&hl=el&gl=GR&ceid=GR:el",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "el",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Türkiye: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norve%C3%A7%20%28Arktik%20OR%20Svalbard%20OR%20savunma%20OR%20bal%C4%B1k%C3%A7%C4%B1l%C4%B1k%29&hl=tr&gl=TR&ceid=TR:tr",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "tr",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    }
+  },
+  {
+    "name": "Google News Hrvatska: Norge / Arktis",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Norve%C5%A1ka%20Arktik&hl=hr&gl=HR&ceid=HR:hr",
+    "beat_hint": "arctic-security",
+    "active": false,
+    "config": {
+      "lang": "hr",
+      "region": "europe",
+      "min_published": "2025-01-01",
+      "why": "EU-wide coverage of issues affecting Norway, added 2026-09-29. Topic-filtered rather than a national outlet: the national feed would be that country's domestic news, in which Norway appears occasionally."
+    },
+    "_note": "OFF, same day it was added (2026-09-29). My first Croatian query returned 10 items so I retested with a looser one, got 101, and added it on the count alone -- without checking the language, which is the exact check that made me reject Icelandic an hour earlier. 64% of what it returned was English ('US Coast Guard, Norway strengthen Arctic partnership', four times over), against 0-5% for every other language in the batch. Google has no usable Croatian index for this subject. Its 104 items and 89 hits were deleted."
+  },
+  {
+    "name": "Google News USA: Arctic / Norway",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%28Norway%20OR%20Svalbard%20OR%20Arctic%29%20%28NATO%20OR%20Greenland%20OR%20defense%20OR%20energy%20OR%20fisheries%29&hl=en-US&gl=US&ceid=US:en",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2025-01-01",
+      "why": "US Arctic policy is the single largest external variable for this desk right now -- Greenland, NATO force posture and the Article 5 question all run through Washington. First fetch led on Trump's Greenland bases and the Greenland deal."
+    }
+  },
+  {
+    "name": "Google News Canada: Arctic / Norway",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%28Norway%20OR%20Svalbard%20OR%20Arctic%29%20%28NORAD%20OR%20sovereignty%20OR%20defence%20OR%20shipping%20OR%20Inuit%29&hl=en-CA&gl=CA&ceid=CA:en",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2025-01-01",
+      "why": "Canada is the other Arctic coastal democracy with an Indigenous-rights and sovereignty debate that runs parallel to Norway's. Complements Eye on the Arctic, which is one newsroom; this is the wider Canadian press."
+    }
+  },
+  {
+    "name": "Google News México: Noruega / Ártico",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Noruega%20%28%C3%81rtico%20OR%20Svalbard%20OR%20OTAN%20OR%20energ%C3%ADa%20OR%20pesca%29&hl=es-419&gl=MX&ceid=MX:es-419",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "es",
+      "region": "latin-america",
+      "min_published": "2025-01-01",
+      "why": "Mexican coverage of Arctic energy and EU drilling policy, in Spanish."
+    }
+  },
+  {
+    "name": "Google News Brasil: Noruega",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Noruega%20%28Amaz%C3%B4nia%20OR%20%C3%81rtico%20OR%20fundo%20OR%20pesca%20OR%20energia%29&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "pt",
+      "region": "latin-america",
+      "min_published": "2025-01-01",
+      "why": "Norway is the largest donor to the Amazon Fund and its sovereign wealth fund moves markets -- the first fetch carried it cutting USD 80bn of US bond exposure. Brazilian coverage of both is more detailed than Norwegian."
+    }
+  },
+  {
+    "name": "Google News Chile: Noruega / salmón",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Noruega%20%28salm%C3%B3n%20OR%20acuicultura%20OR%20%C3%81rtico%20OR%20Ant%C3%A1rtica%29&hl=es-419&gl=CL&ceid=CL:es-419",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "es",
+      "region": "latin-america",
+      "min_published": "2025-01-01",
+      "why": "Chile is the world's second salmon producer after Norway, so the Chilean trade press covers Norwegian aquaculture as a direct competitor -- a reading of the fisheries beat no Norwegian source provides."
+    }
+  },
+  {
+    "name": "Google News Argentina: Noruega / Ártico",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Noruega%20%28%C3%81rtico%20OR%20Ant%C3%A1rtida%20OR%20pesca%20OR%20OTAN%29&hl=es-419&gl=AR&ceid=AR:es-419",
+    "beat_hint": "arctic-security",
+    "active": true,
+    "config": {
+      "lang": "es",
+      "region": "latin-america",
+      "min_published": "2025-01-01",
+      "why": "Polar research and fisheries, from the other end of the planet's polar politics."
+    }
+  }
+]

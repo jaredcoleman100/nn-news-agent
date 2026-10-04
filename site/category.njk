@@ -1,0 +1,23 @@
+---
+layout: base.njk
+navKey: categories
+pagination:
+  data: categories.list
+  size: 1
+  alias: cat
+permalink: "category/{{ cat.key }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ cat.name }}"
+---
+{% from "card.njk" import card %}
+<p class="sub">{{ cat.name }} — {{ cat.count }} {{ site.t.hits[0] }},
+  {% for desk in categories.desks %}{% if desk.id == cat.newsroom %}{{ desk.name[0] }}{% endif %}{% endfor %}.
+  {{ site.t.rankedNote[0] }}
+<span class="alt">{{ cat.count }} {{ site.t.hits[1] }}. {{ site.t.rankedNote[1] }}</span></p>
+
+{% for item in cat.items %}
+  <p class="score">{{ site.t.score[0] }} {{ item.score }}</p>
+  {{ card(item, site, linkBase) }}
+{% endfor %}
+
+<div class="pager"><a href="{{ linkBase }}categories/">← {{ site.t.allCategories[0] }} / {{ site.t.allCategories[1] }}</a></div>

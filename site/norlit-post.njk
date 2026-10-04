@@ -1,0 +1,81 @@
+---
+layout: base.njk
+navKey: norlit
+pagination:
+  data: norlit.all
+  size: 1
+  alias: post
+permalink: "norlit/{{ post.id }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ post.title_en or post.title }}"
+---
+<p class="stamp">{{ post.kindName[0] }} / {{ post.kindName[1] }} · {{ post.date }}
+  {%- if post.theme %} · {{ post.theme }}{% endif %}
+  {%- if post.season %} · {{ post.season }}{% endif %}</p>
+
+{% if not post.published %}
+<div class="ethics">
+  <p class="ethics-h">{{ site.t.litReservation[0] }}<span class="alt">{{ site.t.litReservation[1] }}</span></p>
+  <ul>
+    {% for r in post.gateReasons %}<li>{{ r }}</li>{% endfor %}
+    <li>{{ post.quotations }} {{ site.t.quotationsChecked[0] }}, {{ post.failing }} {{ site.t.quotationsFailing[0] }}
+      <span class="alt">{{ post.quotations }} {{ site.t.quotationsChecked[1] }}, {{ post.failing }} {{ site.t.quotationsFailing[1] }}</span></li>
+  </ul>
+  <p class="ethics-f">{{ site.t.litReservationFoot[0] }}<span class="alt">{{ site.t.litReservationFoot[1] }}</span></p>
+</div>
+{% endif %}
+
+{# Both languages side by side, as the briefs are. Quotations in the English body are
+   translations, per norlit/INTEGRATION.md. #}
+<section class="digest">
+  <div class="pair">
+    <div class="col en">
+      <p class="tag">{{ site.t.english[0] }}</p>
+      <h2 class="lede">{{ post.title_en or post.title }}</h2>
+      <div class="brief md">{{ (post.body_en or "") | markdown | safe }}</div>
+    </div>
+    <div class="col nb">
+      <p class="tag">{{ site.t.norwegian[1] }} · nb</p>
+      <h2 class="lede">{{ post.title }}</h2>
+      <div class="brief md">{{ post.body | markdown | safe }}</div>
+    </div>
+  </div>
+</section>
+
+{% if post.sources | length %}
+<h2 class="day">{{ site.t.works[0] }} / {{ site.t.works[1] }}</h2>
+<ul class="browse">
+{% for w in post.sources %}
+  <li><a {% if w.url %}href="{{ w.url }}" target="_blank" rel="noopener noreferrer"{% endif %}>
+    <span>{{ w.author }}: {{ w.title }}{% if w.year %} ({{ w.year }}){% endif %}</span>
+    <span class="n">{{ w.license or "" }}</span></a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if post.news | length %}
+<h2 class="day">{{ site.t.writtenAgainst[0] }} / {{ site.t.writtenAgainst[1] }}</h2>
+<ul class="browse">
+{% for u in post.news %}
+  <li><a href="{{ u }}" target="_blank" rel="noopener noreferrer"><span>{{ u | truncate(76) }}</span></a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if post.ai_note %}
+<p class="sub" style="margin-top:20px">{{ post.ai_note_en or post.ai_note }}
+<span class="alt">{{ post.ai_note }}</span></p>
+{% endif %}
+
+{% if post.kind == "historie" %}
+  {% set me = (norlit.series | where("id", post.id)) | first %}
+  {% if me %}
+  <div class="pager">
+    {% if me.prev %}<a href="{{ linkBase }}norlit/{{ me.prev.id }}/">← {{ me.prev.no }}. {{ me.prev.title | after_colon | truncate(32) }}</a>{% endif %}
+    <a href="{{ linkBase }}norlit/kongen/">{{ site.t.contents[0] }} / {{ site.t.contents[1] }}</a>
+    {% if me.next %}<a href="{{ linkBase }}norlit/{{ me.next.id }}/">{{ me.next.no }}. {{ me.next.title | after_colon | truncate(32) }} →</a>{% endif %}
+  </div>
+  {% endif %}
+{% endif %}
+
+<div class="pager"><a href="{{ linkBase }}norlit/">← {{ site.t.allMagasin[0] }} / {{ site.t.allMagasin[1] }}</a></div>

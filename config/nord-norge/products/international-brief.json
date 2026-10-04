@@ -1,0 +1,40 @@
+{
+  "id": "international-brief",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Internasjonal brief — Norge sett utenfra",
+  "_purpose": "What the world outside Norway is publishing about Norway and the Arctic. The daily brief answers 'what happened'; this answers 'who abroad is paying attention, to what, and in what terms'.",
+  "trigger": "schedule",
+  "schedule": "0 14 * * 1-5",
+  "loader": "window",
+  "window_hours": 168,
+  "_window_hours_note": "Seven days, not 24. Foreign coverage of Norway is sparse and bursty -- a Japanese shipping item and an Indian defence item may be four days apart and belong in the same brief. A 24-hour window would produce an empty brief most days.",
+  "exclude_regions": [
+    "norway"
+  ],
+  "_exclude_regions_note": "The whole point. Without it the ranked window is ~90% Norwegian outlets and this brief is just the daily digest again.",
+  "overfetch": 40,
+  "_overfetch_note": "Much larger than the default 8: the region filter runs after the ranked fetch, so the query has to reach deep enough to find non-Norwegian items that score below the Norwegian ones.",
+  "max_items": 36,
+  "template": "international_brief",
+  "ethics": {
+    "code": "vvp",
+    "genre": "digest"
+  },
+  "lang": "nb",
+  "region": "Internasjonalt",
+  "provider": "gemini",
+  "max_revisions": 0,
+  "renderer": "markdown",
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    }
+  ],
+  "per_region_min": 4,
+  "_per_region_min_note": "Reserve the top 4 by score from each region before filling the rest of max_items globally. Without it the brief is a global top-30 and the regions with the most feeds win on volume: Latin America took 1 slot of 30 while scoring higher on average (0.517) than Europe (0.513) or Asia (0.508). Ranking inside a region is untouched.",
+  "_max_items_note": "Raised from 30 with per_region_min: 8 regions x 4 reserved = 32, so a smaller cap would leave almost no room for the global fill."
+}

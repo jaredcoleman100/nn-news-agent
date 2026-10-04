@@ -1,0 +1,63 @@
+-- pg_cron jobs, recorded 2026-09-18 so the two disabled ones can be restored verbatim.
+--
+-- STATE AS OF 2026-09-18
+--   jobid 2  drain-outbox      ACTIVE   -- must stay: local drafting still writes to `outbox`
+--   jobid 3  run-daily-digest  DISABLED -- drafting moved to this machine
+--   jobid 4  run-satire-desk   DISABLED -- rikspolitikk desk is NOT drafting anywhere; see below
+--
+-- Why 3 and 4 were disabled: the Fly trial ended on 2026-09-17 and took the worker down, so both
+-- jobs were POSTing into a dead host. `pg_net` only QUEUES the request, so `cron.job_run_details`
+-- kept recording `succeeded` for work that never happened -- worse than an obvious failure,
+-- because the scheduler looked healthy. Nord-Norge drafting now runs locally via Task Scheduler
+-- (`NNNewsAgentDigest` -> `draft_local.cmd daily-digest nord-norge 6`).
+--
+-- **rikspolitikk has no scheduler now.** Job 4 was its only one, and no local task replaced it,
+-- because that desk has a different owner. Its drafting is off until they choose: either re-enable
+-- job 4 (needs the Fly worker back) or register the local equivalent,
+-- `draft_local.cmd satire-desk rikspolitikk 15` at 06:00 and 07:00 local.
+--
+-- IF THE FLY WORKER IS EVER REVIVED, do not simply re-enable these: the local Task Scheduler jobs
+-- would still be running, and both would draft and both would deliver. Disable one side first.
+
+-- Re-enable (after deciding the above):
+--   select cron.alter_job(3, active := true);
+--   select cron.alter_job(4, active := true);
+
+-- Full definitions, for recreating from scratch if the rows are ever lost.
+-- Note the `where to_char(...)` guard: each job is scheduled at TWO UTC hours and only acts on the
+-- one matching the Oslo hour, so a DST shift cannot make it fire at the wrong local time. The
+-- local Task Scheduler replacement reproduces this with run.py's --oslo-hour flag.
+
+-- select cron.schedule('run-daily-digest', '0 4,5 * * 1-5', $$
+--   select net.http_post(
+--     url := 'https://nn-news-agent.fly.dev/run/daily-digest',
+--     headers := jsonb_build_object(
+--       'Content-Type', 'application/json',
+--       'X-Webhook-Secret', (select decrypted_secret from vault.decrypted_secrets where name = 'WEBHOOK_SECRET')),
+--     body := '{}'::jsonb,
+--     timeout_milliseconds := 120000)
+--   where to_char(now() at time zone 'Europe/Oslo', 'HH24') = '06';
+-- $$);
+
+-- select cron.schedule('run-satire-desk', '0 13,14 * * 1-5', $$
+--   select net.http_post(
+--     url := 'https://nn-news-agent.fly.dev/run/satire-desk',
+--     headers := jsonb_build_object(
+--       'Content-Type', 'application/json',
+--       'X-Webhook-Secret', (select decrypted_secret from vault.decrypted_secrets where name = 'WEBHOOK_SECRET')),
+--     body := '{}'::jsonb,
+--     timeout_milliseconds := 120000)
+--   where to_char(now() at time zone 'Europe/Oslo', 'HH24') = '15';
+-- $$);
+
+-- drain-outbox stays active. Every product still delivers through the `outbox` table, whether the
+-- report was drafted on Fly or on the newsroom machine, so disabling this stops all email.
+-- select cron.schedule('drain-outbox', '*/5 * * * *', $$
+--   select net.http_post(
+--     url := 'https://dimpgtuyfdcazdrqfutk.supabase.co/functions/v1/send-outbox',
+--     headers := jsonb_build_object(
+--       'Content-Type', 'application/json',
+--       'Authorization', 'Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'service_role_key')),
+--     body := '{}'::jsonb,
+--     timeout_milliseconds := 25000);
+-- $$);

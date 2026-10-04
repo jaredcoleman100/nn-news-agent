@@ -1,0 +1,14 @@
+---
+layout: base.njk
+pageTitle: "Not found / Ikke funnet"
+permalink: "404.html"
+---
+{# Cloudflare Pages serves /404.html with a real 404 status for any path it cannot match. Without
+   this file it falls back to index.html AND returns 200, so every mistyped or stale URL answered
+   "200 OK" with the front page -- including /item/, /everything/ and /category/..., which made the
+   public site look for all the world as though it were serving the internal archive. It was not
+   (identical bytes to the front page), but nobody checking from outside could tell that. #}
+<p class="body empty" style="margin-top:30px">
+  {{ site.t.notFound[0] }}<br>{{ site.t.notFound[1] }}
+</p>
+<div class="pager"><a href="{{ linkBase }}">← {{ site.t.front[0] }} / {{ site.t.front[1] }}</a></div>

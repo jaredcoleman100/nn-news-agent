@@ -1,0 +1,19 @@
+{
+  "id": "daily-digest",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Morgenbrief — Nord-Norge",
+  "trigger": "schedule",
+  "schedule": "0 6 * * 1-5",
+  "loader": "window",
+  "window_hours": 24,
+  "max_items": 25,
+  "template": "daily_digest",
+  "ethics": {"code": "vvp", "genre": "digest"},
+  "lang": "nb",
+  "region": "Nord-Norge",
+  "provider": "gemini",
+  "max_revisions": 0,
+  "renderer": "markdown",
+  "deliverers": [{"name": "email", "to": ["jaredcoleman100@gmail.com"]}, {"name": "slack", "webhook_env": "SLACK_DIGEST_WEBHOOK_URL", "renderer": "slack_md"}]
+}

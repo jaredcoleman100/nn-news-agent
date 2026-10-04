@@ -1,0 +1,37 @@
+# Fly.io deployment for worker/app.py (FastAPI). Build context is this directory,
+# so worker/Dockerfile's `COPY . .` picks up core/, plugins/, ethics/, templates/, config/.
+# Deploy:  fly launch --no-deploy   (once, to create the app)  then  fly deploy
+app = "nn-news-agent"
+
+# arn = Stockholm: good latency to Norway. If Supabase round-trips dominate
+# (the pipeline makes many queries per run), lhr/ams sit closer to eu-west-1.
+primary_region = "arn"
+
+[build]
+  dockerfile = "worker/Dockerfile"
+
+# Non-secret config. These MUST be set explicitly: worker/app.py does not call load_dotenv.
+#
+# EMBED_DIM must match the database (bge-m3, 1024). EMBEDDER is "ollama" to match the rest of
+# the system, but Ollama runs on the newsroom machine and is NOT reachable from Fly, so any
+# embed() call here fails on localhost:11434 — deliberately loud rather than silently writing
+# vectors of the wrong width. The worker does not embed: /hit and /run read stored vectors,
+# and only run.py and worker/embed_and_score.py call embed(). Scoring belongs next to Ollama.
+[env]
+  EMBEDDER = "ollama"
+  EMBED_DIM = "1024"
+  GEMINI_MODEL = "gemini-3.6-flash"
+  NEWSROOM_ID = "nord-norge"
+  PRODUCT = "regional-monitor"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Scale to zero between cron firings; an incoming request wakes the machine.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

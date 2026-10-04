@@ -1,0 +1,65 @@
+# Private bge-m3 embedding service for the newsroom engine.
+#
+# NO BUILD STEP ON PURPOSE. This deploys the official ollama/ollama image as-is:
+#
+#   fly deploy --app nn-embedder --image ollama/ollama:latest
+#
+# Building a thin wrapper image around it failed twice on Fly's remote builder, which dies part way
+# through extracting the ~3GB Ollama layer ("unable to restart machine, not currently started or
+# stopped") on both a stale and a freshly provisioned builder. Deploying the published image needs
+# no builder at all, so it also sidesteps the TLS interception on this machine that blocks Depot.
+#
+# The image already runs `ollama serve`, so no entrypoint override is needed. The one thing a custom
+# image was going to do -- pull bge-m3 -- is a one-off against the volume instead:
+#
+#   fly ssh console --app nn-embedder -C "ollama pull bge-m3"
+#
+# That survives restarts and scale-to-zero because it lands on the volume. Re-run it only if the
+# volume is ever recreated; `ollama list` over ssh tells you whether it is there.
+#
+# First-time setup (already done 2026-09-14):
+#   fly apps create nn-embedder
+#   fly volumes create ollama_models --app nn-embedder --region arn --size 5
+#   fly ips allocate-v6 --private --app nn-embedder
+#
+# Point the worker at it:
+#   fly secrets set OLLAMA_URL=http://nn-embedder.flycast:11434 --app nn-news-agent
+app = "nn-embedder"
+primary_region = "arn"          # same region as nn-news-agent: embedding is chatty, keep it local
+
+[env]
+  OLLAMA_HOST = "0.0.0.0:11434"           # listen on the VM's interface, not just loopback
+  OLLAMA_MODELS = "/root/.ollama/models"  # onto the volume, so the pull survives a restart
+  # Ingest embeds in bursts of 64 with gaps. The default 5m unload would pay the model load cost
+  # several times inside a single pass.
+  OLLAMA_KEEP_ALIVE = "30m"
+
+# ~1.2GB model. The volume is what makes a cold start ~10s instead of a multi-minute re-pull.
+[mounts]
+  source = "ollama_models"
+  destination = "/root/.ollama"
+
+# Private because NO PUBLIC IP IS ALLOCATED, not because of anything in this block. The app has
+# only the private flycast address (`fly ips allocate-v6 --private`), so the Fly proxy will route to
+# it from inside the org and from nowhere else. Keep it that way: an open Ollama endpoint is an open
+# inference endpoint someone else can bill you for. Verify with `fly ips list --app nn-embedder` --
+# if a v4 or a public v6 ever appears there, this service is on the internet.
+#
+# An earlier version used `[[services]]` with `ports = []` to express "no public ports". Fly warns
+# that services without ports fail validation, so the honest way to say it is a normal service
+# definition plus no public IP.
+[[services]]
+  internal_port = 11434
+  protocol = "tcp"
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[services.ports]]
+    port = 11434
+
+# bge-m3 needs roughly 2-3GB resident; 4GB leaves room for a 64-text batch without swapping.
+# Scale-to-zero means this bills for the minutes ingest runs, not around the clock.
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "4096mb"

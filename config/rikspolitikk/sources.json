@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Aftenposten",
+    "kind": "rss",
+    "url": "https://www.aftenposten.no/rss",
+    "beat_hint": "regjering-og-storting",
+    "active": true,
+    "note": "verified 2026-09-14: 25 items; some items paywalled beyond the summary"
+  },
+  {
+    "name": "Altinget",
+    "kind": "rss",
+    "url": "https://www.altinget.no/rss",
+    "beat_hint": "regjering-og-storting",
+    "active": true,
+    "note": "verified 2026-09-14: politics-specialist outlet, committee-level detail"
+  },
+  {
+    "name": "Dagbladet",
+    "kind": "rss",
+    "url": "https://www.dagbladet.no/?lab_viewport=rss",
+    "beat_hint": "retorikk-og-utspill",
+    "active": true,
+    "note": "verified 2026-09-14: 38 items"
+  },
+  {
+    "name": "Document.no",
+    "kind": "rss",
+    "url": "https://www.document.no/feed/",
+    "beat_hint": "retorikk-og-utspill",
+    "active": true,
+    "note": "verified 2026-09-14: right-wing site. Ingested as a PRIMARY SOURCE for what the right is actually saying, not as a reporting source. Never treat its claims as established fact."
+  },
+  {
+    "name": "Hoyre",
+    "kind": "rss",
+    "url": "https://hoyre.no/feed/",
+    "beat_hint": "lovnad-mot-levering",
+    "active": true,
+    "note": "verified 2026-09-14: the party's own feed - the on-the-record promise half of promise-vs-delivery"
+  },
+  {
+    "name": "Klassekampen",
+    "kind": "rss",
+    "url": "https://klassekampen.no/rss",
+    "beat_hint": "velferd-og-privatisering",
+    "active": true,
+    "note": "verified 2026-09-14: left-wing paper; adversarial coverage of the right surfaces contradictions, but is itself a partisan frame - corroborate before a joke rests on it"
+  },
+  {
+    "name": "KrF",
+    "kind": "rss",
+    "url": "https://krf.no/feed/",
+    "beat_hint": "lovnad-mot-levering",
+    "active": true,
+    "note": "verified 2026-09-14: centre-right party feed"
+  },
+  {
+    "name": "Nettavisen",
+    "kind": "rss",
+    "url": "https://www.nettavisen.no/service/rich-rss",
+    "beat_hint": "avgift-og-lommebok",
+    "active": true,
+    "note": "verified 2026-09-14: right-leaning outlet; covers FrP and Hoyre closely"
+  },
+  {
+    "name": "Nettavisen Norsk debatt",
+    "kind": "rss",
+    "url": "https://www.nettavisen.no/service/rich-rss?tag=norsk-debatt",
+    "beat_hint": "retorikk-og-utspill",
+    "active": true,
+    "note": "verified 2026-09-14: op-eds, often bylined by the politicians themselves"
+  },
+  {
+    "name": "NRK Norge",
+    "kind": "rss",
+    "url": "https://www.nrk.no/norge/toppsaker.rss",
+    "beat_hint": "regjering-og-storting",
+    "active": true,
+    "note": "verified 2026-09-14: 20 items"
+  },
+  {
+    "name": "NRK Ytring",
+    "kind": "rss",
+    "url": "https://www.nrk.no/ytring/toppsaker.rss",
+    "beat_hint": "retorikk-og-utspill",
+    "active": true,
+    "note": "verified 2026-09-14: commentary; politicians arguing in their own words"
+  },
+  {
+    "name": "Venstre",
+    "kind": "rss",
+    "url": "https://www.venstre.no/feed/",
+    "beat_hint": "lovnad-mot-levering",
+    "active": true,
+    "note": "verified 2026-09-14: centre-right party feed"
+  },
+  {
+    "name": "VG innenriks",
+    "kind": "rss",
+    "url": "https://www.vg.no/rss/feed/?categories=1069",
+    "beat_hint": "retorikk-og-utspill",
+    "active": true,
+    "note": "verified 2026-09-14"
+  },
+  {
+    "name": "Fremskrittspartiet",
+    "kind": "rss",
+    "url": "https://www.frp.no/feed",
+    "beat_hint": "lovnad-mot-levering",
+    "active": false,
+    "note": "NO RSS FEED EXISTS (checked 2026-09-14): /feed, /rss, /rss.xml, /aktuelt/rss all 404. This is the single most important gap in this config - FrP is the primary target party and its own on-the-record output is not ingestible by RSS. Until a substitute exists, FrP positions reach this desk only through third-party reporting, which weakens promise-vs-delivery jokes. Needs a scraper or a Stortinget-side source."
+  },
+  {
+    "name": "Industri- og Naeringspartiet",
+    "kind": "rss",
+    "url": "https://inp.no/feed/",
+    "beat_hint": "lovnad-mot-levering",
+    "active": false,
+    "note": "404 (checked 2026-09-14)"
+  },
+  {
+    "name": "Regjeringen.no",
+    "kind": "rss",
+    "url": "https://www.regjeringen.no/no/rss/Rss/?id=2581",
+    "beat_hint": "regjering-og-storting",
+    "active": false,
+    "note": "403 bot-blocked, not absent (checked 2026-09-14): every /rss path returns 403 to httpx while loading in a browser. Reachable with a browser-like User-Agent - worth retrying, unlike the 404 sources."
+  },
+  {
+    "name": "Resett",
+    "kind": "rss",
+    "url": "https://resett.no/feed/",
+    "beat_hint": "retorikk-og-utspill",
+    "active": false,
+    "note": "403 (checked 2026-09-14)"
+  },
+  {
+    "name": "Stortinget",
+    "kind": "rss",
+    "url": "https://www.stortinget.no/no/rss/",
+    "beat_hint": "regjering-og-storting",
+    "active": false,
+    "note": "no usable feed (checked 2026-09-14): /rss returns 200 but zero items; /no/rss/Sak/ and the question feeds 404. Stortinget's open data API is the real route to votes and written questions."
+  }
+]

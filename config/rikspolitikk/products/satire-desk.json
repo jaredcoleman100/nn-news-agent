@@ -1,0 +1,66 @@
+{
+  "id": "satire-desk",
+  "version": "1",
+  "newsroom_id": "rikspolitikk",
+  "name": "Satiredesken — rikspolitikk",
+  "trigger": "schedule",
+  "schedule": "0 15 * * 1-5",
+  "loader": "window",
+  "window_hours": 4392,
+  "_window_hours_note": "183 days. Raised from 24 on 2026-09-27 so the desk draws jokes from six months of quotations rather than one news cycle. The desk's best mechanism is `gapet` -- they said X and did Y, both on the record -- and a 24-hour window can almost never see both ends of that gap, which is why the strongest joke type was effectively unavailable. CAVEAT, true until roughly 2027-03: ingest began 2026-09-14 and the feeds carry only recent items, so the window currently reaches 13 days of real material plus 32 stragglers published earlier (2 of them rikspolitikk hits). It fills in as the archive ages; nothing needs changing when it does.",
+  "max_items": 40,
+  "_max_items_note": "Unchanged, but it means something different now: the top 40 by score across the whole window rather than across one day. That re-ranking is the actual behavioural change -- the desk now sees the strongest material of the period, not the strongest material of yesterday.",
+  "template": "satire_desk",
+  "ethics": { "code": "vvp", "genre": "satire" },
+  "lang": "nb",
+  "region": "Norge",
+  "provider": "gemini",
+  "_provider_note": "gemini because ANTHROPIC_API_KEY is empty in the environment; daily-digest uses the same. Satire is the hardest writing task on the engine, so if the jokes read flat this is the first thing to change — set the Anthropic key and put \"anthropic\" back, or split it {\"draft\": \"anthropic\", \"memo\": \"gemini\"} to spend the better model only on the drafting.",
+  "max_revisions": 0,
+  "_max_revisions_note": "Deliberately 0, unlike the news products. An automatic redraft in response to an ethics flag makes a joke worse in a specific and predictable way: the model sands off the concrete detail that tripped the screen, and the concrete detail was the comedy. Two of the three screens raised for this genre are topic detectors (`ethnicity_or_identity` matches «asyl», «innvandr-»; `accusation_requires_reply` matches «kritiser-»), so they fire on the subject matter rather than on any abuse of it — a second pass cannot clear them without abandoning the subject. Blocked drafts are still delivered; the human editor is the right corrector here, not the model.",
+  "renderer": "markdown",
+  "check_spelling": false,
+  "joke_classes": {
+    "_note": "Two audiences, one sourced body of material. Both classes are written into `body` so the ethics screen reads them together — putting the student jokes in `sections` would exempt exactly the jokes most likely to be screenshotted and travel without their context. The counts are targets, not quotas: the template is told to write fewer student jokes and say so rather than manufacture one when nothing in the window reaches a student.",
+    "redaksjonell": {
+      "per_run": "3-4",
+      "audience": "the paper and the editor; a reader who follows committee politics",
+      "register": "dry, procedural, NTB-deadpan"
+    },
+    "student": {
+      "per_run": "2-3",
+      "audience": "students",
+      "register": "shorter, standalone, lands on consequence rather than procedure",
+      "rule": "Never imitate student vocabulary — the humour comes from precision about their situation, not from sounding like them. A joke that merely agrees with a presumed student politics is campaign material, not satire."
+    }
+  },
+  "targets": {
+    "_note": "The desk's remit, as parties and roles rather than as a name list. Names are deliberately NOT hardcoded: officeholders change, and a satire desk that mocks someone for a post they left three months ago is both wrong and embarrassing. The drafting stage takes names from the ingested items, where they arrive with a date and a source attached.",
+    "parties": [
+      { "id": "frp", "name": "Fremskrittspartiet", "in_remit": true },
+      { "id": "hoyre", "name": "Høyre", "in_remit": true },
+      { "id": "venstre", "name": "Venstre", "in_remit": "partial", "note": "Centre-right. In remit when acting with the right bloc on this desk's beats; not a standing target." },
+      { "id": "krf", "name": "Kristelig Folkeparti", "in_remit": "partial", "note": "As Venstre. Faith as a political position is fair material; faith as personal belief is VVP 4.3 and is not." },
+      { "id": "inp", "name": "Industri- og Næringspartiet", "in_remit": true, "note": "No ingestible feed; reaches the desk only via third-party reporting." }
+    ],
+    "roles_in_remit": [
+      "party leaders and deputy leaders",
+      "sitting ministers and state secretaries from the parties above",
+      "members of the Storting and its committee members",
+      "named parliamentary candidates and party spokespeople",
+      "party organisations acting as organisations"
+    ],
+    "out_of_remit": [
+      "party employees below spokesperson level",
+      "local politicians below municipal executive level",
+      "rank-and-file members, donors and voters",
+      "any family member of any of the above",
+      "commentators and editors who are not themselves political officeholders",
+      "industry and interest-organisation leaders who hold no political office — NHO, LO, employer federations, think tanks. Their arguments are usable as material for a joke about the politician who acted on them; they are not themselves targets. Nobody elected them, and the licence to mock power comes from that power being held on the public's behalf."
+    ],
+    "verify_officeholders": "Before a joke turns on someone's title, confirm the title from the ingested item itself, not from prior knowledge. If the window does not establish the current holder of a post, write the joke around the post rather than the person."
+  },
+  "deliverers": [
+    { "name": "email", "to": ["jaredcoleman100@gmail.com"] }
+  ]
+}

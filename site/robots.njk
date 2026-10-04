@@ -1,0 +1,15 @@
+---
+permalink: "robots.txt"
+eleventyExcludeFromCollections: true
+---
+{#- robots.txt. The internal build disallows everything: it renders other newsrooms' article text
+    and must never be crawled. The public build allows crawling and points at the sitemap. -#}
+{%- if site.noindex -%}
+User-agent: *
+Disallow: /
+{%- else -%}
+User-agent: *
+Allow: /
+
+Sitemap: {{ site.origin }}/sitemap.xml
+{%- endif %}

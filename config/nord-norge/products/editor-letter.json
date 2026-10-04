@@ -1,0 +1,33 @@
+{
+  "id": "editor-letter",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Dagens brev til Tone",
+  "_purpose": "A short daily letter to Tone Lein, the editor this desk serves. Correspondence, not a product: the briefs carry the news, the letter carries what a brief has no room for -- what the desk noticed and could not use, and where the machine is probably wrong.",
+  "trigger": "schedule",
+  "schedule": "0 7 * * 1-5",
+  "_schedule_note": "An hour after the morning brief, so the letter can refer to it.",
+  "loader": "window",
+  "window_hours": 24,
+  "max_items": 25,
+  "template": "editor_letter",
+  "ethics": {
+    "code": "vvp",
+    "genre": "digest"
+  },
+  "lang": "nb",
+  "region": "Nord-Norge",
+  "provider": "openai",
+  "_provider_note": "GPT-5, not Gemini. Gemini's prepaid credits run dry most days and take drafting down with them; a letter that silently stops arriving is worse than one written by a second model. ANTHROPIC_API_KEY is empty on this machine, so Claude was not an option (2026-09-30).",
+  "max_revisions": 0,
+  "renderer": "markdown",
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    }
+  ],
+  "_deliverers_note": "Addressed to the account owner, NOT to Tone. Her address is not recorded anywhere in this repo and was not invented -- add it here when you have it, and the letter goes straight to her."
+}

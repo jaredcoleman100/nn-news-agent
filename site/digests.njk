@@ -1,0 +1,26 @@
+---
+layout: base.njk
+navKey: digests
+pageTitle: "Briefs / Brief"
+permalink: "digests/index.html"
+---
+{# Every digest ever drafted, newest first, grouped by desk so the two products do not interleave.
+   Held ones are marked: a reader asking "why did this never arrive" gets the answer here rather
+   than from the outbox table. #}
+<p class="sub">{{ reports | length }} {{ site.t.briefs[0] | lower }}
+<span class="alt">{{ reports | length }} {{ site.t.briefs[1] | lower }}</span></p>
+
+{% for desk in desks %}
+  {% set mine = reports | where("newsroom", desk.id) %}
+  {% if mine | length %}
+  <h2 class="day">{{ desk.name[0] }} / {{ desk.name[1] }} · {{ mine | length }}</h2>
+  <ul class="browse briefs">
+  {% for r in mine %}
+    <li><a href="{{ linkBase }}digest/{{ r.slug }}/">
+      <span>{{ r.headline_en or r.headline }}
+        {%- if r.warn | length %} <span class="chip warn" title="ethics flags">{{ r.warn | length }} {{ site.t.flagsWord[0] }}</span>{% endif %}</span>
+      <span class="n">{{ r.day }} · {{ r.stories | length }}</span></a></li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+{% endfor %}

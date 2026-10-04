@@ -1,0 +1,33 @@
+{
+  "id": "regional-monitor",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Regional monitor — Nord-Norge",
+  "trigger": "hit",
+  "loader": "hit",
+  "related_days": 14,
+  "template": "regional_report",
+  "ethics": {
+    "code": "vvp",
+    "genre": "regional_report"
+  },
+  "lang": "nb",
+  "region": "Nord-Norge",
+  "provider": {
+    "draft": "gemini",
+    "memo": "gemini"
+  },
+  "max_revisions": 1,
+  "renderer": "slack_md",
+  "deliverers": [
+    {
+      "name": "slack",
+      "webhook_env": "SLACK_WEBHOOK_URL"
+    },
+    {
+      "name": "email",
+      "to": ["jaredcoleman100@gmail.com"],
+      "renderer": "markdown"
+    }
+  ]
+}

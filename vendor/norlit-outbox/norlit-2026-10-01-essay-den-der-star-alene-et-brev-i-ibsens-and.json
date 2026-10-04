@@ -1,0 +1,42 @@
+{
+ "id": "norlit-2026-10-01-essay-den-der-star-alene-et-brev-i-ibsens-and",
+ "kind": "essay",
+ "date": "2026-10-01",
+ "title": "Den, der står alene – et brev i Ibsens ånd",
+ "title_en": "The One Who Stands Alone – a letter in Ibsen's spirit",
+ "body": "*Dette er en tenkt tekst: et forsøk på å skrive slik Henrik Ibsen (1828–1906) kunne ha skrevet om en sak i dag, i hans egen stil og rettskrivning. Ordene er ikke hans. Bare de to linjene i anførselstegn fra* En folkefiende *(1882) er Ibsens.*\n\n---\n\n**Til Finmarkens sygehus, i anledning af en undskyldning**\n\nJeg læser i Altaposten, at ledelsen ved Finmarkens sygehus nu stiller sig bag en udvendig gennemgang af sine varslingssager, og at den beklager det skete på det sterkeste. Jeg har læst mange undskyldninger i min tid. De har det tilfælles, at de kommer, efter at nogen udenfor huset har talt.\n\nHvad der er sket i hver enkelt sag, ved jeg ikke, og det skal jeg heller ikke dømme om. Men jeg kender mønstret. Der er folk indenfor murene, som siger ifra. Så hentes der en fremmed – et firma med skemaer og regnskabsbøger – for at sige det samme i et sprog, som ledelsen forstår. Og så står ledelsen bag. Det er vakkert. Men man står altid bag en sandhed, når den har fået et stempel på sig.\n\nJeg skrev engang et stykke om en badelæge, som fandt ud af, at vandet var forgiftet, og som sagde det. Hele byen levede af badet. I anden akt troede han, at han havde, som han sagde, «Den kompakte majoritet» bag sig. I fjerde akt havde han hele byen imod sig. I femte akt stod han i et stuegulv med knuste ruder og sagde til sin familie, at «den stærkeste mand i verden, det er han, som står mest alene».\n\nDet var ment som en sandhed, ikke som en trøst.\n\nThi farligheden ligger ikke i den ene slette mand. Den ligger i de mange anstændige. Kollegaen, som behøver sin stilling. Afdelingen, som behøver sit gode navn. Byen, som behøver sit sygehus. Ingen af dem lyver. De tier bare, hver for sig, af gode grunde, og tilsammen bliver det en mur.\n\nOg i Finmarken er muren tykkere end andetsteds. I hovedstaden kan den, som har sagt ifra, gå ned ad gaden til det næste hospital. Der oppe er der intet næste. Sygehuset er badet. Den, der sætter sig op imod det, sætter sig op imod det eneste, byen har.\n\nDerfor er det ikke en høflighed, at det skal være trygt at gå på arbejde. Det er vandforsyningen.\n\nMan skal ikke takke det udvendige firma. Man skal takke den første, som sagde det, før nogen stod bag ham – og som maaske endnu sidder alene med det. Et hus, hvor det er trygt at arbejde, er ikke et hus, hvor alle er enige. Det er et hus, hvor den, der står alene, ikke behøver at være den stærkeste.\n\n*– i Ibsens ånd*",
+ "body_en": "*This is an imagined text: an attempt to write as Henrik Ibsen (1828–1906) might have written about a matter today, in his own style and spelling. The words are not his. Only the two lines in quotation marks from* An Enemy of the People *(1882) are Ibsen's.*\n\n---\n\n**To the Finnmark hospital, on the occasion of an apology**\n\nI read in Altaposten that the management of the Finnmark hospital now stands behind an external review of its whistleblowing cases, and that it regrets what happened in the strongest terms. I have read many apologies in my time. They have this in common: they come after someone outside the house has spoken.\n\nWhat happened in each case I do not know, and it is not for me to judge. But I know the pattern. There are people inside the walls who speak up. Then a stranger is brought in – a firm with forms and ledgers – to say the same thing in a language the management understands. And then the management stands behind it. That is handsome. But one always stands behind a truth once it has been stamped.\n\nI once wrote a play about a spa doctor who found that the water was poisoned, and said so. The whole town lived off the baths. In the second act he believed he had, as he put it, \"the compact majority\" behind him. In the fourth act he had the whole town against him. In the fifth he stood in a room with broken windows and told his family that \"the strongest man in the world is he who stands most alone.\" *(translation)*\n\nIt was meant as a truth, not as a comfort.\n\nFor the danger does not lie in the one bad man. It lies in the many decent ones. The colleague who needs his post. The department that needs its good name. The town that needs its hospital. None of them lies. They are simply silent, each for good reasons, and together that becomes a wall.\n\nAnd in Finnmark the wall is thicker than elsewhere. In the capital, whoever has spoken up can walk down the street to the next hospital. Up there, there is no next one. The hospital is the baths. Whoever sets himself against it sets himself against the only thing the town has.\n\nThat is why it is not a courtesy that it should be safe to go to work. It is the water supply.\n\nOne should not thank the outside firm. One should thank the first person who said it, before anyone stood behind them – and who may still be sitting alone with it. A house where it is safe to work is not a house where everyone agrees. It is a house where whoever stands alone does not have to be the strongest.\n\n*– in Ibsen's spirit*",
+ "theme": "varsling, flertallet og den som sier ifra (pastisj)",
+ "season": null,
+ "sources": [
+  {
+   "work_id": "bokselskap:folkefiende",
+   "author": "Henrik Ibsen",
+   "title": "En folkefiende",
+   "year": 1882,
+   "url": "https://www.bokselskap.no/boker/folkefiende",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  }
+ ],
+ "news": [
+  "https://www.altaposten.no/meninger/o/rMpAOe/det-skal-vaere-trygt-aa-gaa-paa-jobb-i-finnmarkssykehuset"
+ ],
+ "gate": "publish",
+ "gate_reasons": [],
+ "checks": {
+  "quotations": 2,
+  "failing": 0,
+  "review_words": [],
+  "screen": {
+   "gate": "review",
+   "flags": [],
+   "style_verdict": "fix_required",
+   "not_applied": []
+  }
+ },
+ "ai_note": "Teksten er skrevet av en KI-modell (Claude) på grunnlag av tekster i Bokselskap, Wikikilden og andre frie samlinger. Alle sitater er kontrollert ord for ord mot kildene.",
+ "ai_note_en": "Written by an AI model (Claude) from texts in Bokselskap, Wikikilden and other open collections. Every quotation has been checked word for word against its source.",
+ "source_file": "innlegg\\2026-10-01-ibsen-den-der-staar-alene.md",
+ "created_at": "2026-10-01T11:39:02+00:00"
+}

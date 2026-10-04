@@ -1,0 +1,22 @@
+---
+layout: base.njk
+navKey: topics
+pagination:
+  data: topics.list
+  size: 1
+  alias: cat
+permalink: "topic/{{ cat.key }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ cat.name }}"
+---
+{% from "digest.njk" import story %}
+<p class="sub">{{ cat.name }} — {{ cat.count }} {{ site.t.storiesWord[0] }}
+  {%- for desk in topics.desks %}{% if desk.id == cat.newsroom %}, {{ desk.name[0] }}{% endif %}{% endfor %}.
+  {{ site.t.rankedNote[0] }}
+<span class="alt">{{ cat.count }} {{ site.t.storiesWord[1] }}. {{ site.t.rankedNote[1] }}</span></p>
+
+{% for s in cat.stories %}
+  {{ story(s, site, linkBase, site.internal, s.briefs, images) }}
+{% endfor %}
+
+<div class="pager"><a href="{{ linkBase }}topics/">← {{ site.t.allCategories[0] }} / {{ site.t.allCategories[1] }}</a></div>

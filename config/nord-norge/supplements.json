@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "instructions": "Each entry is a retrievable unit. `text_nb` holds the official Norwegian wording (paste from source). `summary_en` is a working paraphrase for retrieval and for the agent. PFU rulings go in `pfu_rulings.json` (one entry per ruling: pfu_id, date, medium, clauses_cited, outcome, summary_en)."
+  },
+  "entries": [
+    {
+      "id": "NRK-KI",
+      "source": "NRKs retningslinjer for redaksjonell bruk av kunstig intelligens",
+      "url": "https://info.nrk.no/nrks-retningslinjer-for-bruk-av-kunstig-intelligens/",
+      "tags": [
+        "kunstig intelligens",
+        "KI",
+        "språkmodell",
+        "faktasjekk",
+        "verifisering",
+        "samisk"
+      ],
+      "summary_en": "AI is an editorial tool to be used with caution under VVP. Language models generate text but do not check facts; anything drawn from a language model must be verified against other sources before editorial publication. Training data for Norwegian and Sámi is thin, so extra care with those languages. Short AI summaries permitted with human control.",
+      "text_nb": ""
+    },
+    {
+      "id": "REDAKTORPLAKATEN",
+      "source": "Redaktørplakaten (Norsk Redaktørforening / Mediebedriftenes Landsforening)",
+      "url": "https://www.nored.no/Redaktoeransvar/Redaktoerplakaten",
+      "tags": [
+        "redaktøransvar",
+        "uavhengighet",
+        "eier",
+        "redaksjonell frihet"
+      ],
+      "summary_en": "The editor bears full personal responsibility for content and must act independently of owners and outside interests within the publication's stated purpose. Owner or funder cannot direct editorial decisions.",
+      "text_nb": ""
+    },
+    {
+      "id": "NN-SUPPLEMENT-1",
+      "source": "Northern Norway newsroom supplement (internal)",
+      "tags": [
+        "samisk",
+        "sápmi",
+        "etnisitet",
+        "stedsnavn",
+        "4.3"
+      ],
+      "summary_en": "Sámi matters: use Sámi place names alongside Norwegian where NRK Sápmi practice does so; do not infer ethnicity from name or place; treat reindeer-husbandry, language, and land-use disputes as matters where stigmatizing framing is a live risk under VVP 4.3.",
+      "text_nb": ""
+    },
+    {
+      "id": "NN-SUPPLEMENT-2",
+      "source": "Northern Norway newsroom supplement (internal)",
+      "tags": [
+        "identifisering",
+        "små samfunn",
+        "4.7",
+        "tredjeperson"
+      ],
+      "summary_en": "Small-community identification: in municipalities of a few hundred to a few thousand people, role, workplace, vessel name, or farm location can identify a person as surely as a name. Apply the VVP 4.7 identification test to indirect identifiers, not only to names and photos.",
+      "text_nb": ""
+    },
+    {
+      "id": "NN-SUPPLEMENT-3",
+      "source": "Northern Norway newsroom supplement (internal)",
+      "tags": [
+        "forsvar",
+        "sikkerhet",
+        "russland",
+        "grensen",
+        "kilder"
+      ],
+      "summary_en": "Arctic security and border matters: distinguish official sources (Forsvaret, PST, Statsforvalteren) from social-media claims; treat single-source security claims as unverified; be alert to influence operations as a source-criticism problem under VVP 3.2.",
+      "text_nb": ""
+    },
+    {
+      "id": "NN-SUPPLEMENT-4",
+      "source": "Northern Norway newsroom supplement (internal)",
+      "tags": [
+        "kven",
+        "skogfinsk",
+        "nasjonale minoriteter",
+        "4.3",
+        "1.2"
+      ],
+      "summary_en": "Recognition hierarchy: Sámi issues have institutional voice (Sametinget, NRK Sápmi); Kven and Forest Finn communities report being conflated into a Sámi frame or omitted. Name the specific minority; do not use 'Sámi' as a catch-all; seek Kven/Forest Finn sources on reconciliation and language stories.",
+      "text_nb": ""
+    },
+    {
+      "id": "NN-SUPPLEMENT-5",
+      "source": "Northern Norway newsroom supplement (internal)",
+      "tags": [
+        "grønn kolonialisme",
+        "rammer",
+        "4.2",
+        "politisk begrep"
+      ],
+      "summary_en": "Contested frames: 'grønn kolonialisme', 'sentraliseringsarroganse', 'klimahype' are advocacy terms. Attribute them to the speaker; do not adopt them in the newsroom's own voice (VVP 4.2 fact vs comment).",
+      "text_nb": ""
+    },
+    {
+      "id": "NN-SUPPLEMENT-6",
+      "source": "Northern Norway newsroom supplement (internal)",
+      "tags": [
+        "statistikk",
+        "SSB",
+        "KVU",
+        "tall",
+        "4.4",
+        "3.2"
+      ],
+      "summary_en": "Figures (population, KVU cost estimates, poll numbers, jamming incident counts) must carry source and release date. Regional politics runs on contested numbers; a stale or unsourced figure in a headline is a 4.4 problem.",
+      "text_nb": ""
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "nn-news-site-toolchain",
+  "private": true,
+  "description": "Build toolchain for the public site. Installed into SITE_TOOLCHAIN, never into the repo on the shared drive -- see core/publish.py's header for why. This manifest exists so a CI runner installs the same versions this machine has.",
+  "dependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "wrangler": "4.142.0"
+  }
+}

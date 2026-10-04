@@ -1,0 +1,180 @@
+{#
+  A digest, rendered as the page it always should have been.
+
+  The shape mirrors templates/daily_digest.md, which is not decoration: the template requires the
+  lead to come from outside NRK and lists NRK's own coverage separately as overlap. A page that
+  merged them back into one ranked list would quietly undo the editorial rule the drafting prompt
+  exists to enforce.
+
+  `internal` controls one thing only: whether a story card links to its archived page, which
+  carries the source's full text and the machine translation of it. The public build does not
+  generate those pages, so the link would 404 -- and the text is why it cannot be public at all.
+#}
+
+{#
+  `| safe` is correct here and only here: _data/reports.js escapes every block's text itself and
+  then re-introduces exactly one tag, <strong>, for the `**Outlet**:` attribution every digest
+  bullet opens with. Autoescaping this would print the tag; escaping it in the data layer rather
+  than the template is what keeps a source's own angle bracket from closing it.
+#}
+{% macro blocks(list) %}
+  {% for b in list %}
+    {%- if b.kind == "h" %}<h{{ b.level }}>{{ b.html | safe }}</h{{ b.level }}>
+    {%- elif b.kind == "ul" %}<ul>{% for i in b.items %}<li>{{ i | safe }}</li>{% endfor %}</ul>
+    {%- else %}<p>{{ b.html | safe }}</p>
+    {%- endif %}
+  {% endfor %}
+{% endmacro %}
+
+{#
+  One cited article: our claims about it in both languages, then where it came from.
+
+  `briefs` is passed only on a topic page, where a story is shown outside the brief that cited it
+  and therefore needs to say which briefs those were. On a digest page the surrounding brief is
+  obvious and listing it back would be noise.
+#}
+{% macro story(s, site, base, internal, briefs=[], images={}) %}
+<article class="story">
+  <div class="pair">
+    {#
+      Three states that look alike on the page and are not, same distinction card.njk makes:
+        * source already English  -> the two columns are legitimately identical
+        * translated              -> English headline on the left
+        * not yet translated      -> Norwegian headline on the left, SAID so. 10 of 131 cited
+          stories today. Silently repeating the Norwegian under an "English" tag would read as a
+          translation that happens to be in Norwegian.
+      And `s.title` is empty for a story whose item has since left the archive (2 of 131), so the
+      URL stands in rather than an empty heading.
+    #}
+    {#
+      English left, Norwegian right. For a Norwegian source `title` IS the Norwegian text, so
+      title_nb is empty and we fall back to it. For a Chinese, Arabic or Hindi source the Norwegian
+      column used to render the original script under a heading reading "Kilde", which is not a
+      bilingual page -- it is one language and an apology. Now both columns are translations and
+      the original headline sits below, next to the link, labelled with its language.
+    #}
+    <div class="col en">
+      <p class="tag">{{ site.t.english[0] }}{% if not s.title_en and s.lang != "en" %} · {{ site.t.pending[0] }}{% endif %}</p>
+      <h3>{{ s.title_en or s.title or s.url }}</h3>
+    </div>
+    <div class="col nb">
+      <p class="tag">{{ site.t.norwegian[1] }}{% if not s.title_nb and s.lang and s.lang not in ["nb","nn"] %} · {{ site.t.pending[1] }}{% endif %}</p>
+      <h3>{{ s.title_nb or s.title or s.url }}</h3>
+    </div>
+  </div>
+  {#
+    An entity picture, when the gazetteer matched one and Commons had a free file.
+
+    The caption says what it is a picture OF, and the figure never implies it shows the event:
+    these are evergreen images -- a town, a fjord, an institution -- and openly licensed
+    photographs of this week's news essentially do not exist. Saying otherwise with a picture is
+    as much a false claim as saying it in words.
+
+    Artist and licence are shown because CC BY and CC BY-SA require it wherever the work appears.
+    Public-domain files do not require it; they get it anyway, because it costs a line.
+  #}
+  {% set pic = images[s.entity] %}
+  {% if pic %}
+  <figure class="entity-pic">
+    <img src="{{ pic.src }}" alt="{{ s.entity }}" loading="lazy" decoding="async"
+         width="{{ pic.width }}" height="{{ pic.height }}">
+    <figcaption>
+      <span class="what">{{ site.t.pictureOf[0] }} {{ s.entity }}<span class="alt">{{ site.t.pictureOf[1] }} {{ s.entity }}</span></span>
+      <span class="credit">{{ pic.artist }} ·
+        {% if pic.license_url %}<a href="{{ pic.license_url }}" target="_blank" rel="noopener noreferrer">{{ pic.license }}</a>{% else %}{{ pic.license }}{% endif %}
+        · <a href="{{ pic.file_page }}" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a></span>
+    </figcaption>
+  </figure>
+  {% endif %}
+  <ul class="claims">
+    {% for c in s.claims %}<li>{{ c }}</li>{% endfor %}
+  </ul>
+  {# The original headline, in the language it was published in, next to the link to it. Shown
+     only when both columns above are translations -- for a Norwegian source it would just repeat
+     the right-hand column. #}
+  {% if s.title_nb and s.title %}
+  <p class="orig-title" lang="{{ s.lang }}">
+    <span class="lang-tag">{{ site.t.langNames[s.lang][0] if site.t.langNames[s.lang] else s.lang }}</span>
+    {{ s.title }}</p>
+  {% endif %}
+  <div class="meta">
+    <span class="chip{% if s.org == 'own' %} own{% endif %}">{{ s.source }}</span>
+    {%- if s.via %}<span class="via">{{ site.t.via[0] }} {{ s.via }}</span>{% endif %}
+    {% if s.published_at %}<span>{{ s.published_at | clip(16) }}</span>{% endif %}
+    {% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener noreferrer">{{ site.t.readOriginal[0] }} / {{ site.t.readOriginal[1] }} →</a>{% endif %}
+    {% if internal and s.itemSlug %}<a href="{{ base }}item/{{ s.itemSlug }}/">{{ site.t.fullText[0] }} / {{ site.t.fullText[1] }}</a>{% endif %}
+  </div>
+  {% if briefs | length %}
+  <div class="in-briefs">{{ site.t.citedIn[0] }} / {{ site.t.citedIn[1] }}:
+    {% for b in briefs %}<a href="{{ base }}digest/{{ b.slug }}/">{{ b.day }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+  </div>
+  {% endif %}
+</article>
+{% endmacro %}
+
+{% macro storyGroup(heading, list, site, base, internal, images={}) %}
+  {% if list | length %}
+  <h2 class="day">{{ heading[0] }} / {{ heading[1] }} · {{ list | length }}</h2>
+  {% for s in list %}{{ story(s, site, base, internal, [], images) }}{% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{# The whole digest: headline, the brief in both languages, then every story it rests on. #}
+{#
+  The ethics warning.
+
+  This replaces withholding. Until 2026-09-28 a brief whose screens returned a `block` was marked
+  "Held" and the satire section refused to show it; now every brief publishes and the flags are
+  stated on the page instead. The screens are deterministic regex over the draft, they run before
+  any model sees it, and they are noisy -- which is an argument for showing the reader what was
+  flagged, not for hiding the piece.
+
+  The matched token is shown only in the internal build. `minor_involved` fired on «minoriteter»
+  and `accusation_requires_reply` on «kritiserer»; publishing those as the stated reason would
+  read as an admission that the warning means nothing.
+#}
+{% macro warning(r, site, internal) %}
+  {% if r.warn | length %}
+  <div class="ethics">
+    <p class="ethics-h">{{ site.t.ethicsWarning[0] }}<span class="alt">{{ site.t.ethicsWarning[1] }}</span></p>
+    <ul>
+      {% for f in r.warn %}
+      <li>
+        <b>{{ site.t.flagNames[f.flag][0] if site.t.flagNames[f.flag] else f.flag }}</b>
+        <span class="alt">{{ site.t.flagNames[f.flag][1] if site.t.flagNames[f.flag] else f.flag }}</span>
+        {%- if f.clauses | length %} <span class="cl">{{ f.clauses | join(", ") }}</span>{% endif %}
+        {%- if internal and f.evidence | length %} <span class="cl">— «{{ f.evidence | join("», «") }}»</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="ethics-f">{{ site.t.ethicsFoot[0] }}<span class="alt">{{ site.t.ethicsFoot[1] }}</span></p>
+  </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro digest(r, site, base, internal, images={}) %}
+<section class="digest">
+  <p class="stamp">{{ r.productName[0] }} / {{ r.productName[1] }} · {{ r.day }}
+    {%- if r.decision == "approved" %} · <span class="chip ok">{{ site.t.approved[0] }} / {{ site.t.approved[1] }}</span>{% endif %}
+  </p>
+  {{ warning(r, site, internal) }}
+  <div class="pair">
+    <div class="col en">
+      <p class="tag">{{ site.t.english[0] }}</p>
+      <h2 class="lede">{{ r.headline_en or r.headline }}</h2>
+      <div class="brief">
+        {%- if r.blocksEn | length %}{{ blocks(r.blocksEn) }}
+        {%- else %}<p class="empty">{{ site.t.pending[0] }}</p>{% endif %}
+      </div>
+    </div>
+    <div class="col nb">
+      <p class="tag">{{ site.t.norwegian[1] }} · nb</p>
+      <h2 class="lede">{{ r.headline }}</h2>
+      <div class="brief">{{ blocks(r.blocks) }}</div>
+    </div>
+  </div>
+</section>
+
+{{ storyGroup(site.t.external, r.external, site, base, internal, images) }}
+{{ storyGroup(site.t.ownCoverage, r.own, site, base, internal, images) }}
+{% endmacro %}

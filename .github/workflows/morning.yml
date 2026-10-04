@@ -1,0 +1,118 @@
+# The morning publish, off the laptop.
+#
+# WHY THIS EXISTS
+# Until 2026-10-04 this ran on one Windows laptop via Task Scheduler. On 3 October the machine was
+# asleep at the scheduled time, Windows caught up at 11:38 Oslo, and the brief for that day was
+# never written. Wake timers help; a closed lid does not care about wake timers.
+#
+# TIMING. Actions cron is UTC and ignores DST; Oslo is UTC+2 (CEST) until 25 October and UTC+1
+# after, so the deadline of 08:00 Oslo is 06:00 UTC in the tighter half of the year. Actions cron
+# also runs late under load -- ten to thirty minutes routinely, and it occasionally skips a slot
+# outright. Hence three attempts with hours of margin rather than one on the hour:
+#
+#     03:00 UTC -> 05:00 Oslo (CEST) / 04:00 (CET)
+#     04:00 UTC -> 06:00 Oslo (CEST) / 05:00 (CET)
+#     05:00 UTC -> 07:00 Oslo (CEST) / 06:00 (CET)
+#
+# Running three times is safe because drafting is idempotent per OSLO day (run.py's
+# drafted_today()): the first attempt drafts and deploys, the other two find today's brief already
+# written, skip the draft, and redeploy. Redeploying is a no-op for readers and costs one upload.
+name: morning
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+    - cron: "0 4 * * *"
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      skip_draft:
+        description: "Publish only, do not draft"
+        type: boolean
+        default: false
+
+# Never let two attempts overlap: both would deploy, and the loser could publish an older build
+# over a newer one. Queue instead of cancel -- a run that is already deploying should finish.
+concurrency:
+  group: morning
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONPATH: .
+      PYTHONIOENCODING: utf-8
+      PYTHONUNBUFFERED: "1"
+      SITE_TOOLCHAIN: ${{ github.workspace }}/.toolchain
+      # The 22,937-file item archive is derived and is not in this repo. Nothing in the publish
+      # path reads it -- the site build reads the four JSON exports, regenerated from the database
+      # on every run -- so writing it here would cost minutes and keep nothing.
+      ARCHIVE_WRITES: "0"
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install toolchain
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          npm install --prefix "$SITE_TOOLCHAIN" --no-audit --no-fund
+
+      # Drafting is allowed to fail WITHOUT taking the publish down with it. That is the whole
+      # lesson of publish_local.cmd: drafting dies whenever the Gemini credits run dry, and a page
+      # frozen at yesterday with nothing saying so is worse than a page that refreshes and shows
+      # its own build stamp. The deploy below therefore runs with `if: always()`.
+      - name: Draft today's brief
+        id: draft
+        if: ${{ !inputs.skip_draft }}
+        continue-on-error: true
+        run: python run.py --run daily-digest --newsroom nord-norge --oslo-hour 5
+
+      - name: Build and deploy
+        if: always()
+        run: python run.py --deploy
+
+      # Without this the workflow is green whenever the commands exit 0, which is not the same as
+      # the site being correct. Checks the live origin, not the build directory.
+      - name: Verify the live site
+        if: always()
+        run: |
+          set -euo pipefail
+          B=https://norway-royal-news.pages.dev
+          code=$(curl -sS -o /tmp/live.html -w '%{http_code}' "$B/?ci=${GITHUB_RUN_ID}")
+          echo "front page: HTTP $code"
+          test "$code" = "200"
+          grep -q "Royal News of Norway" /tmp/live.html
+          # The literature section has silently vanished before, when the build could not find
+          # norlit's outbox. Assert it is there rather than hoping.
+          curl -sS "$B/norlit/" | grep -c "norlit-2026" | awk '{ if ($1 < 1) { print "norlit empty"; exit 1 } print "norlit links: " $1 }'
+          # The archive must never be reachable on the public origin.
+          for p in everything browse item source categories; do
+            c=$(curl -sS -o /dev/null -w '%{http_code}' "$B/$p/")
+            echo "/$p/ -> $c"; test "$c" = "404"
+          done
+          echo "build stamp: $(grep -oE 'Page built [0-9-]+ [0-9:]+' /tmp/live.html | head -1)"
+
+      - name: Report the draft outcome
+        if: always()
+        run: |
+          echo "draft step: ${{ steps.draft.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.draft.outcome }}" = "failure" ]; then
+            echo "The site was still rebuilt and deployed; it carries its own build stamp and a stale banner if today's brief is missing." >> "$GITHUB_STEP_SUMMARY"
+          fi

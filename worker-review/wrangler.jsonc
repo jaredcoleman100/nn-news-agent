@@ -1,0 +1,28 @@
+{
+  // The editor's review queue, as a Cloudflare Worker.
+  //
+  // This config is EXPLICIT on purpose. wrangler 4.142's "autoconfig" writes a generated config
+  // whenever it cannot find one, guessing `assets.directory` from whatever is in the current
+  // directory -- on 2026-09-27 it guessed the internal archive build and published 7,718 pages of
+  // other newsrooms' article text. A committed config means it never guesses here.
+  //
+  // Deliberately NO `assets` block: this Worker serves HTML it generates, and has no static
+  // directory at all. Nothing in the repo can be published by accident.
+  "name": "norway-royal-news-review",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-26",
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  "vars": {
+    // The Supabase Edge Function that owns the service-role key. This Worker never sees that key;
+    // it authenticates with a shared secret and the function does the database work.
+    "REVIEW_API": "https://dimpgtuyfdcazdrqfutk.supabase.co/functions/v1/review",
+
+    // Cloudflare Access, once it is configured. Leave both empty and the Worker falls back to its
+    // own cookie session (see src/index.js, "Two ways in"). Set them and Access becomes mandatory:
+    //   ACCESS_TEAM  your team domain, e.g. "colemanassociates" for colemanassociates.cloudflareaccess.com
+    //   ACCESS_AUD   the Application Audience tag from the Access application's Overview page
+    "ACCESS_TEAM": "",
+    "ACCESS_AUD": ""
+  }
+}

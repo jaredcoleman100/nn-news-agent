@@ -1,0 +1,34 @@
+{
+  "id": "document-story",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Dokumentsak — pressemelding / offentlig dokument",
+  "trigger": "document",
+  "loader": "document",
+  "max_doc_chars": 60000,
+  "template": "document_story",
+  "ethics": {
+    "code": "vvp",
+    "genre": "document_story"
+  },
+  "lang": "nb",
+  "region": "Nord-Norge",
+  "provider": {
+    "draft": "gemini",
+    "memo": "gemini"
+  },
+  "max_revisions": 1,
+  "renderer": "slack_md",
+  "deliverers": [
+    {
+      "name": "slack",
+      "webhook_env": "SLACK_WEBHOOK_URL"
+    },
+    {
+      "name": "email",
+      "to": [
+        "editor@example.no"
+      ]
+    }
+  ]
+}

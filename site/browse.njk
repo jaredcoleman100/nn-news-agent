@@ -1,0 +1,25 @@
+---
+layout: base.njk
+navKey: browse
+pageTitle: "Browse / Bla gjennom"
+permalink: "browse/index.html"
+---
+<p class="sub">{{ collections.sources | length }} {{ site.t.sources[0] | lower }} · {{ collections.days | length }} {{ site.t.days[0] | lower }}
+<span class="alt">{{ collections.sources | length }} {{ site.t.sources[1] | lower }} · {{ collections.days | length }} {{ site.t.days[1] | lower }}</span></p>
+
+<h2 class="day">{{ site.t.sources[0] }} / {{ site.t.sources[1] }}</h2>
+<ul class="browse">
+{% for src in collections.sources %}
+  <li><a href="{{ linkBase }}source/{{ src.name | slugify }}/">
+    <span>{{ src.name }}{% if src.org == "own" %} · {{ site.t.own[0] }}{% endif %}</span>
+    <span class="n">{{ src.items | length }}</span></a></li>
+{% endfor %}
+</ul>
+
+<h2 class="day">{{ site.t.days[0] }} / {{ site.t.days[1] }}</h2>
+<ul class="browse">
+{% for d in collections.days %}
+  <li><a href="{{ linkBase }}day/{{ d.day }}/">
+    <span>{{ d.day }}</span><span class="n">{{ d.items | length }}</span></a></li>
+{% endfor %}
+</ul>

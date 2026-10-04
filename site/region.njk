@@ -1,0 +1,20 @@
+---
+layout: base.njk
+navKey: regions
+pagination:
+  data: regions.list
+  size: 1
+  alias: reg
+permalink: "region/{{ reg.key }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ reg.name[0] }}"
+---
+{% from "digest.njk" import story %}
+<p class="sub">{{ reg.name[0] }} — {{ reg.count }} {{ site.t.storiesWord[0] }} {{ site.t.regionFrom[0] }}
+<span class="alt">{{ reg.name[1] }} — {{ reg.count }} {{ site.t.storiesWord[1] }} {{ site.t.regionFrom[1] }}</span></p>
+
+{% for s in reg.stories %}
+  {{ story(s, site, linkBase, site.internal, s.briefs, images) }}
+{% endfor %}
+
+<div class="pager"><a href="{{ linkBase }}regions/">← {{ site.t.allRegions[0] }} / {{ site.t.allRegions[1] }}</a></div>

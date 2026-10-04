@@ -1,0 +1,66 @@
+{#
+  One item, both languages side by side. The source column is never omitted or replaced -- it is
+  what the beats are embedded against and what the ethics screens read, so English sits beside it.
+
+  The English column distinguishes three states that look alike and are not:
+    * source already English  -> show the same text both sides, so columns stay aligned
+    * translated, no body     -> the source had no body either; say so, do not blame the translator
+    * genuinely untranslated  -> say English is not ready
+#}
+{% macro card(item, site, base, blurb=260) %}
+<article class="item">
+  <div class="pair">
+    <div class="col en">
+      <p class="tag">{{ site.t.english[0] }}</p>
+      {% if item.lang == "en" %}
+        <h3><a href="{{ base }}item/{{ item.slug }}/">{{ item.title }}</a></h3>
+        {% if item.body %}<p class="body">{{ item.body | truncate(blurb) }}</p>
+        {% else %}<p class="body empty">{{ site.t.noSummary[0] }}</p>{% endif %}
+      {% elif item.titleEn %}
+        <h3><a href="{{ base }}item/{{ item.slug }}/">{{ item.titleEn }}</a></h3>
+        {% if item.bodyEn %}<p class="body">{{ item.bodyEn | truncate(blurb) }}</p>
+        {% elif not item.body %}<p class="body empty">{{ site.t.noSummary[0] }}</p>
+        {% else %}<p class="body empty">{{ site.t.pending[0] }}</p>{% endif %}
+      {% else %}
+        <h3><a href="{{ base }}item/{{ item.slug }}/">{{ item.title }}</a></h3>
+        <p class="body empty">{{ site.t.pending[0] }}</p>
+      {% endif %}
+    </div>
+    <div class="col nb">
+      <p class="tag">{{ site.t.norwegian[1] }}{% if item.lang %} · {{ item.lang }}{% endif %}</p>
+      <h3><a href="{{ base }}item/{{ item.slug }}/">{{ item.title }}</a></h3>
+      {% if item.body %}<p class="body">{{ item.body | truncate(blurb) }}</p>
+      {% else %}<p class="body empty">{{ site.t.noSummary[1] }}</p>{% endif %}
+    </div>
+  </div>
+  <div class="meta">
+    <a class="chip{% if item.org == 'own' %} own{% endif %}"
+       href="{{ base }}source/{{ item.source | slugify }}/"
+       style="text-decoration:none">{{ item.source }}</a>
+    <a href="{{ base }}day/{{ item.day }}/" style="color:inherit">{{ item.day }}</a>
+  </div>
+</article>
+{% endmacro %}
+
+{# A page of items plus its pager. Shared by the index, the outlet pages and the day/source pages
+   so they cannot drift apart in layout. #}
+{% macro list(items, site, base) %}
+  {% set lastDay = "" %}
+  {% for item in items %}
+    {% if item.day != lastDay %}
+      <h2 class="day">{{ item.day }}</h2>
+      {% set lastDay = item.day %}
+    {% endif %}
+    {{ card(item, site, base) }}
+  {% endfor %}
+{% endmacro %}
+
+{% macro pager(pagination, site, base) %}
+  {% if pagination.pages | length > 1 %}
+  <div class="pager">
+    {% if pagination.href.previous %}<a href="{{ pagination.href.previous | rel(base) }}">← {{ site.t.prev[0] }} / {{ site.t.prev[1] }}</a>{% endif %}
+    <span>{{ site.t.page[0] }} {{ pagination.pageNumber + 1 }} / {{ pagination.pages | length }}</span>
+    {% if pagination.href.next %}<a href="{{ pagination.href.next | rel(base) }}">{{ site.t.next[0] }} / {{ site.t.next[1] }} →</a>{% endif %}
+  </div>
+  {% endif %}
+{% endmacro %}

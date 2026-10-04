@@ -1,0 +1,14 @@
+---
+layout: base.njk
+navKey: digests
+pagination:
+  data: reports
+  size: 1
+  alias: r
+permalink: "digest/{{ r.slug }}/index.html"
+eleventyComputed:
+  pageTitle: "{{ r.headline_en or r.headline }}"
+---
+{% from "digest.njk" import digest %}
+{{ digest(r, site, linkBase, site.internal, images) }}
+<div class="pager"><a href="{{ linkBase }}digests/">← {{ site.t.allDigests[0] }} / {{ site.t.allDigests[1] }}</a></div>

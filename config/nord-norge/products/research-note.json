@@ -1,0 +1,28 @@
+{
+  "id": "research-note",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Forskningsnotat — Nord-Norge",
+  "trigger": "hit",
+  "loader": "hit",
+  "related_days": 90,
+  "template": "research_note",
+  "ethics": {
+    "code": "vvp",
+    "genre": "research"
+  },
+  "lang": "nb",
+  "region": "Nord-Norge",
+  "provider": "gemini",
+  "max_revisions": 1,
+  "renderer": "markdown",
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ],
+      "renderer": "markdown"
+    }
+  ]
+}

@@ -1,0 +1,398 @@
+{
+  "_meta": {
+    "purpose": "Editorial beats for Northern Norway. Each beat becomes an interest vector: embed `description` + `keywords`, score incoming items against it. `ethics_profile` tells the reporting agent which clauses are structurally in play before it even runs screen_report. `watch_sources` are candidate feeds for ingestion.",
+    "derived_from": "reference/regional-context.md (media-narrative analysis 2011-2026, unsourced draft; verify figures before use)",
+    "thresholds": "All beats run the desk default 0.48. Per-beat thresholds were measured, implemented and reverted on 2026-10-01 -- see any beat's _threshold_note. The lesson is recorded there because the next person to notice the recall problem will reach for the same lever."
+  },
+  "beats": [
+    {
+      "id": "arctic-security",
+      "name": "Arctic security and the Russian border",
+      "description": "Sør-Varanger/Kirkenes as NATO's edge after the collapse of Barents cooperation; GPS jamming over Øst-Finnmark affecting Widerøe and air ambulance; remilitarisation at Evenes, Porsangmoen, GSV Høybuktmoen; hybrid and gray-zone activity; allied exercises.",
+      "keywords_nb": [
+        "GPS-jamming",
+        "Kirkenes",
+        "Sør-Varanger",
+        "grenseboerbevis",
+        "Barentssamarbeidet",
+        "Evenes",
+        "Porsanger bataljon",
+        "GSV",
+        "Høybuktmoen",
+        "Widerøe",
+        "luftambulanse",
+        "hybrid",
+        "Forsvaret",
+        "PST",
+        "Kolahalvøya",
+        "Nordic Response",
+        "F-35",
+        "P-8"
+      ],
+      "keywords_en": [
+        "GPS jamming",
+        "Kola Peninsula",
+        "electronic warfare",
+        "hybrid warfare",
+        "NATO",
+        "border"
+      ],
+      "watch_sources": [
+        "NRK Finnmark",
+        "Forsvaret pressemeldinger",
+        "PST",
+        "Luftfartstilsynet",
+        "Sør-Varanger Avis",
+        "NUPI",
+        "UiT"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.2",
+          "NN-SUPPLEMENT-3"
+        ],
+        "notes": "Attribution of jamming to specific Russian systems must trace to official or documented sources; separate confirmed military statements from analyst inference; alert to influence operations."
+      },
+      "_threshold_note": "Desk default 0.48. Sampled 2026-10-01: the 0.46-0.48 band for this beat is noise -- bare SSB table titles («Kredittindikator», «Lufttransport») and other beats' material."
+    },
+    {
+      "id": "green-colonialism",
+      "name": "Energy transition vs. Sámi land and nature",
+      "description": "Onshore wind (Øyfjellet and post-Fosen projects), Nussir/Repparfjord copper mine and fjord tailings, Melkøya/Snøhvit Future electrification and the Finnmark power-line and wind buildout, reindeer husbandry impacts, and the 'grønn kolonialisme' frame used by Sametinget and activists.",
+      "keywords_nb": [
+        "grønn kolonialisme",
+        "Fosen",
+        "Øyfjellet",
+        "Nussir",
+        "Repparfjord",
+        "Melkøya",
+        "Snøhvit",
+        "elektrifisering",
+        "vindkraft",
+        "kraftlinje",
+        "reindrift",
+        "Sametinget",
+        "konsekvensutredning",
+        "sjødeponi",
+        "Equinor",
+        "Statnett",
+        "NVE"
+      ],
+      "keywords_en": [
+        "green colonialism",
+        "wind power",
+        "reindeer herding",
+        "electrification",
+        "copper mine",
+        "tailings"
+      ],
+      "watch_sources": [
+        "NRK Sápmi",
+        "NRK Finnmark",
+        "Sametinget",
+        "NVE konsesjonssaker",
+        "Statnett",
+        "Naturvernforbundet",
+        "Norske Reindriftsamers Landsforbund"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.3",
+          "VVP 4.2",
+          "VVP 4.14",
+          "NN-SUPPLEMENT-1"
+        ],
+        "notes": "'Green colonialism' is a contested political frame, not a neutral descriptor — label it as a claim by its users (4.2). Give developers and the state simultaneous reply on accusations (4.14). Do not present indigenous knowledge vs. impact assessments as settled either way."
+      },
+      "_threshold_note": "Tried at 0.46 on 2026-10-01 and REVERTED the same hour. The 0.46-0.48 band is clean when measured on Norwegian regional sources -- it recovers Sámi-language coverage of Sámi affairs that 0.48 was silently dropping -- but the threshold applies to every source the desk reads, and half the roster is now topic-filtered international feeds built on the query 'Norway OR Arctic'. Those sit near EVERY Norway-related beat by construction, so 0.46 admitted Putin testing NATO and a German-British submarine agreement into green-colonialism, and Norges Bank interest rates into regional-governance. Precision in the band across the real source mix was about half. 475 hits were inserted and deleted.\nThe fix is not a number: it is that one threshold cannot serve both a regional Norwegian beat and a feed selected on the word Norway. Separate the international sources into their own desk first, then per-beat thresholds become measurable again."
+    },
+    {
+      "id": "demographics-periphery",
+      "name": "Depopulation, Tiltakssonen, and rural viability",
+      "description": "Population decline and ageing (Nordland as the only county shrinking), out-migration of the educated young, effectiveness of Tiltakssonen incentives, housing standstill, labour shortages in welfare and aquaculture.",
+      "keywords_nb": [
+        "Tiltakssonen",
+        "fraflytting",
+        "folketall",
+        "SSB",
+        "Kunnskapsbanken",
+        "SpareBank 1 Nord-Norge",
+        "boligbygging",
+        "arbeidskraft",
+        "eldrebølge",
+        "distriktspolitikk"
+      ],
+      "keywords_en": [
+        "depopulation",
+        "out-migration",
+        "action zone",
+        "labour shortage"
+      ],
+      "watch_sources": [
+        "SSB befolkningsstatistikk",
+        "Kunnskapsbanken",
+        "Distriktssenteret",
+        "kommunale postlister",
+        "NRK Nordland"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.4"
+        ],
+        "notes": "Statistics must be cited to SSB release and date; headlines must not outrun the numbers (4.4). Case studies of individual families leaving are privacy-sensitive (4.3)."
+      },
+      "_threshold_note": "Desk default 0.48. Sampled 2026-10-01: the 0.46-0.48 band for this beat is noise -- bare SSB table titles («Kredittindikator», «Lufttransport») and other beats' material."
+    },
+    {
+      "id": "transport",
+      "name": "Transport infrastructure: rail, kortbanenett, roads",
+      "description": "Nord-Norgebanen (Fauske–Tromsø) and its KVU rejections, Nordlandsbanen and Ofotbanen upgrades, kortbanenett fare policy and Widerøe route tenders, E6/E8 and ferry reliability, seafood export logistics.",
+      "keywords_nb": [
+        "Nord-Norgebanen",
+        "Jernbanedirektoratet",
+        "KVU",
+        "Nordlandsbanen",
+        "Ofotbanen",
+        "kortbanenettet",
+        "FOT-ruter",
+        "Widerøe",
+        "E6",
+        "ferje",
+        "Statens vegvesen",
+        "Nasjonal transportplan"
+      ],
+      "keywords_en": [
+        "railway",
+        "short-haul network",
+        "regional aviation",
+        "ferry"
+      ],
+      "watch_sources": [
+        "Jernbanedirektoratet",
+        "Samferdselsdepartementet",
+        "Statens vegvesen",
+        "Avinor",
+        "Widerøe"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.2"
+        ],
+        "notes": "Cost estimates change by revision; always date the KVU. Rail-vs-air is a political argument — separate fact from advocacy."
+      },
+      "_threshold_note": "Desk default 0.48. Sampled 2026-10-01: the 0.46-0.48 band for this beat is noise -- bare SSB table titles («Kredittindikator», «Lufttransport») and other beats' material."
+    },
+    {
+      "id": "helse-nord",
+      "name": "Helse Nord and rural healthcare",
+      "description": "Recruitment failure for specialists, agency-staff costs, centralisation of acute, psychiatric and surgical functions to Tromsø/Bodø, local hospital fights (Lofoten, Narvik, Alta), patient-safety incidents.",
+      "keywords_nb": [
+        "Helse Nord",
+        "UNN",
+        "Nordlandssykehuset",
+        "Finnmarkssykehuset",
+        "akuttfunksjon",
+        "vikarbruk",
+        "legerekruttering",
+        "psykiatri",
+        "fødeavdeling",
+        "Alta",
+        "Lofoten",
+        "Narvik",
+        "Helsetilsynet"
+      ],
+      "keywords_en": [
+        "regional health authority",
+        "hospital closure",
+        "agency staff",
+        "recruitment"
+      ],
+      "watch_sources": [
+        "Helse Nord styresaker",
+        "Helsetilsynet",
+        "Statsforvalteren",
+        "kommunestyrer",
+        "Sykepleien",
+        "Dagens Medisin"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.3",
+          "VVP 4.6",
+          "VVP 4.7",
+          "NN-SUPPLEMENT-2"
+        ],
+        "notes": "Patient stories are health data in small communities — indirect identification is near-certain. Named clinicians in incident coverage require simultaneous reply."
+      },
+      "_threshold_note": "Desk default 0.48. Sampled 2026-10-01: the 0.46-0.48 band for this beat is noise -- bare SSB table titles («Kredittindikator», «Lufttransport») and other beats' material."
+    },
+    {
+      "id": "fisheries",
+      "name": "Fisheries, quotas, and coastal economy",
+      "description": "Quota allocation and consolidation, Fiskeridirektoratet oversight failures and quota fraud, coastal fleet versus trawler capital, aquaculture licensing, Barents Sea stock management, Norway–Russia fisheries commission.",
+      "keywords_nb": [
+        "kvote",
+        "Fiskeridirektoratet",
+        "kystflåten",
+        "strukturkvote",
+        "trålere",
+        "oppdrett",
+        "laks",
+        "Havforskningsinstituttet",
+        "torskekvote",
+        "Norsk-russisk fiskerikommisjon",
+        "Råfisklaget",
+        "fiskeindustri"
+      ],
+      "keywords_en": [
+        "fishing quota",
+        "coastal fleet",
+        "aquaculture",
+        "Barents Sea cod"
+      ],
+      "watch_sources": [
+        "Fiskeridirektoratet",
+        "Havforskningsinstituttet",
+        "Fiskeribladet",
+        "Kyst og Fjord",
+        "Nærings- og fiskeridepartementet"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.7",
+          "VVP 4.14",
+          "VVP 4.5",
+          "NN-SUPPLEMENT-2"
+        ],
+        "notes": "Vessel names identify owners in coastal towns. Fraud allegations against named companies need reply before publication and presumption of innocence."
+      },
+      "_threshold_note": "Desk default 0.48. Sampled 2026-10-01: the 0.46-0.48 band for this beat is noise -- bare SSB table titles («Kredittindikator», «Lufttransport») and other beats' material."
+    },
+    {
+      "id": "reconciliation-minorities",
+      "name": "Sámi, Kven, and Forest Finn rights and reconciliation",
+      "description": "Follow-up of the Truth and Reconciliation Commission's 2023 report and the Storting's 2024 measures, language revitalisation, Sámi urbanisation (Sámi logut muitalit), Kven and Forest Finn claims of marginalisation within the process, Sametinget politics.",
+      "keywords_nb": [
+        "Sannhets- og forsoningskommisjonen",
+        "fornorskning",
+        "Sametinget",
+        "samisk språk",
+        "kvensk",
+        "skogfinsk",
+        "Ruijan Kaiku",
+        "Kvääniteatteri",
+        "Sámi logut muitalit",
+        "urfolk",
+        "nasjonale minoriteter"
+      ],
+      "keywords_en": [
+        "truth and reconciliation",
+        "Norwegianisation",
+        "Sámi",
+        "Kven",
+        "Forest Finn",
+        "indigenous"
+      ],
+      "watch_sources": [
+        "NRK Sápmi",
+        "Sametinget",
+        "Ruijan Kaiku",
+        "Ságat",
+        "Ávvir",
+        "Kommunal- og distriktsdepartementet"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.3",
+          "VVP 3.9",
+          "NN-SUPPLEMENT-1",
+          "NN-SUPPLEMENT-4"
+        ],
+        "notes": "Do not collapse Kven and Forest Finn experience into a Sámi frame. Trauma testimony sources may not foresee consequences of publication (3.9)."
+      },
+      "_threshold_note": "Tried at 0.46 on 2026-10-01 and REVERTED the same hour. The 0.46-0.48 band is clean when measured on Norwegian regional sources -- it recovers Sámi-language coverage of Sámi affairs that 0.48 was silently dropping -- but the threshold applies to every source the desk reads, and half the roster is now topic-filtered international feeds built on the query 'Norway OR Arctic'. Those sit near EVERY Norway-related beat by construction, so 0.46 admitted Putin testing NATO and a German-British submarine agreement into green-colonialism, and Norges Bank interest rates into regional-governance. Precision in the band across the real source mix was about half. 475 hits were inserted and deleted.\nThe fix is not a number: it is that one threshold cannot serve both a regional Norwegian beat and a feed selected on the word Norway. Separate the international sources into their own desk first, then per-beat thresholds become measurable again."
+    },
+    {
+      "id": "regional-governance",
+      "name": "Regional governance and centralisation",
+      "description": "Aftermath of the Troms–Finnmark split (2024), county and municipal politics, INP and other realignments driven by energy and centralisation grievances, Statsforvalteren decisions, centre–periphery conflict generally.",
+      "keywords_nb": [
+        "fylkeskommune",
+        "Troms",
+        "Finnmark",
+        "kommunesammenslåing",
+        "Industri- og Næringspartiet",
+        "INP",
+        "Senterpartiet",
+        "sentralisering",
+        "Statsforvalteren",
+        "fylkesting",
+        "For Finnmark"
+      ],
+      "keywords_en": [
+        "county merger",
+        "centralisation",
+        "local elections",
+        "regional autonomy"
+      ],
+      "watch_sources": [
+        "fylkestingene",
+        "kommunestyrer",
+        "Statsforvalteren i Troms og Finnmark",
+        "Statsforvalteren i Nordland",
+        "Kommunal Rapport"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 1.2",
+          "VVP 4.2",
+          "VVP 4.15"
+        ],
+        "notes": "Plurality of views is a duty (1.2); the newsroom is privately run and must be visibly independent of any political tendency (Redaktørplakaten)."
+      },
+      "_threshold_note": "Tried at 0.46 on 2026-10-01 and REVERTED the same hour. The 0.46-0.48 band is clean when measured on Norwegian regional sources -- it recovers Sámi-language coverage of Sámi affairs that 0.48 was silently dropping -- but the threshold applies to every source the desk reads, and half the roster is now topic-filtered international feeds built on the query 'Norway OR Arctic'. Those sit near EVERY Norway-related beat by construction, so 0.46 admitted Putin testing NATO and a German-British submarine agreement into green-colonialism, and Norges Bank interest rates into regional-governance. Precision in the band across the real source mix was about half. 475 hits were inserted and deleted.\nThe fix is not a number: it is that one threshold cannot serve both a regional Norwegian beat and a feed selected on the word Norway. Separate the international sources into their own desk first, then per-beat thresholds become measurable again."
+    },
+    {
+      "id": "svalbard-climate",
+      "name": "Svalbard and Arctic climate change",
+      "description": "Permafrost thaw and infrastructure damage in Longyearbyen, avalanche risk zoning and demolition, adaptation engineering, Janssonhaugen and Meteorologisk institutt data, coal-mining identity, Svalbard Treaty and geopolitics.",
+      "keywords_nb": [
+        "Svalbard",
+        "Longyearbyen",
+        "permafrost",
+        "skred",
+        "Sysselmesteren",
+        "Janssonhaugen",
+        "Meteorologisk institutt",
+        "Store Norske",
+        "Svalbardtraktaten",
+        "Ny-Ålesund"
+      ],
+      "keywords_en": [
+        "permafrost",
+        "avalanche",
+        "Arctic warming",
+        "Svalbard Treaty"
+      ],
+      "watch_sources": [
+        "Svalbardposten",
+        "Sysselmesteren",
+        "Meteorologisk institutt",
+        "Norsk Polarinstitutt",
+        "UNIS"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 3.2",
+          "VVP 4.6",
+          "VVP 4.4"
+        ],
+        "notes": "Climate claims need a scientific source and date; avalanche fatalities involve next of kin (4.6); avoid alarmist headlines beyond the data (4.4)."
+      },
+      "_threshold_note": "Desk default 0.48. Sampled 2026-10-01: the 0.46-0.48 band for this beat is noise -- bare SSB table titles («Kredittindikator», «Lufttransport») and other beats' material."
+    }
+  ]
+}

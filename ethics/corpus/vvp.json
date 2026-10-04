@@ -1,0 +1,489 @@
+{
+  "_meta": {
+    "source": "Vær Varsom-plakaten, Norsk Presseforbund. Current edition in force from 2021-01-01.",
+    "official_url": "https://www.presse.no/vaer-varsom-plakaten",
+    "nrk_comments_url": "https://info.nrk.no/etikkhandboka/",
+    "instructions": "Paste the official Norwegian text of each clause into `text_nb`. Paste NRK's internal comment (Etikkhåndboka) into `nrk_comment` where one exists. `topic` and `tags` are working labels for retrieval, not the clause itself. Never edit `text_nb` beyond the official wording."
+  },
+  "clauses": [
+    {
+      "id": "1.1",
+      "chapter": "Pressens samfunnsrolle",
+      "topic": "Freedom of expression as foundation of democracy",
+      "tags": [
+        "ytringsfrihet",
+        "demokrati"
+      ],
+      "text_nb": "Ytringsfrihet, informasjonsfrihet og trykkefrihet er grunnelementer i et demokrati. En fri, uavhengig og sannhetssøkende presse er blant de viktigste institusjoner i demokratiske samfunn.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "1.2",
+      "chapter": "Pressens samfunnsrolle",
+      "topic": "Press duties: information, debate, critique; responsibility for plural views",
+      "tags": [
+        "samfunnskritikk",
+        "debatt",
+        "mangfold"
+      ],
+      "text_nb": "Pressen ivaretar viktige oppgaver som informasjon, debatt og samfunnskritikk. Pressen har et spesielt ansvar for at ulike syn kommer til uttrykk.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "1.3",
+      "chapter": "Pressens samfunnsrolle",
+      "topic": "Defend freedom of information and public access; resist pressure",
+      "tags": [
+        "offentlighet",
+        "press",
+        "kilder"
+      ],
+      "text_nb": "Pressen skal verne om ytringsfriheten, trykkefriheten og offentlighetsprinsippet. Den kan ikke gi etter for press fra noen som vil hindre åpen debatt, fri informasjonsformidling og fri adgang til kildene. Avtaler om eksklusiv formidling av arrangementer skal ikke være til hinder for fri nyhetsformidling.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "1.4",
+      "chapter": "Pressens samfunnsrolle",
+      "topic": "Duty to expose wrongdoing and protect against abuse of power",
+      "tags": [
+        "kritikkverdige forhold",
+        "maktmisbruk"
+      ],
+      "text_nb": "Det er pressens rett å informere om det som skjer i samfunnet og avdekke kritikkverdige forhold. Det er pressens plikt å sette et kritisk søkelys på hvordan mediene selv fyller sin samfunnsrolle.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "1.5",
+      "chapter": "Pressens samfunnsrolle",
+      "topic": "Protect individuals and groups from injustice by public or private actors",
+      "tags": [
+        "overgrep",
+        "forsømmelser"
+      ],
+      "text_nb": "Det er pressens oppgave å beskytte enkeltmennesker og grupper mot overgrep eller forsømmelser fra offentlige myndigheter og institusjoner, private foretak eller andre.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.1",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Editor's full responsibility for content",
+      "tags": [
+        "redaktøransvar"
+      ],
+      "text_nb": "Den ansvarlige redaktør har det personlige og fulle ansvar for mediets innhold og avgjør med endelig virkning spørsmål om redaksjonelt innhold, finansiering, presentasjon og publisering. Redaktøren skal opptre fritt og uavhengig overfor personer eller grupper som av ideologiske, økonomiske eller andre grunner vil øve innflytelse på det redaksjonelle innholdet. Redaktøren skal verne om redaksjonens produksjon av fri og uavhengig journalistikk.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.2",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Guard independence and integrity; avoid conflicts of interest and dual roles",
+      "tags": [
+        "uavhengighet",
+        "habilitet",
+        "dobbeltroller"
+      ],
+      "text_nb": "Redaktøren og den enkelte redaksjonelle medarbeider skal verne om sin uavhengighet, integritet og troverdighet. Unngå dobbeltroller, verv, oppdrag eller bindinger som kan skape interessekonflikter eller føre til spekulasjoner om inhabilitet.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.3",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Openness about ties that may affect credibility",
+      "tags": [
+        "åpenhet",
+        "bindinger"
+      ],
+      "text_nb": "Vis åpenhet om bakenforliggende forhold som kan være relevante for publikums oppfatning av det journalistiske innholdet.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.4",
+      "chapter": "Integritet og troverdighet",
+      "topic": "No exploitation of position for private gain",
+      "tags": [
+        "egen vinning"
+      ],
+      "text_nb": "Redaksjonelle medarbeidere må ikke utnytte sin stilling til å oppnå private fordeler, herunder motta penger, varer eller tjenester, som kan oppfattes å være kompensasjon fra utenforstående for redaksjonelle ytelser.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.5",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Staff cannot be ordered to act against conscience",
+      "tags": [
+        "overbevisning"
+      ],
+      "text_nb": "En redaksjonell medarbeider kan ikke pålegges å gjøre noe som strider mot egen overbevisning.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.6",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Clear separation between journalism and advertising",
+      "tags": [
+        "tekstreklame",
+        "reklame",
+        "sponsing"
+      ],
+      "text_nb": "Svekk aldri det klare skillet mellom journalistikk og reklame. Det skal være åpenbart for publikum hva som er kommersielt innhold. Skillet skal være tydelig også ved lenking eller andre koblinger. Avvis kommersielt innhold som kan forveksles med det enkelte mediums journalistiske presentasjon.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.7",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Product/brand mentions must be journalistically motivated",
+      "tags": [
+        "tekstreklame",
+        "merkenavn"
+      ],
+      "text_nb": "Journalistisk omtale av produkter, tjenester, merkenavn og kommersielle interesser, også mediets egne, skal være journalistisk motivert og ikke fremstå som reklame. Oppretthold et klart skille mellom markedsaktiviteter og redaksjonelt arbeid. Gi aldri tilsagn om journalistiske motytelser for reklame. Unngå ukritisk videreformidling av PR-stoff.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.8",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Sponsored/commissioned content must be marked; editorial control retained",
+      "tags": [
+        "sponsing",
+        "merking"
+      ],
+      "text_nb": "Eksterne finansieringskilder skal ikke ha innflytelse på noen del av mediets journalistiske virksomhet. Unngå ekstern finansiering og avtaler som bidrar til at publikum kan reise tvil om redaksjonens troverdighet. Vær særlig varsom ved ekstern finansiering av nyhetsjournalistikk. Ekstern finansiering av journalistikk rettet mot barn må ivareta barns særlige behov for vern. Skjult reklame er uforenlig med god presseskikk. Vis åpenhet om avtaler og hvordan journalistikken er finansiert. Dersom journalistisk innhold er eksternt finansiert, skal dette være åpenbart for publikum.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "2.9",
+      "chapter": "Integritet og troverdighet",
+      "topic": "Product placement and hidden advertising prohibited",
+      "tags": [
+        "produktplassering",
+        "skjult reklame"
+      ],
+      "text_nb": "Redaksjonelle medarbeidere må ikke motta pålegg om oppdrag fra andre enn den redaksjonelle ledelsen.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.1",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Sources should as a rule be identified",
+      "tags": [
+        "kilder",
+        "identifisering av kilder"
+      ],
+      "text_nb": "Kilden for informasjon skal som hovedregel identifiseres, med mindre det er i konflikt med kildevernet eller hensynet til tredjeperson. Kilder bør som hovedregel ikke få fremsette negative personkarakteristikker anonymt.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.2",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Source criticism, breadth of sources, verification of factual claims",
+      "tags": [
+        "kildekritikk",
+        "kildebredde",
+        "kontroll av opplysninger",
+        "faktasjekk"
+      ],
+      "text_nb": "Vær kritisk i valg av kilder, og kontroller at opplysninger som gis er korrekte. Det er god presseskikk å tilstrebe bredde og relevans i valg av kilder. Vær spesielt aktsom ved behandling av informasjon fra anonyme kilder, informasjon fra kilder som tilbyr eksklusivitet, og informasjon som er gitt fra kilder mot betaling.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.3",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Clarify premises with sources; quote-check agreements",
+      "tags": [
+        "premisser",
+        "sitatsjekk"
+      ],
+      "text_nb": "Det er god presseskikk å klargjøre premissene i kontakten med kilder. Hvis det inngås avtale om sitatsjekk, bør det gjøres klart hva avtalen omfatter og hvilke frister som gjelder. Redaksjonen selv avgjør hva som endelig publiseres.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.4",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Protect anonymous sources; source protection",
+      "tags": [
+        "kildevern",
+        "anonyme kilder"
+      ],
+      "text_nb": "Vern om pressens kilder. Kildevernet er et grunnleggende prinsipp i et fritt samfunn og er en forutsetning for at pressen skal kunne fylle sin samfunnsoppgave og sikre tilgangen på vesentlig informasjon.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.5",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Do not reveal source identity without consent",
+      "tags": [
+        "kildevern"
+      ],
+      "text_nb": "Oppgi ikke navn på kilde for opplysninger som er gitt i fortrolighet, hvis dette ikke er uttrykkelig avtalt med vedkommende.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.6",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Unpublished material must not be handed to outsiders",
+      "tags": [
+        "upublisert materiale"
+      ],
+      "text_nb": "Av hensyn til kildene og pressens uavhengighet har ingen rett til å få utlevert upublisert materiale.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.7",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Accurate rendering of sources; quotes in context",
+      "tags": [
+        "sitater",
+        "gjengivelse"
+      ],
+      "text_nb": "Kilder skal gjengis korrekt. Pressen har plikt til å gjengi meningsinnholdet i det som brukes av intervjuobjektets uttalelser. Ingen kilder har krav på å bli gjengitt i sin helhet.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.8",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Changes to statements limited to factual correction; quote-check does not transfer editorial control",
+      "tags": [
+        "sitatsjekk",
+        "redigering"
+      ],
+      "text_nb": "Hvis det er avtalt sitatsjekk, skal denne primært bidra til å sikre at kilden er gjengitt korrekt og til korrigering av faktiske feil. Ingen uten redaksjonell myndighet kan gripe inn i redigering og presentasjon av redaksjonelt materiale.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.9",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Considerate conduct; care with people who cannot foresee consequences of statements",
+      "tags": [
+        "hensynsfull",
+        "sårbare kilder"
+      ],
+      "text_nb": "Opptre hensynsfullt i det journalistiske arbeidet. Misbruk ikke andres følelser, manglende medieerfaring, uvitenhet eller sviktende dømmekraft. Husk at mennesker i sjokk eller sorg er mer sårbare enn andre.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.10",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Hidden camera/recording and false identity only in exceptional cases",
+      "tags": [
+        "skjult kamera",
+        "falsk identitet",
+        "metode"
+      ],
+      "text_nb": "Skjult kamera/mikrofon eller falsk identitet skal bare brukes i unntakstilfeller. Forutsetningen må være at dette er eneste mulighet til å avdekke forhold av vesentlig samfunnsmessig betydning.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "3.11",
+      "chapter": "Journalistisk atferd og forholdet til kildene",
+      "topic": "Payment for information and its risks",
+      "tags": [
+        "betaling",
+        "kjøp av informasjon"
+      ],
+      "text_nb": "Pressen skal som hovedregel ikke betale kilder og intervjuobjekter for informasjon. Vis moderasjon ved honorering for nyhetstips. Det er uforenlig med god presseskikk å ha betalingsordninger som er egnet til å friste mennesker til uberettiget å trå innenfor andres privatsfære eller gi fra seg personsensitiv informasjon.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.1",
+      "chapter": "Publiseringsregler",
+      "topic": "Objectivity and consideration in content and presentation",
+      "tags": [
+        "saklighet",
+        "omtanke"
+      ],
+      "text_nb": "Legg vekt på saklighet og omtanke i innhold og presentasjon.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.2",
+      "chapter": "Publiseringsregler",
+      "topic": "Distinguish fact from comment",
+      "tags": [
+        "fakta",
+        "kommentar"
+      ],
+      "text_nb": "Gjør klart hva som er faktiske opplysninger og hva som er kommentarer.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.3",
+      "chapter": "Publiseringsregler",
+      "topic": "Respect identity, privacy, ethnicity, nationality, belief; avoid stigmatizing terms",
+      "tags": [
+        "etnisitet",
+        "samisk",
+        "privatliv",
+        "stigmatisering",
+        "livssyn"
+      ],
+      "text_nb": "Vis respekt for menneskers egenart og identitet, privatliv, etnisitet, nasjonalitet og livssyn. Vær varsom ved bruk av begreper som kan virke stigmatiserende. Fremhev ikke personlige og private forhold når dette er saken uvedkommende.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.4",
+      "chapter": "Publiseringsregler",
+      "topic": "Headlines and leads must not exceed what the content supports; credit other media",
+      "tags": [
+        "overskrifter",
+        "ingress",
+        "dekning",
+        "kildehenvisning"
+      ],
+      "text_nb": "Sørg for at overskrifter, henvisninger, ingresser og inn- og utannonseringer ikke går lenger enn det er dekning for i stoffet. Det er god presseskikk å oppgi kilden når opplysninger er hentet fra andre medier.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.5",
+      "chapter": "Publiseringsregler",
+      "topic": "Avoid prejudging guilt; presumption of innocence",
+      "tags": [
+        "forhåndsdom",
+        "uskyldspresumsjon",
+        "straffesak"
+      ],
+      "text_nb": "Unngå forhåndsdømming i kriminal- og rettsreportasje. Gjør det klart at skyldspørsmålet for en mistenkt, anmeldt, siktet eller tiltalt først er avgjort ved rettskraftig dom. Det er god presseskikk å omtale en rettskraftig avgjørelse i saker som har vært omtalt tidligere.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.6",
+      "chapter": "Publiseringsregler",
+      "topic": "Consideration in coverage of accidents, crime, death; next of kin",
+      "tags": [
+        "ulykker",
+        "kriminalsak",
+        "pårørende",
+        "dødsfall"
+      ],
+      "text_nb": "Ta hensyn til hvordan omtale av ulykker og kriminalsaker kan virke på ofre og pårørende. Identifiser ikke omkomne eller savnede personer uten at de nærmeste pårørende er underrettet. Vis hensyn overfor mennesker i sorg eller ubalanse.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.7",
+      "chapter": "Publiseringsregler",
+      "topic": "Identification of persons in criminal or blameworthy matters must be justified by a legitimate information need",
+      "tags": [
+        "identifisering",
+        "navn",
+        "bilde",
+        "straffbare forhold",
+        "tredjeperson"
+      ],
+      "text_nb": "Vær varsom med bruk av navn og bilde og andre klare identifikasjonstegn på personer som omtales i forbindelse med klanderverdige eller straffbare forhold. Vis særlig varsomhet ved omtale av saker på tidlig stadium av etterforskning, i saker som gjelder unge lovovertredere, og der identifiserende omtale kan føre til urimelig belastning for tredjeperson. Identifisering må begrunnes i et berettiget informasjonsbehov. Det kan eksempelvis være berettiget å identifisere ved overhengende fare for overgrep mot forsvarsløse personer, ved alvorlige og gjentatte kriminelle handlinger, når omtaltes identitet eller samfunnsrolle har klar relevans for de forhold som omtales, eller der identifisering hindrer at uskyldige blir utsatt for uberettiget mistanke.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.8",
+      "chapter": "Publiseringsregler",
+      "topic": "Children: consider consequences; child identity not revealed in family, child-welfare, or court cases",
+      "tags": [
+        "barn",
+        "mindreårige",
+        "barnevern",
+        "familietvist"
+      ],
+      "text_nb": "Når barn omtales, er det god presseskikk å ta hensyn til hvilke konsekvenser medieomtalen kan få for barnet. Dette gjelder også når foresatte har gitt sitt samtykke til eksponering. Barns identitet skal som hovedregel ikke røpes i familietvister, barnevernssaker eller rettssaker.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.9",
+      "chapter": "Publiseringsregler",
+      "topic": "Suicide and attempted suicide: restraint; no method description",
+      "tags": [
+        "selvmord",
+        "metode"
+      ],
+      "text_nb": "Ved omtale av selvmord og selvmordsforsøk er det god presseskikk å vektlegge en nøktern fremstilling. Vis hensyn til dem som er direkte berørt. Vær varsom ved omtale på et tidlig tidspunkt. Det kreves høy aktsomhet ved beskrivelse av metode og det spesifikke stedet for handlingen.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.10",
+      "chapter": "Publiseringsregler",
+      "topic": "Images used outside original context",
+      "tags": [
+        "bilder",
+        "kontekst"
+      ],
+      "text_nb": "Vær varsom med bruk av bilder i annen sammenheng enn den opprinnelige.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.11",
+      "chapter": "Publiseringsregler",
+      "topic": "Image manipulation and documentary credibility",
+      "tags": [
+        "bildemanipulasjon",
+        "KI-bilder"
+      ],
+      "text_nb": "Vern om det journalistiske fotografiets troverdighet. Bilder som brukes som dokumentasjon må ikke endres slik at de skaper et falskt inntrykk. Manipulerte bilder kan bare aksepteres som illustrasjon når det tydelig fremgår at det dreier seg om en montasje.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.12",
+      "chapter": "Publiseringsregler",
+      "topic": "Same care for images and sound as for text",
+      "tags": [
+        "bilder",
+        "lyd"
+      ],
+      "text_nb": "For bruk av bilder gjelder de samme aktsomhetskrav som for skriftlig og muntlig fremstilling.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.13",
+      "chapter": "Publiseringsregler",
+      "topic": "Correct errors promptly",
+      "tags": [
+        "rettelse",
+        "feil"
+      ],
+      "text_nb": "Feilaktige opplysninger skal rettes og eventuelt beklages snarest mulig.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.14",
+      "chapter": "Publiseringsregler",
+      "topic": "Simultaneous reply (samtidig imøtegåelse) for those subject to strong accusations",
+      "tags": [
+        "samtidig imøtegåelse",
+        "beskyldninger",
+        "tilsvar"
+      ],
+      "text_nb": "De som utsettes for sterke beskyldninger skal så vidt mulig ha adgang til samtidig imøtegåelse av faktiske opplysninger. Debatt, kritikk og nyhetsformidling må ikke hindres ved at parter ikke er villig til å uttale seg eller medvirke til debatt.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.15",
+      "chapter": "Publiseringsregler",
+      "topic": "Right of reply (tilsvarsrett) for those attacked",
+      "tags": [
+        "tilsvar",
+        "tilsvarsrett"
+      ],
+      "text_nb": "De som er blitt utsatt for angrep skal snarest mulig få adgang til tilsvar, med mindre angrep og kritikk inngår som ledd i en løpende meningsutveksling. Ha som krav at tilsvaret er av rimelig omfang, holder seg til saken og har en anstendig form. Tilsvar kan nektes dersom den berørte part, uten saklig grunn, har avvist tilbud om samtidig imøtegåelse i samme spørsmål. Tilsvar og debattinnlegg skal ikke utstyres med redaksjonell, polemisk replikk.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.16",
+      "chapter": "Publiseringsregler",
+      "topic": "Care with links and shared content",
+      "tags": [
+        "lenker",
+        "deling"
+      ],
+      "text_nb": "Vær varsom med å lenke fra digitale utgaver til innhold som bryter med god presseskikk. Sørg for at lenker til andre medier eller publikasjoner er tydelig merket. Det er god presseskikk å informere brukere av interaktive tjenester om hvordan publikasjonen registrerer og eventuelt utnytter bruken av tjenestene.",
+      "nrk_comment": ""
+    },
+    {
+      "id": "4.17",
+      "chapter": "Publiseringsregler",
+      "topic": "Editorial responsibility for user-generated content and debate",
+      "tags": [
+        "brukergenerert",
+        "kommentarfelt",
+        "debatt"
+      ],
+      "text_nb": "Dersom redaksjonen velger ikke å forhåndsredigere digitale meningsutvekslinger, må dette bekjentgjøres på en tydelig måte for de som har adgang til disse. Redaksjonen har et selvstendig ansvar for så snart som mulig å fjerne innlegg som bryter med god presseskikk.",
+      "nrk_comment": ""
+    }
+  ]
+}

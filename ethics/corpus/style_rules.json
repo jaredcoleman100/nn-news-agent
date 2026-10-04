@@ -1,0 +1,145 @@
+{
+  "_meta": {
+    "sources": [
+      "https://sprak.nrk.no/rettleiing/bokmal/",
+      "https://sprak.nrk.no/rettleiing/ (Blåbok: tal, teikn, forkortingar)",
+      "https://www.redaktor.no/ressurser/rad-og-veiledning/rad-om-kunstig-intelligens",
+      "Språkrådet skriveregler"
+    ],
+    "note": "Working rules paraphrased for machine checking. Verify each against the live NRK page before treating a flag as authoritative; NRK editors may grant exceptions."
+  },
+  "language": {
+    "default_form": "nb",
+    "per_beat_override": {},
+    "rule": "News text in official bokmål or nynorsk (NRK språkregler 1.1, 1.5). Never mix forms within one report."
+  },
+  "rules": [
+    {
+      "id": "quotes",
+      "check": "regex",
+      "pattern": "[\"“”]",
+      "severity": "fix",
+      "message": "Use guillemets « » for quotations in Norwegian text (Språkrådet); straight or curly double quotes flagged."
+    },
+    {
+      "id": "small_numbers",
+      "check": "small_numbers",
+      "max_word": 12,
+      "severity": "fix",
+      "message": "Numbers up to and including twelve are written as words in running text (Språkrådet; NRK). Exceptions honoured by the checker: sentence also contains a number of 13 or more (even out to digits), or the number stands with an abbreviated unit (kg, km, kr, kl).",
+      "source": "https://sprakradet.no/spraksporsmal-og-svar/siffer-eller-tallord/"
+    },
+    {
+      "id": "percent",
+      "check": "regex",
+      "pattern": "\\d\\s?%",
+      "severity": "fix",
+      "message": "Write «prosent», not the % sign, in running text (NRK)."
+    },
+    {
+      "id": "date_format",
+      "check": "regex",
+      "pattern": "\\b\\d{1,2}/\\d{1,2}(/\\d{2,4})?\\b|\\b\\d{4}-\\d{2}-\\d{2}\\b",
+      "severity": "fix",
+      "message": "Dates as «1. januar 2026», not 1/1 or ISO, in running text."
+    },
+    {
+      "id": "thousands",
+      "check": "regex",
+      "pattern": "\\b\\d{1,3}(,\\d{3})+\\b",
+      "severity": "fix",
+      "message": "Thousands separator is a space (10 000), decimal is comma (3,5) — not the English convention."
+    },
+    {
+      "id": "abbreviations",
+      "check": "regex",
+      "pattern": "\\b(f\\.eks\\.|bl\\.a\\.|osv\\.|ca\\.|mht\\.|ift\\.|etc\\.|e\\.g\\.|i\\.e\\.)",
+      "severity": "advise",
+      "message": "Avoid abbreviations in running text; write «for eksempel», «blant annet», «omtrent» (NRK Blåbok)."
+    },
+    {
+      "id": "anglicisms",
+      "check": "wordlist",
+      "words": [
+        "update",
+        "deadline",
+        "meeting",
+        "impact",
+        "issue",
+        "feedback",
+        "outsourcing",
+        "briefing",
+        "case",
+        "support"
+      ],
+      "severity": "advise",
+      "message": "English loanword where a Norwegian word exists; Språkrådet avløserord list."
+    },
+    {
+      "id": "passive_officialese",
+      "check": "wordlist",
+      "words": [
+        "i forhold til",
+        "på bakgrunn av",
+        "i henhold til",
+        "med hensyn til",
+        "vedrørende",
+        "implementere",
+        "fokusere på"
+      ],
+      "severity": "advise",
+      "message": "Klarspråk: prefer plain constructions («om», «fordi», «etter», «gjennomføre»)."
+    },
+    {
+      "id": "titles_lowercase",
+      "check": "regex",
+      "pattern": "\\b(Statsminister|Ordfører|Fylkesordfører|Direktør|Professor|Forsvarssjef)\\s+[A-ZÆØÅ]",
+      "severity": "fix",
+      "message": "Titles are lower-case before a name in Norwegian: «ordfører Kari Nordmann»."
+    },
+    {
+      "id": "cyrillic_transliteration",
+      "check": "wordlist",
+      "words": [
+        "Krasukha",
+        "Zapad",
+        "Murmansk-BN",
+        "Borisoglebsk"
+      ],
+      "severity": "advise",
+      "message": "Russian names follow NRK's Norwegian transliteration of Cyrillic, not English (e.g. «Krasukha» → check NRK form; «Zapad» ok). See sprak.nrk.no Transkripsjon av kyrillisk."
+    },
+    {
+      "id": "ai_marking",
+      "check": "ai_marking",
+      "severity": "fix",
+      "required_phrase": "kunstig intelligens",
+      "message": "Report must carry a clear AI marking naming the tool (NR råd; NRK KI 3.3): e.g. «Dette utkastet er laget ved hjelp av kunstig intelligens (navn på verktøyet) og er kontrollert av redaksjonen før publisering.»"
+    },
+    {
+      "id": "acronym_case",
+      "check": "regex",
+      "pattern": "\\b(NATO|EFTA|UNESCO|IKEA|NORAD|OPEC|OBOS)\\b",
+      "severity": "fix",
+      "message": "Acronyms pronounced as words take one capital: Nato, Efta, Unesco, Ikea, Norad, Opec, Obos. Letter-by-letter acronyms stay upper-case (NRK, PST, SSB).",
+      "source": "https://sprak.nrk.no/rettleiing/forkortingar/"
+    },
+    {
+      "id": "party_abbrev_in_prose",
+      "check": "regex",
+      "pattern": "\\b(Høgre|Høyre|Venstre|Raudt|Rødt)\\s*\\((H|V|R)\\)|(?<!\\()\\b(Frp|KrF|MDG)\\b(?!\\))",
+      "severity": "advise",
+      "message": "Party labels: in parentheses after a politician's name — (Ap), (H), (KrF), (Sp), (V), (Frp), (SV), (Raudt), (MDG). Høgre, Venstre and Raudt are not abbreviated in running text.",
+      "source": "https://sprak.nrk.no/rettleiing/forkortingar/"
+    },
+    {
+      "id": "units_in_prose",
+      "check": "regex",
+      "pattern": "\\b\\d+\\s?(km|kg|kr|kl)\\b",
+      "severity": "advise",
+      "message": "NRK mostly avoids abbreviated units in running text: «fem kilometer», «ti kroner», «klokka 14». Digits are correct if the abbreviation is kept.",
+      "source": "https://sprak.nrk.no/rettleiing/forkortingar/"
+    }
+  ],
+  "sami_place_name_practice": "Where a place has an official Sámi or Kven name under stadnamnlova, NRK Sápmi leads with the Sámi form in Sámi-language content and gives both forms in Norwegian content on first mention where the place is in the Sámi administrative area (forvaltningsområdet for samisk språk). Kven forms per Kartverket where official. Never invent a Sámi form; resolve against SSR."
+}

@@ -1,0 +1,15 @@
+---
+layout: base.njk
+navKey: external
+pageTitle: "Outside NRK / Utenfor NRK"
+pagination:
+  data: collections.external
+  size: 60
+  alias: chunk
+permalink: "{% if pagination.pageNumber == 0 %}outlet/external/index.html{% else %}outlet/external/page/{{ pagination.pageNumber + 1 }}/index.html{% endif %}"
+---
+{% from "card.njk" import list, pager %}
+<p class="sub">{{ collections.external | length }} {{ site.t.items[0] }} from outlets other than NRK — what this desk is actually for.
+<span class="alt">{{ collections.external | length }} {{ site.t.items[1] }} fra andre redaksjoner enn NRK.</span></p>
+{{ list(chunk, site, linkBase) }}
+{{ pager(pagination, site, linkBase) }}

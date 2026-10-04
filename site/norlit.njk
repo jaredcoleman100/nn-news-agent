@@ -1,0 +1,31 @@
+---
+layout: base.njk
+navKey: norlit
+pageTitle: "Literature / Litteratur"
+permalink: "norlit/index.html"
+---
+{# The daily piece from norlit. Only `gate: "publish"` appears; held pieces are named below so a
+   held piece is visibly held rather than silently missing. See _data/norlit.js and
+   norlit/INTEGRATION.md. #}
+<p class="sub">{{ site.t.magasinLede[0] }}
+<span class="alt">{{ site.t.magasinLede[1] }}</span></p>
+
+{% if not norlit.total and not norlit.heldCount %}
+  <p class="body empty">{{ site.t.noMagasin[0] }}<br>{{ site.t.noMagasin[1] }}</p>
+{% endif %}
+
+{% for s in norlit.strands %}
+  <h2 class="day">{{ s.name[0] }} / {{ s.name[1] }} · {{ s.count }}</h2>
+  <p class="sub">{{ s.note[0] }}<span class="alt">{{ s.note[1] }}</span></p>
+  {% if s.kind == "historie" %}
+  <p class="sub"><a href="{{ linkBase }}norlit/kongen/">{{ site.t.contents[0] }} / {{ site.t.contents[1] }} →</a></p>
+  {% endif %}
+  <ul class="browse briefs">
+  {% for p in s.posts %}
+    <li><a href="{{ linkBase }}norlit/{{ p.id }}/">
+      <span>{{ p.title }}
+        {%- if not p.published %} <span class="chip warn">{{ site.t.withReservation[0] }}</span>{% endif %}</span>
+      <span class="n">{{ p.date }}</span></a></li>
+  {% endfor %}
+  </ul>
+{% endfor %}

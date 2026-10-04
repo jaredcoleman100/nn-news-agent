@@ -1,0 +1,33 @@
+{
+  "_meta": {"source": "Seed list; every entry must be verified against Kartverket Sentralt stedsnavnregister (SSR) API before use. Fields: nb (Norwegian), se (Northern Sámi), smj (Lule Sámi), fkv (Kven), sami_admin_area (in forvaltningsområdet), municipality_official (official bilingual municipality name if any)."},
+  "places": [
+    {"nb": "Kautokeino", "se": "Guovdageaidnu", "sami_admin_area": true, "municipality_official": "Guovdageaidnu–Kautokeino"},
+    {"nb": "Karasjok", "se": "Kárášjohka", "sami_admin_area": true, "municipality_official": "Kárášjohka–Karasjok"},
+    {"nb": "Tana", "se": "Deatnu", "fkv": "Teno", "sami_admin_area": true, "municipality_official": "Deatnu–Tana"},
+    {"nb": "Porsanger", "se": "Porsáŋgu", "fkv": "Porsanki", "sami_admin_area": true, "municipality_official": "Porsanger–Porsáŋgu–Porsanki"},
+    {"nb": "Lakselv", "se": "Leavdnja", "fkv": "Lemmijoki", "sami_admin_area": true},
+    {"nb": "Nesseby", "se": "Unjárga", "sami_admin_area": true, "municipality_official": "Unjárga–Nesseby"},
+    {"nb": "Kåfjord", "se": "Gáivuotna", "fkv": "Kaivuono", "sami_admin_area": true, "municipality_official": "Gáivuotna–Kåfjord–Kaivuono"},
+    {"nb": "Lavangen", "se": "Loabák", "sami_admin_area": true, "municipality_official": "Loabák–Lavangen"},
+    {"nb": "Tysfjord", "smj": "Divtasvuodna", "sami_admin_area": true},
+    {"nb": "Hamarøy", "smj": "Hábmer", "sami_admin_area": true, "municipality_official": "Hábmer–Hamarøy"},
+    {"nb": "Tromsø", "se": "Romsa", "fkv": "Tromssa", "sami_admin_area": false},
+    {"nb": "Alta", "se": "Áltá", "fkv": "Alattio", "sami_admin_area": false},
+    {"nb": "Hammerfest", "se": "Hámmerfeasta", "fkv": "Hammerfesti", "sami_admin_area": false},
+    {"nb": "Kirkenes", "se": "Girkonjárga", "fkv": "Kirkkoniemi", "sami_admin_area": false},
+    {"nb": "Sør-Varanger", "se": "Mátta-Várjjat", "fkv": "Etelä-Varenki", "sami_admin_area": false},
+    {"nb": "Vadsø", "se": "Čáhcesuolu", "fkv": "Vesisaari", "sami_admin_area": false},
+    {"nb": "Vardø", "se": "Várggát", "fkv": "Vuoreija", "sami_admin_area": false},
+    {"nb": "Nordreisa", "se": "Ráisa", "fkv": "Raisi", "sami_admin_area": false},
+    {"nb": "Kvænangen", "se": "Návuotna", "fkv": "Naavuono", "sami_admin_area": false},
+    {"nb": "Skjervøy", "se": "Skiervá", "sami_admin_area": false},
+    {"nb": "Narvik", "se": "Áhkanjárga", "sami_admin_area": false},
+    {"nb": "Harstad", "se": "Hárstták", "sami_admin_area": false},
+    {"nb": "Bodø", "smj": "Bådåddjo", "sami_admin_area": false},
+    {"nb": "Mosjøen", "sami_admin_area": false},
+    {"nb": "Evenes", "se": "Evenášši", "sami_admin_area": false},
+    {"nb": "Repparfjord", "se": "Riehpovuotna", "sami_admin_area": false},
+    {"nb": "Melkøya", "sami_admin_area": false},
+    {"nb": "Longyearbyen", "sami_admin_area": false}
+  ]
+}

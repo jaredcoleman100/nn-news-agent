@@ -1,0 +1,79 @@
+---
+layout: base.njk
+navKey: front
+permalink: "index.html"
+---
+{% from "digest.njk" import digest %}
+
+{#
+  The home page: the latest news brief in full, then the categories, then every brief.
+
+  SATIRE IS NOT HERE, by instruction (2026-09-28). The satire desk has its own section and its own
+  rules -- jokes about named living politicians, publishable only once an editor has approved them
+  -- and mixing it into the news front page blurs exactly the line the desk's template draws. It
+  stays reachable from the nav on every page, including this one; what it does not do is lead, or
+  turn up unannounced in the brief list.
+
+  The categories come from `topics`, not `categories`: the latter is built from the archive's hits
+  and is empty in the public build, which is why this strip used to be hidden behind
+  `site.internal` and the public home page had no categories at all.
+#}
+
+{% set news = reports | without("product", "satire-desk") %}
+{% set latest = news | first %}
+
+{% if not latest %}
+  <p class="body empty">{{ site.t.noDigest[0] }}<br>{{ site.t.noDigest[1] }}</p>
+{% else %}
+  {{ digest(latest, site, linkBase, site.internal, images) }}
+{% endif %}
+
+{% if topics.list | length %}
+<h2 class="day">{{ site.t.topics[0] }} / {{ site.t.topics[1] }}</h2>
+<p class="sub">{{ topics.total }} {{ site.t.storiesWord[0] }} across {{ topics.list | length }} {{ site.t.topics[0] | lower }}.
+<span class="alt">{{ topics.total }} {{ site.t.storiesWord[1] }} i {{ topics.list | length }} {{ site.t.topics[1] | lower }}.</span></p>
+<ul class="browse cats">
+{% for cat in topics.list %}
+  <li><a href="{{ linkBase }}topic/{{ cat.key }}/">
+    <span>{{ cat.name }}</span>
+    <span class="n">{{ cat.count }}</span></a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# The day's literature piece, under the brief, as norlit/INTEGRATION.md suggests. Only shown
+   when one has actually published -- an empty strand here would be a dead promise. #}
+{% if norlit.latest %}
+<h2 class="day">{{ site.t.latestLit[0] }} / {{ site.t.latestLit[1] }}</h2>
+<article class="story">
+  <div class="pair">
+    <div class="col en">
+      <p class="tag">{{ norlit.latest.kindName[0] }}</p>
+      <h3><a href="{{ linkBase }}norlit/{{ norlit.latest.id }}/">{{ norlit.latest.title_en or norlit.latest.title }}</a></h3>
+    </div>
+    <div class="col nb">
+      <p class="tag">{{ norlit.latest.kindName[1] }} · nb</p>
+      <h3><a href="{{ linkBase }}norlit/{{ norlit.latest.id }}/">{{ norlit.latest.title }}</a></h3>
+    </div>
+  </div>
+  <div class="meta">
+    <span class="chip">{{ norlit.latest.date }}</span>
+    {%- if norlit.latest.theme %}<span>{{ norlit.latest.theme }}</span>{% endif %}
+    <a href="{{ linkBase }}norlit/">{{ site.t.allMagasin[0] }} / {{ site.t.allMagasin[1] }} →</a>
+  </div>
+</article>
+{% endif %}
+
+{% set earlier = news | drop(1) %}
+{% if earlier | length %}
+<h2 class="day">{{ site.t.earlier[0] }} / {{ site.t.earlier[1] }} · {{ earlier | length }}</h2>
+<ul class="browse briefs">
+{% for r in earlier %}
+  <li><a href="{{ linkBase }}digest/{{ r.slug }}/">
+    <span>{{ r.headline_en or r.headline }}
+      {%- if r.warn | length %} <span class="chip warn" title="ethics flags">{{ r.warn | length }} {{ site.t.flagsWord[0] }}</span>{% endif %}</span>
+    <span class="n">{{ r.day }} · {{ r.stories | length }}</span></a></li>
+{% endfor %}
+</ul>
+<p class="sub" style="margin-top:14px"><a href="{{ linkBase }}digests/">{{ site.t.allDigests[0] }} / {{ site.t.allDigests[1] }} ({{ reports | length }}) →</a></p>
+{% endif %}
