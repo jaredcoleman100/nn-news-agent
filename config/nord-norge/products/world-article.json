@@ -1,0 +1,35 @@
+{
+  "newsroom_id": "nord-norge",
+  "version": "1",
+  "trigger": "schedule",
+  "loader": "window",
+  "beats": [
+    "verden"
+  ],
+  "overfetch": 20,
+  "lang": "nb",
+  "region": "Verden",
+  "provider": "gemini",
+  "max_revisions": 0,
+  "renderer": "markdown",
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    }
+  ],
+  "id": "world-article",
+  "name": "Verdensartikkel — én sak, slik den møter Norge",
+  "_purpose": "Daily, after the world brief. One publishable-length news analysis on the single biggest world issue in the window, written from Norway's side of it: the lede opens on the Norwegian consequence. Asked for by Jared 2026-10-06 together with the world brief.",
+  "schedule": "40 6 * * *",
+  "window_hours": 48,
+  "max_items": 24,
+  "template": "world_article",
+  "ethics": {
+    "code": "vvp",
+    "genre": "regional_report"
+  },
+  "_ethics_note": "regional_report genre, not digest: this is a news text, so the report-genre screens (private persons, advocacy terms, fact/comment) apply at full strength."
+}

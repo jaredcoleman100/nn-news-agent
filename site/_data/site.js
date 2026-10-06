@@ -169,6 +169,11 @@ module.exports = {
     outlets: ["Outlets", "Redaksjoner"],
     own: ["NRK", "NRK"],
     external: ["Outside NRK", "Utenfor NRK"],
+    // Shown instead of a card's headline when the item has left the archive and no title
+    // survives. The fallback used to be the raw source URL, which printed four-hundred-character
+    // Google News redirects as <h3> headlines on the public site. The URL is still one line below,
+    // on "Read the original", so nothing is lost by not shouting it.
+    untitled: ["Title unavailable", "Tittel mangler"],
     readOriginal: ["Read the original", "Les originalen"],
     noSummary: ["No summary in the source — title only.", "Ingen sammendrag i kilden — bare tittel."],
     pending: ["English not yet available.", "Engelsk er ikke klar ennå."],

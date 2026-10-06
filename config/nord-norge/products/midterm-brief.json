@@ -1,0 +1,35 @@
+{
+  "id": "midterm-brief",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Mellomvalgbrief — USAs mellomvalg sett fra Norge",
+  "_purpose": "Daily until the 3 November 2026 midterms and through the aftermath: what US voters are being polled and campaigned on, what each of those issues means for Norway (the war, oil and energy, NATO, trade, climate, the oil fund, the Arctic), and what a change of control in Congress would do to global issues and Norway's. Asked for by Jared on 2026-10-06.",
+  "trigger": "schedule",
+  "schedule": "30 6 * * *",
+  "loader": "window",
+  "window_hours": 48,
+  "_window_hours_note": "48 rather than 24: polls land a few times a week and a 24-hour window would give the drafter nothing but campaign colour on the quiet days. The template is told to say what is new since the last brief.",
+  "beats": [
+    "mellomvalg"
+  ],
+  "overfetch": 20,
+  "max_items": 30,
+  "template": "midterm_brief",
+  "ethics": {
+    "code": "vvp",
+    "genre": "digest"
+  },
+  "lang": "nb",
+  "region": "USA",
+  "provider": "gemini",
+  "max_revisions": 0,
+  "renderer": "markdown",
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    }
+  ]
+}

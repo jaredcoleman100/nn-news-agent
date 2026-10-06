@@ -55,11 +55,13 @@
     #}
     <div class="col en">
       <p class="tag">{{ site.t.english[0] }}{% if not s.title_en and s.lang != "en" %} · {{ site.t.pending[0] }}{% endif %}</p>
-      <h3>{{ s.title_en or s.title or s.url }}</h3>
+      <h3>{% if s.title_en %}{{ s.title_en }}{% elif s.title %}{{ s.title }}
+        {%- else %}{{ site.t.untitled[0] }}{% if s.source %} · {{ s.source }}{% endif %}{% endif %}</h3>
     </div>
     <div class="col nb">
       <p class="tag">{{ site.t.norwegian[1] }}{% if not s.title_nb and s.lang and s.lang not in ["nb","nn"] %} · {{ site.t.pending[1] }}{% endif %}</p>
-      <h3>{{ s.title_nb or s.title or s.url }}</h3>
+      <h3>{% if s.title_nb %}{{ s.title_nb }}{% elif s.title %}{{ s.title }}
+        {%- else %}{{ site.t.untitled[1] }}{% if s.source %} · {{ s.source }}{% endif %}{% endif %}</h3>
     </div>
   </div>
   {#

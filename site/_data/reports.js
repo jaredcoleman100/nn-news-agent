@@ -30,14 +30,53 @@ const FILE = process.env.ARCHIVE_REPORTS
 // and paragraphs. Rendering it as HTML here rather than shipping a markdown library keeps the build
 // dependency-free (see eleventy.config.js -- Node would resolve a require against the drive, where
 // there is no node_modules).
-// Escape first, then apply the one inline construct the digests actually use. Order matters: doing
-// it the other way round would let a source's own angle bracket close the <strong> tag.
+// Escape first, then apply the inline constructs the digests use. Order matters: doing it the other
+// way round would let a source's own angle bracket close a tag this function opened.
+//
 // `**Altaposten**: ...` is how every drafted digest attributes a bullet, so leaving it literal put
 // visible asterisks on the front page -- 160 of them across 13 briefs.
+//
+// LINKS were added 2026-10-06. The comment here used to say "the one inline construct the digests
+// actually use", and that was true when the brief templates forbade URLs in the body. The world
+// brief does not obey that: it writes `([The Seattle Times](https://news.google.com/...))` inline,
+// and 605 of those were being printed as raw markdown on the public site -- four hundred characters
+// of Google News redirect, as text, mid-sentence. This is a SECOND renderer from
+// _data/markdown.js, which Norlit uses and which has always handled links; the two drifted because
+// nothing made them share. Worth merging one day; today the digests need links.
+//
+// `"` is escaped here now as well. It was not, because nothing put text inside an attribute. A link
+// href does, and a URL carrying a double quote would otherwise close the attribute and let the rest
+// of it be parsed as markup. Only http(s) is allowed through, which rules out javascript: URLs.
 function inline(text) {
   const esc = String(text || "")
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  return esc.replace(/[*][*]([^*]+)[*][*]/g, "<strong>$1</strong>");
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+  // Markdown links come out first and are parked behind placeholders, so the bare-URL pass below
+  // cannot reach inside an href that this function just wrote and link it a second time.
+  const parked = [];
+  let s = esc.replace(/\[([^\]\n]+)\]\((https?:\/\/[^)\s"'<>]+)\)/g, (_m, label, href) =>
+    `\u0000${parked.push(anchor(href, label)) - 1}\u0000`);
+
+  // Bare URLs, written straight into the prose. The satire desk cites hoyre.no this way and the
+  // world brief does it with Google News redirects, which run to four hundred characters -- as
+  // running text, mid-sentence, that is unreadable, which is why the brief templates ask for them
+  // in `claims` instead. The templates are not obeyed, so shorten the LABEL and keep the href whole.
+  s = s.replace(/(^|[\s(（])(https?:\/\/[^\s<>"'）)]+)/g, (_m, lead, href) =>
+    lead + anchor(href, label(href)));
+
+  s = s.replace(/[*][*]([^*]+)[*][*]/g, "<strong>$1</strong>");
+  return s.replace(/\u0000(\d+)\u0000/g, (_m, i) => parked[Number(i)]);
+}
+
+function anchor(href, text) {
+  return `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+}
+
+/** What a bare URL should READ as. Short ones stay whole; long ones become host + ellipsis. */
+function label(href) {
+  if (href.length <= 60) return href;
+  const host = href.replace(/^https?:\/\//, "").split("/")[0];
+  return `${host}/…`;
 }
 
 function blocks(text) {
@@ -66,6 +105,9 @@ const PRODUCT = {
   "daily-digest": ["Morning brief", "Morgenbrief"],
   "satire-desk": ["Satire desk", "Satiredesken"],
   "international-brief": ["International brief", "Internasjonal brief"],
+  "midterm-brief": ["US midterms brief", "Mellomvalgbrief"],
+  "world-brief": ["World brief", "Verdensbrief"],
+  "world-article": ["World article", "Verdensartikkel"],
   "editor-letter": ["Letter to the editor", "Brev til redaktøren"],
 };
 

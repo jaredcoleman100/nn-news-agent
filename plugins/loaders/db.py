@@ -24,6 +24,66 @@ def _slim(rows: list[dict]) -> list[dict]:
 
 WINDOW_OVERFETCH = int(os.environ.get("WINDOW_OVERFETCH", "8"))
 
+def _today_oslo() -> str:
+    from zoneinfo import ZoneInfo
+    d = datetime.now(ZoneInfo("Europe/Oslo"))
+    months = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"]
+    return f"{d.day}. {months[d.month - 1]} {d.year}"
+
+
+SITE_ORIGIN = os.environ.get("SITE_ORIGIN", "https://norway-royal-news.pages.dev").rstrip("/")
+
+
+def _norlit_outbox():
+    """norlit's outbox: NORLIT_OUTBOX, else the sibling repo on the shared drive, else the
+    committed snapshot under vendor/. Same resolution order as site/_data/norlit.js."""
+    from pathlib import Path
+    here = Path(__file__).resolve()
+    for cand in (os.environ.get("NORLIT_OUTBOX"),
+                 here.parents[2].parent / "norlit" / "outbox",
+                 here.parents[2] / "vendor" / "norlit-outbox"):
+        if cand and Path(cand).is_dir():
+            return Path(cand)
+    return None
+
+
+def _norlit_pieces(cutoff: datetime) -> list[dict[str, Any]]:
+    """Published literature pieces created since `cutoff`, newest first, slimmed for the drafter.
+
+    Titles, kind, theme and the site link only: the brief lists the pieces, it does not summarise
+    or quote them, and the drafter should not be handed 17 essays of body text to resist."""
+    import json
+    box = _norlit_outbox()
+    if not box:
+        return []
+    out = []
+    for f in box.glob("*.json"):
+        try:
+            p = json.loads(f.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if p.get("gate") != "publish":
+            continue
+        when = None
+        for key in ("created_at", "date"):
+            raw = p.get(key)
+            if not raw:
+                continue
+            try:
+                when = datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if when.tzinfo is None:
+                when = when.replace(tzinfo=timezone.utc)
+            break
+        if when is None or when < cutoff:
+            continue
+        out.append({"id": p.get("id"), "kind": p.get("kind"), "date": p.get("date"),
+                    "title": p.get("title"), "title_en": p.get("title_en"), "theme": p.get("theme"),
+                    "url": f"{SITE_ORIGIN}/norlit/{p.get('id')}/", "created_at": when.isoformat()})
+    out.sort(key=lambda x: x["created_at"], reverse=True)
+    return out
+
 
 def _in_window(item: dict[str, Any], cutoff: datetime) -> bool:
     """Is the STORY itself inside the window, rather than merely its hit row?
@@ -119,6 +179,13 @@ class WindowLoader:
             items = [i for i in items if i["region"] in include]
         if exclude:
             items = [i for i in items if i["region"] not in exclude]
+        # `exclude_beats` drops hits on named beats. Added with the `verden` beat (world news a
+        # news director must know, regardless of any Norway link): those hits belong in the
+        # morning brief and nowhere else. Without this the international brief, which loads every
+        # non-Norwegian hit, would fill with Yemen and Brazil and stop being about Norway.
+        exclude_beats = product.get("exclude_beats")
+        if exclude_beats:
+            items = [i for i in items if i.get("beat_id") not in exclude_beats]
         # Truncate AFTER filtering, still in score order -- unless the product asks for a floor
         # per region.
         #
@@ -130,16 +197,26 @@ class WindowLoader:
         # remainder by score, keeps the ranking inside a region while stopping the largest regions
         # from crowding the smallest out of the brief entirely.
         floor = int(product.get("per_region_min", 0))
-        if floor:
+        # `per_beat_min` is the same idea per beat: {"verden": 6} reserves the top six world items
+        # before the global fill. Needed because a world story scored against a generic world-news
+        # beat lands around 0.50, under most Nord-Norge hits, and a plain top-25 would never show
+        # the drafter one.
+        beat_floor = {k: int(v) for k, v in (product.get("per_beat_min") or {}).items()}
+        if floor or beat_floor:
             picked, rest = [], []
             per: dict[str, int] = {}
+            per_beat: dict[str, int] = {}
             for it in items:                       # already in score order
                 r = it["region"]
-                if per.get(r, 0) < floor:
+                b = it.get("beat_id")
+                take = False
+                if floor and per.get(r, 0) < floor:
                     per[r] = per.get(r, 0) + 1
-                    picked.append(it)
-                else:
-                    rest.append(it)
+                    take = True
+                if b in beat_floor and per_beat.get(b, 0) < beat_floor[b]:
+                    per_beat[b] = per_beat.get(b, 0) + 1
+                    take = True
+                (picked if take else rest).append(it)
             items = (picked + rest)[:max_items]
             # Restore global score order so the drafter still sees the strongest material first.
             items.sort(key=lambda i: -(i.get("score") or 0))
@@ -155,6 +232,20 @@ class WindowLoader:
                    .gte("created_at", cutoff).execute().data)
         return Context(primary=items, related=[], beat=None,
                        meta={"window_hours": hours, "prior_reports": reports,
+                             # Today in Oslo, so a headline dates itself from the calendar and
+                             # not from the newest item: the world brief drafted at 13:30 Oslo on
+                             # 6 October called itself «7. oktober» after a UTC-evening item.
+                             "today_oslo": _today_oslo(),
+                             # Hits per beat, so a template can say «Ingen verdenssaker i vinduet»
+                             # from a count rather than from an absence.
+                             "beats": {b: sum(1 for i in items if i.get("beat_id") == b)
+                                       for b in sorted({i.get("beat_id") or "?" for i in items})},
+                             # The literature magazine's pieces published in the window, for the
+                             # brief's «Litteratur» section. Read-only from norlit's outbox, the
+                             # agreed interface (norlit/INTEGRATION.md); the site reads the same
+                             # files. Only `gate: publish` pieces, because only those are on the
+                             # site and a brief must not link a held piece.
+                             "norlit": _norlit_pieces(cutoff_dt),
                              # Counts, so the template can say plainly when the outside world was
                              # quiet rather than padding the lead with NRK's own stories.
                              "external_count": len(external), "own_count": len(own),

@@ -16,6 +16,20 @@ the Norwegian style check and the AI-marking rule read. Use these markdown headi
   the story and nothing more -- no analysis, no "why it matters". This section exists so the editor
   can see what the house already has and avoid commissioning a duplicate. If there are none, write
   «Ingenting fra NRK i vinduet.»
+- `### Verden`: three to five international developments a news director must know this
+  morning **whether or not they touch Norway**. They are the items whose `beat_id` is `verden`,
+  from the world desks (NPR, PBS NewsHour, Al Jazeera, France 24); `meta.beats.verden` says how
+  many are in the window. One bullet each: what happened, which outlet, and one clause on what a
+  Norwegian news director does with it today -- what to commission, what the audience will ask
+  about, what the wire will lead on. Rank by consequence, not by score. A world story that bears
+  directly on Norway may be the `Hovedsak` instead; do not list it twice. `verden` items never go
+  under `Utenfor NRK`. If there are none, write «Ingen verdenssaker i vinduet.»
+- `### Litteratur`: the literature magazine's pieces published since the last brief, from
+  `meta.norlit`. One line per piece: the kind (essay / for yngre lesere / vise / kongen i norsk
+  litteratur), the title copied exactly, the theme if given, and the link. This is a listing, not
+  a review: do not summarise, characterise or quote the piece, and do not invent a piece that is
+  not in `meta.norlit`. In `body_en` use `title_en`. If `meta.norlit` is empty, write «Ingen nye
+  litteraturstykker.»
 - `### Oppfølging`: threads from prior reports that moved.
 - `### På vakt`: items below the report threshold that could become stories.
 - `### Uverifisert`: anything in the day's feed that is single-sourced or social-media-only.
@@ -71,5 +85,5 @@ Rules
 - Do not translate proper nouns, place names or quotations: keep the Sámi/Norwegian dual forms
   (e.g. «Deatnu/Tana») exactly as in the Norwegian, and leave direct quotes in the original with
   an English gloss after them.
-- `headline` is the date and the lead's subject, e.g. «Morgenbrief 14. september 2026 – Melkøya-vedtaket».
+- `headline` is the date and the lead's subject, e.g. «Morgenbrief 14. september 2026 – Melkøya-vedtaket». The date is `meta.today_oslo`, exactly as given; never take it from an item.
 - End `body` with: «Dette sammendraget er laget ved hjelp av kunstig intelligens ({ai_tool}) og er kontrollert av redaksjonen.»

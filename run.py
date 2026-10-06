@@ -287,6 +287,10 @@ def run_product(product_id: str, newsroom_id: str | None = None) -> int | None:
     job = registry.get("trigger", product["trigger"]).to_job(product, {})
     r = pipeline.run(job, product, store=_store)
     print(f"report #{r.id} [{r.gate}] {product['newsroom_id']}/{product['id']}: {r.draft.headline}")
+    # Spend, on its own line, every time: the Gemini account runs on prepaid credit and the
+    # person running this wants to see the cost as it happens, not discover it as an outage.
+    # The same figures are stored on `runs` (input_tokens / output_tokens) keyed by report_id.
+    print(f"usage: {r.usage['input']}+{r.usage['output']} tok ({r.versions.get('draft_model_id') or product.get('provider')})", flush=True)
     translate_cited(r.id)
     return r.id
 

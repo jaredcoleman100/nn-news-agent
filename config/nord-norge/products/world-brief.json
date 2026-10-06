@@ -1,0 +1,36 @@
+{
+  "newsroom_id": "nord-norge",
+  "version": "1",
+  "trigger": "schedule",
+  "loader": "window",
+  "beats": [
+    "verden"
+  ],
+  "overfetch": 20,
+  "lang": "nb",
+  "region": "Verden",
+  "provider": "gemini",
+  "max_revisions": 0,
+  "renderer": "markdown",
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    }
+  ],
+  "id": "world-brief",
+  "name": "Verdensbrief — de største sakene og hvordan de møter Norge",
+  "_purpose": "Daily. Scan the major news outlets (NYT, BBC, Guardian, CNN, Washington Post, Bloomberg, DW, NPR, PBS, Al Jazeera, France 24, Politico Defense) for the biggest issues of the day -- biggest meaning the stories most of them converge on and the ones with the largest consequence -- and say concretely how each one faces Norway. Asked for by Jared 2026-10-06.",
+  "schedule": "10 6 * * *",
+  "window_hours": 48,
+  "_window_hours_note": "48 hours so a story that broke late yesterday and is still the biggest today is in the window; the template is told to lead on what is new.",
+  "max_items": 30,
+  "_max_items_note": "40 -> 30 on 2026-10-06: with the item index and descriptive paragraphs in two languages, 40 items overran even a 32000-token output budget and the JSON truncated on every model. Still larger than the digest: the point is to see the same story from several outlets, so convergence can be measured rather than guessed.",
+  "template": "world_brief",
+  "ethics": {
+    "code": "vvp",
+    "genre": "digest"
+  }
+}

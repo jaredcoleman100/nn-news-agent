@@ -850,5 +850,584 @@
       "min_published": "2025-01-01",
       "why": "Polar research and fisheries, from the other end of the planet's polar politics."
     }
+  },
+  {
+    "name": "NPR World",
+    "kind": "rss",
+    "url": "https://feeds.npr.org/1004/rss.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "trust_hint": true,
+      "min_published": "2026-10-01",
+      "why": "World desk for the brief's «Verden» section (added 2026-10-05). trust_hint: a curated world-news feed is the editorial selection already made; every item becomes a verden hit and the loader's per_beat_min hands the drafter the top few. Verified 2026-10-05, ~15 items per fetch, story pages carry the broadcast transcript."
+    }
+  },
+  {
+    "name": "PBS NewsHour World",
+    "kind": "rss",
+    "url": "https://www.pbs.org/newshour/feeds/rss/world",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "trust_hint": true,
+      "min_published": "2026-10-01",
+      "why": "Second curated world desk, same reasoning as NPR World. Verified 2026-10-05. Items titled «WATCH:» are video-first with short text."
+    }
+  },
+  {
+    "name": "Al Jazeera English",
+    "kind": "rss",
+    "url": "https://www.aljazeera.com/xml/rss/all.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "middle-east",
+      "min_published": "2026-10-01",
+      "why": "Non-US world desk so «Verden» is not a Washington view. The all-items feed carries sport and features too, so NO trust_hint: items are scored against the verden beat and only hard news should clear it. Verified 2026-10-05."
+    }
+  },
+  {
+    "name": "France 24 (EN)",
+    "kind": "rss",
+    "url": "https://www.france24.com/en/rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "europe",
+      "min_published": "2026-10-01",
+      "why": "European world desk, scored normally like Al Jazeera. Verified 2026-10-05."
+    }
+  },
+  {
+    "name": "The Hill — Campaign",
+    "kind": "rss",
+    "url": "https://thehill.com/homenews/campaign/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "trust_hint": true,
+      "min_published": "2026-10-01",
+      "why": "The Hill's election desk: every item is the campaign, so the hint wins outright and the midterm brief always has material. Verified 2026-10-06."
+    }
+  },
+  {
+    "name": "NPR Politics",
+    "kind": "rss",
+    "url": "https://feeds.npr.org/1014/rss.xml",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Scored normally: the politics feed carries courts and the White House too. Verified 2026-10-05."
+    }
+  },
+  {
+    "name": "PBS NewsHour Politics",
+    "kind": "rss",
+    "url": "https://www.pbs.org/newshour/feeds/rss/politics",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Scored normally. Segment pages carry the broadcast transcript. Verified 2026-10-05."
+    }
+  },
+  {
+    "name": "Pew Research Center",
+    "kind": "rss",
+    "url": "https://www.pewresearch.org/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-09-01",
+      "why": "The polling source: what voters say matters, with method. Scored normally because Pew also publishes on religion, media and demography. Verified 2026-10-06."
+    }
+  },
+  {
+    "name": "Roll Call",
+    "kind": "rss",
+    "url": "https://rollcall.com/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Congress from the inside: race ratings, appropriations, what a change of control does to the calendar. Scored normally. Verified 2026-10-05."
+    }
+  },
+  {
+    "name": "New York Times — World",
+    "kind": "rss",
+    "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "trust_hint": true,
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403."
+    }
+  },
+  {
+    "name": "BBC News — World",
+    "kind": "rss",
+    "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "trust_hint": true,
+      "region": "europe",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403."
+    }
+  },
+  {
+    "name": "The Guardian — World",
+    "kind": "rss",
+    "url": "https://www.theguardian.com/world/rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "trust_hint": true,
+      "region": "europe",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403."
+    }
+  },
+  {
+    "name": "CNN — World",
+    "kind": "rss",
+    "url": "http://rss.cnn.com/rss/edition_world.rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "trust_hint": true,
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403."
+    }
+  },
+  {
+    "name": "Washington Post — World",
+    "kind": "rss",
+    "url": "https://feeds.washingtonpost.com/rss/world",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "trust_hint": true,
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403."
+    }
+  },
+  {
+    "name": "Bloomberg — Politics",
+    "kind": "rss",
+    "url": "https://www.bloomberg.com/feeds/politics/news.rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403. Bloomberg's feed carries headline and standfirst only; the body is paywalled."
+    }
+  },
+  {
+    "name": "Deutsche Welle — World",
+    "kind": "rss",
+    "url": "https://rss.dw.com/rdf/rss-en-world",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "trust_hint": true,
+      "region": "europe",
+      "min_published": "2026-10-01",
+      "why": "World desk for the verden beat (world brief, world article, the morning brief's «Verden»). trust_hint since 2026-10-06: a curated world desk is the editorial selection already made, and the world brief counts outlets, so the major desks must all be in the hits. Fetched OK from the worker's Python on 2026-10-06; the sandbox fetcher is blocked by this host, so do not judge it dead from a WebFetch 403."
+    }
+  },
+  {
+    "name": "Politico — Congress",
+    "kind": "rss",
+    "url": "https://rss.politico.com/congress.xml",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Congress desk for the midterm brief, scored normally. Fetched OK from the worker 2026-10-06; rss.politico.com is blocked for the sandbox fetcher."
+    }
+  },
+  {
+    "name": "Politico — Defense",
+    "kind": "rss",
+    "url": "https://rss.politico.com/defense.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Defense desk; hits verden or arctic-security on score. Fetched OK from the worker 2026-10-06."
+    }
+  },
+  {
+    "name": "Inside Elections",
+    "kind": "rss",
+    "url": "https://insideelections.com/feed",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Nonpartisan race ratings (Gonzales). Every item is the 2026 map, so the hint wins outright.",
+      "trust_hint": true
+    }
+  },
+  {
+    "name": "Ballotpedia News",
+    "kind": "rss",
+    "url": "https://news.ballotpedia.org/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Election administration and primaries, nonpartisan reference desk. Every item is elections.",
+      "trust_hint": true
+    }
+  },
+  {
+    "name": "YouGov US",
+    "kind": "rss",
+    "url": "https://today.yougov.com/rss",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Daily polling with method. Also publishes consumer and lifestyle polls, so scored normally."
+    }
+  },
+  {
+    "name": "NBC News — Politics",
+    "kind": "rss",
+    "url": "https://feeds.nbcnews.com/nbcnews/public/politics",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). "
+    }
+  },
+  {
+    "name": "CBS News — Politics",
+    "kind": "rss",
+    "url": "https://www.cbsnews.com/latest/rss/politics",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). "
+    }
+  },
+  {
+    "name": "Fox News — Politics",
+    "kind": "rss",
+    "url": "https://moxie.foxnews.com/google-publisher/politics.xml",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). The largest right-of-centre news desk; needed so the midterm brief hears the Republican campaign in its own words, attributed."
+    }
+  },
+  {
+    "name": "Los Angeles Times — Politics",
+    "kind": "rss",
+    "url": "https://www.latimes.com/politics/rss2.0.xml",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). 99 items per fetch; the scorer does the filtering. California House seats decide the majority math."
+    }
+  },
+  {
+    "name": "Vox — Politics",
+    "kind": "rss",
+    "url": "https://www.vox.com/rss/politics/index.xml",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Explanatory, left-of-centre."
+    }
+  },
+  {
+    "name": "The Atlantic — Politics",
+    "kind": "rss",
+    "url": "https://www.theatlantic.com/feed/channel/politics/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Long-form, centre-left."
+    }
+  },
+  {
+    "name": "SCOTUSblog",
+    "kind": "rss",
+    "url": "https://www.scotusblog.com/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Supreme Court term runs through the election; rulings on climate suits, tariffs and voting law are campaign issues."
+    }
+  },
+  {
+    "name": "National Review",
+    "kind": "rss",
+    "url": "https://www.nationalreview.com/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Conservative opinion."
+    }
+  },
+  {
+    "name": "Washington Examiner",
+    "kind": "rss",
+    "url": "https://www.washingtonexaminer.com/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Conservative news and opinion, strong on Hill reporting."
+    }
+  },
+  {
+    "name": "The Dispatch",
+    "kind": "rss",
+    "url": "https://thedispatch.com/feed/",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Centre-right, Trump-sceptic."
+    }
+  },
+  {
+    "name": "The Bulwark",
+    "kind": "rss",
+    "url": "https://www.thebulwark.com/feed",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Never-Trump centre-right."
+    }
+  },
+  {
+    "name": "RealClearPolitics",
+    "kind": "rss",
+    "url": "https://www.realclearpolitics.com/index.xml",
+    "beat_hint": "mellomvalg",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Aggregator of opinion from both sides plus its polling averages; items are mostly links to others, so low body text."
+    }
+  },
+  {
+    "name": "Foreign Policy",
+    "kind": "rss",
+    "url": "https://foreignpolicy.com/feed/",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Analysis; paywall after a few articles, body may be short."
+    }
+  },
+  {
+    "name": "Foreign Affairs",
+    "kind": "rss",
+    "url": "https://www.foreignaffairs.com/rss.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Analysis; paywalled body, standfirst only."
+    }
+  },
+  {
+    "name": "Responsible Statecraft",
+    "kind": "rss",
+    "url": "https://responsiblestatecraft.org/feed/",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Quincy Institute, restraint school; the argument against the NATO-first consensus, attributed."
+    }
+  },
+  {
+    "name": "Atlantic Council",
+    "kind": "rss",
+    "url": "https://www.atlanticcouncil.org/feed/",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). All programs; replaces the sparse Northern Europe feed."
+    }
+  },
+  {
+    "name": "American Enterprise Institute",
+    "kind": "rss",
+    "url": "https://www.aei.org/feed/",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Centre-right think tank; defense and trade."
+    }
+  },
+  {
+    "name": "Heritage Foundation",
+    "kind": "rss",
+    "url": "https://www.heritage.org/rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "north-america",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Conservative think tank; the policy agenda of the current administration, attributed."
+    }
+  },
+  {
+    "name": "Politico Europe",
+    "kind": "rss",
+    "url": "https://www.politico.eu/feed/",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "europe",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Brussels on Washington; EU trade retaliation lands on Norway through the EEA."
+    }
+  },
+  {
+    "name": "EUobserver",
+    "kind": "rss",
+    "url": "https://euobserver.com/rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "europe",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). "
+    }
+  },
+  {
+    "name": "Meduza (EN)",
+    "kind": "rss",
+    "url": "https://meduza.io/rss/en/all",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "russia",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Independent Russian outlet in exile (Riga); the Russian side of the war and sanctions."
+    }
+  },
+  {
+    "name": "The Moscow Times",
+    "kind": "rss",
+    "url": "https://www.themoscowtimes.com/rss/news",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "en",
+      "region": "russia",
+      "min_published": "2026-10-01",
+      "why": "Tested from the worker's Python 2026-10-06 (status 200, current items). Independent, Amsterdam-based since 2022."
+    }
+  },
+  {
+    "name": "_political-feeds-tested-2026-10-06",
+    "kind": "rss",
+    "url": "about:tested-2026-10-06",
+    "beat_hint": null,
+    "active": false,
+    "config": {},
+    "_note": "Not a source. Record of the political feeds tested from the worker on 2026-10-06 that are NOT worth adding, so nobody re-tests them next month: Axios Politics: 404; WSJ Politics: 404 feed not found; Semafor Politics: 404; Reason: 504; Daily Kos Elections: feed served but zero items; Lawfare: 403 Cloudflare challenge; Sabato's Crystal Ball: 403 Cloudflare challenge; Gallup: 404 on every RSS path tried; Quinnipiac: 404; Morning Consult: 404; CFR: 404; Brookings: HTML, no feed; Cato: 403; Euractiv: 403 Cloudflare challenge; Kyiv Independent: 404 at /feed/; Monmouth Poll: live but last item Dec 2024; Marist Poll: live but non-political; AP-NORC: live but last item 2023; GMF: live but last item 2023"
   }
 ]

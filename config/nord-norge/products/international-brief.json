@@ -12,6 +12,8 @@
   "exclude_regions": [
     "norway"
   ],
+  "exclude_beats": ["verden", "mellomvalg"],
+  "_exclude_beats_note": "The world desks (NPR World, PBS NewsHour World, Al Jazeera, France 24) hit the `verden` beat for the morning brief's «Verden» section. They are not coverage OF Norway, which is this brief's whole subject, so they are dropped here.",
   "_exclude_regions_note": "The whole point. Without it the ranked window is ~90% Norwegian outlets and this brief is just the daily digest again.",
   "overfetch": 40,
   "_overfetch_note": "Much larger than the default 8: the region filter runs after the ranked fetch, so the query has to reach deep enough to find non-Norwegian items that score below the Norwegian ones.",
