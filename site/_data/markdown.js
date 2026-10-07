@@ -19,18 +19,62 @@
 const esc = (t) => String(t == null ? "" : t)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** Inline: bold, italic, inline code, and links. Applied to already-escaped text. */
+function anchor(href, text) {
+  return `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+}
+
+/** What a bare URL should READ as. Short ones stay whole; long ones become host + ellipsis. */
+function shorten(href) {
+  if (href.length <= 60) return href;
+  return `${href.replace(/^https?:\/\//, "").split("/")[0]}/…`;
+}
+
+/**
+ * Inline formatting, applied to already-escaped text.
+ *
+ * THIS IS THE ONE INLINE RENDERER. The Norlit pieces and the briefs both go through it.
+ *
+ * There used to be two. This file handled links; _data/reports.js had its own copy that handled
+ * only **bold**, because when it was written the brief templates forbade URLs in the body. The
+ * briefs stopped obeying that, and 605 markdown links published as literal text -- four hundred
+ * characters of Google News redirect, mid-sentence, on a public indexed site. Nothing made the two
+ * agree, so they drifted silently and the drift was invisible until someone read the page. Merged
+ * 2026-10-07; reports.js now calls inlineText() here and owns only its block structure.
+ *
+ * ORDER MATTERS, twice over:
+ *   - Escaping happens before any of this (see esc), or a source's angle bracket closes a tag.
+ *   - Links are parked behind placeholders BEFORE emphasis runs and restored after, because a URL
+ *     may contain _ or * and the emphasis rules would otherwise eat into the href. Parking also
+ *     stops the bare-URL pass from re-linking a href the markdown-link pass just wrote.
+ *
+ * Only http(s) is linked, so a `javascript:` URL stays inert text.
+ */
 function inline(t) {
-  return t
+  const parked = [];
+  const park = (html) => `\u0000${parked.push(html) - 1}\u0000`;
+
+  let s = t
     .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\[([^\]\n]+)\]\((https?:\/\/[^)\s"'<>]+)\)/g,
+             (_m, text, href) => park(anchor(href, text)))
+    // Bare URLs written straight into prose. The satire desk cites hoyre.no that way and the world
+    // brief does it with Google News redirects, so the label is shortened and the href kept whole.
+    .replace(/(^|[\s(（])(https?:\/\/[^\s<>"'）)]+)/g,
+             (_m, lead, href) => lead + park(anchor(href, shorten(href))));
+
+  s = s
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/__([^_]+)__/g, "<strong>$1</strong>")
     // Single * or _ for italic, but not inside a word (snake_case survives intact).
     .replace(/(^|[\s(（])\*([^*\n]+)\*/g, "$1<em>$2</em>")
-    .replace(/(^|[\s(（])_([^_\n]+)_/g, "$1<em>$2</em>")
-    // Links: the href is escaped text, and only http(s) is allowed through.
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
-             '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    .replace(/(^|[\s(（])_([^_\n]+)_/g, "$1<em>$2</em>");
+
+  return s.replace(/\u0000(\d+)\u0000/g, (_m, i) => parked[Number(i)]);
+}
+
+/** Escape raw text and format it, for callers holding raw markdown rather than escaped text. */
+function inlineText(raw) {
+  return inline(esc(raw));
 }
 
 function render(src) {
@@ -91,4 +135,4 @@ function render(src) {
   return out.join("\n");
 }
 
-module.exports = { render };
+module.exports = { render, inline, inlineText, esc };
