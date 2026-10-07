@@ -55,6 +55,13 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      # Wrangler works out the account by listing accounts, and a Pages-scoped token sees none --
+      # it returns success with an empty list, so the error is "Failed to automatically retrieve
+      # account IDs" rather than a permission denial. Locally this never came up because wrangler
+      # has an interactive OAuth login that already knows the account. A repository VARIABLE, not
+      # a secret: an account id is an identifier that appears in dashboard URLs, not a credential,
+      # and writing it down where it can be read makes this failure obvious next time.
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
 
     steps:
       - uses: actions/checkout@v4
