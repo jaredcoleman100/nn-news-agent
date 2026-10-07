@@ -173,9 +173,9 @@ module.exports = {
     // survives. The fallback used to be the raw source URL, which printed four-hundred-character
     // Google News redirects as <h3> headlines on the public site. The URL is still one line below,
     // on "Read the original", so nothing is lost by not shouting it.
-    // The phone-only language toggle. Norwegian is the default there; this reveals English.
-    showEnglish: ["Show English", "Vis engelsk"],
-    hideEnglish: ["Hide English", "Skjul engelsk"],
+    // The language view control: both columns, Norwegian only, or English only.
+    langView: ["Language", "Språk"],
+    bothLangs: ["Both", "Begge"],
     untitled: ["Title unavailable", "Tittel mangler"],
     readOriginal: ["Read the original", "Les originalen"],
     noSummary: ["No summary in the source — title only.", "Ingen sammendrag i kilden — bare tittel."],
