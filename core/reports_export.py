@@ -86,6 +86,38 @@ def _url_chunks(urls: list[str]) -> list[list[str]]:
     return chunks
 
 
+CITED_FILE = Path(os.environ.get("ARCHIVE_CITED", str(ARCHIVE_DIR.parent / "cited.json")))
+
+
+def _load_cited() -> dict[str, dict[str, Any]]:
+    """Titles of articles a brief has cited, remembered across exports.
+
+    WHY THIS EXISTS
+    A card's title and outlet were read from `items` at export time, every time. Items leave that
+    table -- 24 cited URLs had gone by 2026-10-07 -- and when one did, its card lost its headline
+    and its outlet and fell back to printing the raw URL. The brief still quoted the article; the
+    page just stopped being able to say which article it was.
+
+    The archive is derived and may be rebuilt, but a citation is a published claim about a specific
+    piece of someone else's journalism, and it has to stay attributable for as long as the brief is
+    up. So the first time a cited URL resolves, its title and outlet are written here, and from then
+    on the card survives the item being deleted, re-ingested or aged out.
+
+    Append-only in practice: an entry is refreshed while the item exists and kept once it does not.
+    Small -- a few hundred rows of titles -- and committed, so a CI build has it too.
+    """
+    try:
+        return json.loads(CITED_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _save_cited(cited: dict[str, dict[str, Any]]) -> None:
+    CITED_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CITED_FILE.write_text(json.dumps(cited, ensure_ascii=False, indent=1, sort_keys=True),
+                          encoding="utf-8")
+
+
 def _best(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """The row to display for a URL: prefer a translated one, then one with a title at all."""
     if not rows:
@@ -162,6 +194,7 @@ def export(sb) -> Path:
     urls = sorted({(c or {}).get("source_url") or ""
                    for r in reports for c in (r.get("claims") or [])} - {""})
     items = _items_by_url(sb, urls)
+    cited = _load_cited()
 
     # Outlet display names come from `sources`, so a card says "Altaposten" rather than a slug.
     srcs = {s["id"]: s for s in sb.table("sources").select("id,name,url,config").execute().data}
@@ -212,6 +245,23 @@ def export(sb) -> Path:
                 item = _best(rows)
                 src = srcs.get(item.get("source_id")) or {}
                 outlet, display_title = _outlet_of(item, src)
+
+                # Remember it while we can; fall back to what we remembered when we cannot. See
+                # _load_cited(). An item that has left `items` resolves to {} above, which used to
+                # mean a card with no headline and no outlet.
+                if display_title or item.get("title_en"):
+                    cited[url] = {"title": display_title,
+                                  "title_en": item.get("title_en") or "",
+                                  "title_nb": item.get("title_nb") or "",
+                                  "lang": (item.get("lang") or "").lower(),
+                                  "source": outlet or item.get("source_id") or ""}
+                elif url in cited:
+                    remembered = cited[url]
+                    display_title = remembered.get("title") or ""
+                    item = {**item, **{k: remembered.get(k, "")
+                                       for k in ("title_en", "title_nb", "lang")}}
+                    outlet = outlet or remembered.get("source") or ""
+
                 grouped[url] = {
                     "url": url,
                     "title": display_title,
@@ -279,12 +329,16 @@ def export(sb) -> Path:
     REPORTS_FILE.parent.mkdir(parents=True, exist_ok=True)
     REPORTS_FILE.write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8",
                             newline="\n")
+    _save_cited(cited)
+    orphans = sum(1 for r in out for s in r["stories"] if not (s["title"] or s["title_en"]))
     stories = sum(len(r["stories"]) for r in out)
     en = sum(1 for r in out if r["body_en"])
     keys = {c["key"] for r in out for s in r["stories"] for c in s["cats"]}
     uncat = sum(1 for r in out for s in r["stories"] if not s["cats"])
     print(f"  reports export: {len(out)} digests, {stories} cited stories, {en} with English, "
           f"{len(keys)} categories ({uncat} stories uncategorised) -> {REPORTS_FILE.name}")
+    print(f"  cited cache: {len(cited)} articles remembered"
+          + (f", {orphans} cards still have no title" if orphans else ", every card has a title"))
     return REPORTS_FILE
 
 
