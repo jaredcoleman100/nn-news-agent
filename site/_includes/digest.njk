@@ -135,10 +135,23 @@
   and `accusation_requires_reply` on «kritiserer»; publishing those as the stated reason would
   read as an admission that the warning means nothing.
 #}
+{#
+  SEVERITY NOW DECIDES HOW LOUD THIS IS (2026-10-07). Every flag used to render the same full red
+  box, placed above the headline -- so the first thing any reader saw was a warning, and on the
+  front page that warning was usually `ethnicity_or_identity` matching the word «samiske» in a
+  brief about Sámi affairs. A false positive and a real concern looked identical, which teaches
+  people to skip both.
+
+  A `block` flag still opens as a box. A `review` flag collapses to one line that expands. The
+  information is identical either way -- nothing is hidden, the summary states the count and the
+  <details> is one click -- but the page no longer shouts about a regex match on a word the subject
+  of the piece requires.
+#}
 {% macro warning(r, site, internal) %}
   {% if r.warn | length %}
-  <div class="ethics">
-    <p class="ethics-h">{{ site.t.ethicsWarning[0] }}<span class="alt">{{ site.t.ethicsWarning[1] }}</span></p>
+  {% set blocking = r.warn | where("severity", "block") %}
+  <details class="ethics {{ 'is-block' if blocking | length else 'is-review' }}"{{ ' open' if blocking | length }}>
+    <summary class="ethics-h">{{ site.t.ethicsWarning[0] }} ({{ r.warn | length }})<span class="alt">{{ site.t.ethicsWarning[1] }}</span></summary>
     <ul>
       {% for f in r.warn %}
       <li>
@@ -150,7 +163,7 @@
       {% endfor %}
     </ul>
     <p class="ethics-f">{{ site.t.ethicsFoot[0] }}<span class="alt">{{ site.t.ethicsFoot[1] }}</span></p>
-  </div>
+  </details>
   {% endif %}
 {% endmacro %}
 

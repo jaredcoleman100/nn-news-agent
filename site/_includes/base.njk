@@ -108,6 +108,21 @@
   .standfirst { font-family: "EB Garamond", Georgia, serif; font-size: 0.86rem;
                 color: var(--muted); margin: 9px 0 0; letter-spacing: 0.04em;
                 text-transform: uppercase; }
+  /* The English toggle. Only ever shown on a narrow screen: on a wide one both columns are
+     already visible and the button would do nothing. */
+  .lang-toggle { display: none; font: inherit; font-size: 0.78rem; cursor: pointer;
+                 border: 1px solid var(--line); background: var(--chip); color: var(--ink);
+                 border-radius: 999px; padding: 5px 12px; margin: 0 0 12px;
+                 letter-spacing: 0.03em; }
+  .lang-toggle:hover { border-color: var(--gold); }
+
+  /* The ethics note. `is-block` keeps the red box; `is-review` is a quiet collapsed line, because
+     a regex matching «samiske» in a piece about Sámi affairs is not a red-box event. */
+  details.ethics > summary { cursor: pointer; }
+  details.ethics.is-review { border-color: var(--line); background: transparent; }
+  details.ethics.is-review > summary { font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+  details.ethics.is-review ul, details.ethics.is-review .ethics-f { font-size: 0.8rem; }
+
   /* Below ~420px the flourishes crowd the name; the nameplate is the thing that must stay legible. */
   @media (max-width: 420px) { .orn { display: none; } .nameplate { gap: 0; } }
   h1 .alt, .sub .alt { display: block; font-size: 0.92rem; font-weight: 500; color: var(--muted);
@@ -128,8 +143,15 @@
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
   .col.nb { border-left: 1px solid var(--line); padding-left: 20px; }
   @media (max-width: 760px) {
-    .pair { grid-template-columns: 1fr; gap: 16px 0; }
-    .col.nb { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 14px; }
+    /* PHONES READ NORWEGIAN FIRST (2026-10-07). Stacked, the grid put the English column first,
+       so a Norwegian reader on a phone scrolled an entire English brief -- often 600 words -- to
+       reach the one they wanted. The readers this is built for are a Norwegian newsroom. English
+       is still here, one tap away, and both columns stay side by side on a wide screen. */
+    .pair { display: flex; flex-direction: column; gap: 16px 0; }
+    .col.nb { order: 1; border-left: 0; padding-left: 0; border-top: 0; padding-top: 0; }
+    .col.en { order: 2; border-top: 1px solid var(--line); padding-top: 14px; display: none; }
+    :root[data-show-en="1"] .col.en { display: block; }
+    .lang-toggle { display: inline-block; }
   }
   .tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
          color: var(--muted); font-weight: 600; margin: 0 0 5px; }
@@ -411,6 +433,8 @@
   <a href="{{ linkBase }}browse/"{% if navKey == "browse" %} aria-current="page"{% endif %}>{{ site.t.browse[0] }} / {{ site.t.browse[1] }}</a>
   {% endif %}
 </nav>
+<button class="lang-toggle" id="langToggle" type="button" hidden
+        aria-expanded="false">{{ site.t.showEnglish[1] }} / {{ site.t.showEnglish[0] }}</button>
 {{ content | safe }}
 {# THE PUBLIC NOTICE. On every page, because with the gate off a reader can arrive on any one of
    them without passing a front door. `navKey == "satire"` adds the satire disclaimer only where it
@@ -442,5 +466,30 @@
     · {{ site.t.newestBrief[1] }} {{ built.newest or "--" }}</span></p>
   <p class="fine">{{ site.t.noticeCrest[0] }}<span class="alt">{{ site.t.noticeCrest[1] }}</span></p>
 </footer>
+<script>
+/* Phone language toggle. The English column is hidden by CSS below 720px; this reveals it and
+   remembers the choice. The button starts `hidden` and is only shown here, so a browser with no
+   JavaScript never renders a control that would do nothing. localStorage is wrapped because it
+   throws outright in some privacy modes rather than merely returning null. */
+(function () {
+  var b = document.getElementById("langToggle");
+  if (!b) return;
+  var root = document.documentElement;
+  var SHOW = "{{ site.t.showEnglish[1] }} / {{ site.t.showEnglish[0] }}", HIDE = "{{ site.t.hideEnglish[1] }} / {{ site.t.hideEnglish[0] }}";
+  function store(v) { try { localStorage.setItem("nrn_en", v); } catch (e) {} }
+  function load() { try { return localStorage.getItem("nrn_en"); } catch (e) { return null; } }
+  function apply(on) {
+    root.setAttribute("data-show-en", on ? "1" : "0");
+    b.textContent = on ? HIDE : SHOW;
+    b.setAttribute("aria-expanded", on ? "true" : "false");
+  }
+  apply(load() === "1");
+  b.hidden = false;
+  b.addEventListener("click", function () {
+    var on = root.getAttribute("data-show-en") !== "1";
+    apply(on); store(on ? "1" : "0");
+  });
+})();
+</script>
 </body>
 </html>
