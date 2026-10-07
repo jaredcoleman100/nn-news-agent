@@ -72,7 +72,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          # `npm install --prefix X` reads package.json from INSIDE X, not from the repo root,
+          # so this copies the manifest in first. The toolchain is kept out of the repo on purpose
+          # -- see core/publish.py's header -- and the runner mirrors that rather than installing
+          # node_modules next to the source.
+          mkdir -p "$SITE_TOOLCHAIN"
+          cp package.json "$SITE_TOOLCHAIN/package.json"
           npm install --prefix "$SITE_TOOLCHAIN" --no-audit --no-fund
+          test -x "$SITE_TOOLCHAIN/node_modules/.bin/eleventy" || { echo "eleventy missing"; exit 1; }
+          test -x "$SITE_TOOLCHAIN/node_modules/.bin/wrangler" || { echo "wrangler missing"; exit 1; }
 
       # Drafting is allowed to fail WITHOUT taking the publish down with it. That is the whole
       # lesson of publish_local.cmd: drafting dies whenever the Gemini credits run dry, and a page

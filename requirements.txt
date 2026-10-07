@@ -1,4 +1,8 @@
 anthropic
+# Required, not optional: core/registry.py imports EVERY plugin at startup, so a missing provider
+# SDK breaks commands that never use it. Its absence took down a deploy in CI on 2026-10-07 while
+# working fine here, because it was installed in the local venv and never written down.
+openai
 supabase
 fastapi
 uvicorn
