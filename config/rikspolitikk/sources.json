@@ -106,10 +106,10 @@
   {
     "name": "Fremskrittspartiet",
     "kind": "rss",
-    "url": "https://www.frp.no/feed",
+    "url": "https://www.frp.no/feed.rss",
     "beat_hint": "lovnad-mot-levering",
-    "active": false,
-    "note": "NO RSS FEED EXISTS (checked 2026-09-14): /feed, /rss, /rss.xml, /aktuelt/rss all 404. This is the single most important gap in this config - FrP is the primary target party and its own on-the-record output is not ingestible by RSS. Until a substitute exists, FrP positions reach this desk only through third-party reporting, which weakens promise-vs-delivery jokes. Needs a scraper or a Stortinget-side source."
+    "active": true,
+    "note": "verified 2026-10-07: feed IS at /feed.rss, declared in the homepage's <link rel=\"alternate\" type=\"application/rss+xml\">. The 2026-09-14 note said no feed existed, having tried /feed, /rss, /rss.xml and /aktuelt/rss -- guessed paths, never the declared one. Returns 200 with 50 items under our own user-agent; no spoofing needed. FrP is the satire desk's primary subject and 0 items had ever been ingested."
   },
   {
     "name": "Industri- og Naeringspartiet",
