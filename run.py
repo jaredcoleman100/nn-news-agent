@@ -211,11 +211,32 @@ def score() -> int:
 
 
 # ---------------------------------------------------------------- report
+# Standing editorial policy since 2026-10-08, on the editor's instruction: publish everything, do
+# not hold back. Set AUTO_APPROVE=0 to go back to deciding each report by hand.
+#
+# BE CLEAR ABOUT WHAT THIS CHANGES. `editor_decision` used to mean "a person read this one and said
+# yes". It now means "this falls under a standing instruction to publish". That is a real loss of
+# information and it is deliberate: the alternative was a human approving 19 reports in a batch
+# days later, which recorded the same thing while pretending to be per-item review. Ten such
+# batches happened in four days.
+#
+# What it does NOT touch: the ethics screen, the gate, or the warnings on the page. A report that
+# screens `blocked` still screens blocked, still carries its flags, and still shows them to the
+# reader. Approval was never the thing holding those back.
+AUTO_APPROVE = os.environ.get("AUTO_APPROVE", "1") != "0"
+
+_APPROVAL_REASON = ("Approved on draft under the editor's standing instruction (2026-10-08): "
+                    "publish everything, do not hold back. Not a per-report decision.")
+
+
 def _store(r: Report) -> Report:
     job = sb().table("jobs").insert({"newsroom_id": r.job.newsroom_id, "product_id": r.job.product_id,
                                      "trigger": r.job.trigger, "payload": r.job.payload}).execute().data[0]
     r.job.id = job["id"]
-    row = sb().table("reports").insert({**r.to_row(), "hit_id": r.job.payload.get("hit_id")}).execute().data[0]
+    approval = ({"editor_decision": "approved", "editor_reason": _APPROVAL_REASON,
+                 "decided_at": datetime.now(timezone.utc).isoformat()} if AUTO_APPROVE else {})
+    row = sb().table("reports").insert({**r.to_row(), "hit_id": r.job.payload.get("hit_id"),
+                                        **approval}).execute().data[0]
     r.id = row["id"]
     sb().table("runs").insert({"job_id": job["id"], "report_id": r.id, "hit_id": r.job.payload.get("hit_id"), "status": "ok",
                                "finished_at": "now()", "steps": r.log, "input_tokens": r.usage["input"], "output_tokens": r.usage["output"]}).execute()

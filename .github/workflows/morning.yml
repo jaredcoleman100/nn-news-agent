@@ -10,19 +10,33 @@
 # also runs late under load -- ten to thirty minutes routinely, and it occasionally skips a slot
 # outright. Hence three attempts with hours of margin rather than one on the hour:
 #
-#     03:00 UTC -> 05:00 Oslo (CEST) / 04:00 (CET)
-#     04:00 UTC -> 06:00 Oslo (CEST) / 05:00 (CET)
-#     05:00 UTC -> 07:00 Oslo (CEST) / 06:00 (CET)
+# MEASURED 2026-10-08: the three scheduled runs that day were created at 10:16, 11:08 and 11:45
+# UTC. They were scheduled for 03:00, 04:00 and 05:00. That is a delay of six and a half to seven
+# and a quarter hours, not the ten to thirty minutes the docs lead you to expect, and all three
+# landed after the 08:00 Oslo deadline. They succeeded; they were simply far too late to matter.
+# The deadline that morning was met by the laptop, not by this.
 #
-# Running three times is safe because drafting is idempotent per OSLO day (run.py's
-# drafted_today()): the first attempt drafts and deploys, the other two find today's brief already
-# written, skip the draft, and redeploy. Redeploying is a no-op for readers and costs one upload.
+# So the slots now start the previous EVENING and span eight hours, on the reasoning that a cron
+# delayed by N hours still has to fire eventually and one of these should land in the window:
+#
+#     22:00 UTC (prev day) -> 00:00 Oslo on time, ~07:00 Oslo at the delay seen on 8 Oct
+#     00:00 UTC            -> 02:00 Oslo on time
+#     02:00 UTC            -> 04:00 Oslo on time
+#     03:30 UTC            -> 05:30 Oslo on time
+#     05:00 UTC            -> 07:00 Oslo on time
+#
+# An early slot costs nothing when it runs ON time, because the --oslo-hour guard refuses to draft
+# before Oslo 05:00 and the run simply redeploys. That is what makes this safe to spread: the guard,
+# not the cron, decides when a brief is written. Drafting is also idempotent per Oslo day, so
+# whichever slot gets there first writes the brief and the rest skip and redeploy.
 name: morning
 
 on:
   schedule:
-    - cron: "0 3 * * *"
-    - cron: "0 4 * * *"
+    - cron: "0 22 * * *"
+    - cron: "0 0 * * *"
+    - cron: "0 2 * * *"
+    - cron: "30 3 * * *"
     - cron: "0 5 * * *"
   workflow_dispatch:
     inputs:
