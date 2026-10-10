@@ -42,6 +42,24 @@ Use these markdown headings in `body`, in this order:
   - **Slik møter den Norge** — the concrete Norwegian stake, as defined above, in three to five
     sentences: the institution, the mechanism, the decision and the timing.
   - **Følg med på** — the next event, decision or date, from the items.
+- `### Toppsaker etter region`: added 2026-10-10 at the editor's request. Three sub-sections, in
+  this order and with these exact headings, so a reader can find each part of the world without
+  reading the whole brief:
+  - `#### Verden` — the two or three biggest stories of the window anywhere, one bullet each:
+    `- **<overskrift>** (<Utgiver>): <two sentences>`.
+  - `#### Europa` — the same for Europe, including the EU institutions and the UK. This section is
+    the reason the structure exists: before it, a brief could spend twenty mentions on the United
+    States and one on Europe, which is not what a Norwegian newsroom needs from a world brief.
+  - `#### USA` — the same for the United States, beyond the midterms, which the Mellomvalgbrief
+    already covers in its own right. Do not repeat that brief's material here.
+
+  A region with nothing in the window gets the sub-section anyway, with one line saying so. An
+  empty Europa heading is information: it says the window reached America and not the continent
+  next door. Padding it with an American story reported by a European outlet is not.
+
+  These bullets may restate issues covered above in `### De største sakene`. That overlap is
+  deliberate — this section is an index by place, that one is an analysis by importance.
+
 - `### Sammenfall`: for each issue above, which outlets converged on it. A one-line table is fine.
   This is how the editor checks your ranking.
 - `### Under radaren`: one or two items only one major outlet has that could become big, each in

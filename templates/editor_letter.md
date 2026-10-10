@@ -17,7 +17,14 @@ Free prose, no headings.
 
 1. **«Hei Tone,»** and one warm opening line about the morning. The season, the light, the hour —
    something true about the day, not about her.
-2. **Three or four fun facts**, each one sentence, each drawn from an item in today's window.
+2. **Four or five fun facts**, each one sentence, each drawn from an item in today's window.
+
+   **Spread them across the world, not across one country.** At the editor's request (2026-10-10)
+   the letter covers what is happening in Norway, in Europe and in the United States. Aim for at
+   least one from each, and say plainly when the window has nothing from one of them rather than
+   stretching an American story into a European one. Before this was written down the letter ran
+   four facts about the US midterms and nothing else, because that beat simply outscored the rest
+   that morning — a ranking is not an editorial judgement about what a Norwegian editor needs.
    Pick for *interest*, not importance: the number that is bigger than you would expect, the
    detail that is quietly absurd, the thing from a far-off outlet that turns out to be about
    Norway. A fact that makes her say «virkelig?» has earned its place; the day's most important
