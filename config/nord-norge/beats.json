@@ -542,6 +542,55 @@
         "notes": "Polls are reported with pollster, field dates and, where given, sample and margin; a poll is a measurement, not a result. Forecasts and scenarios are attributed to whoever made them, never stated in the desk's voice. Claims about election integrity are reported only as attributed claims with the response. Headlines may not go beyond the polled numbers."
       },
       "_threshold_note": "Desk default 0.48, unmeasured as of 2026-10-06. The Hill's campaign desk carries trust_hint, so its items hit this beat regardless of score; NPR Politics, PBS Politics, Pew and Roll Call are scored normally. Sample the 0.46-0.52 band after a week and pin."
+    },
+    {
+      "id": "uro-europa",
+      "name": "Civil unrest in France and Europe",
+      "description": "Civil unrest in European cities: riots and urban violence in France and the Paris region, demonstrations and strikes that turn confrontational, police response and public-order policing, curfews and bans on gatherings, states of emergency, arrests and prosecutions arising from disorder, damage to public buildings, unrest spreading between French cities and to other European countries, the political argument over security and causes, and official statements by interior ministries, prefectures and mayors. Includes the social and economic grievances behind the unrest where reporting ties them to it.",
+      "keywords_nb": [
+        "opptøyer",
+        "uroligheter",
+        "demonstrasjon",
+        "streik",
+        "portforbud",
+        "unntakstilstand",
+        "politiaksjon",
+        "bråk",
+        "sammenstøt",
+        "Paris",
+        "Frankrike"
+      ],
+      "keywords_en": [
+        "riot",
+        "civil unrest",
+        "urban violence",
+        "demonstration",
+        "protest",
+        "strike",
+        "curfew",
+        "state of emergency",
+        "police response",
+        "clashes",
+        "looting"
+      ],
+      "watch_sources": [
+        "RFI",
+        "France 24",
+        "franceinfo",
+        "Le Monde",
+        "Libération",
+        "AFP"
+      ],
+      "ethics_profile": {
+        "clauses": [
+          "VVP 4.7",
+          "VVP 4.5",
+          "VVP 4.3",
+          "VVP 4.6"
+        ],
+        "notes": "Disorder coverage identifies arrested and charged people, often young and often by ethnicity in the surrounding debate. VVP 4.7 on identification and 4.3 on ethnicity are structurally in play on almost every item, not occasionally. Casualty and injury reporting brings 4.6. Expect the screens to fire constantly on this beat; that is the subject, not a defect, and the warnings belong on the page."
+      },
+      "_threshold_note": "New 2026-10-21 at the editor's request, for a daily unrest column. The beat is written long and concrete because it has to separate genuine disorder from the far larger volume of ordinary protest and politics coverage that shares its vocabulary."
     }
   ]
 }

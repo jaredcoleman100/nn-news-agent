@@ -1,0 +1,39 @@
+{
+  "id": "unrest-brief",
+  "version": "1",
+  "newsroom_id": "nord-norge",
+  "name": "Uro i Europa — daglig spalte om sivil uro i Frankrike og Europa",
+  "trigger": "schedule",
+  "schedule": "25 6 * * *",
+  "_schedule_note": "06:25 Oslo. The desks run five minutes apart on this machine so they do not contend: daily-digest 06:00, world-brief 06:10, midterm-brief 06:20, this 06:25, publish 06:30. All inside the 08:00 deadline with room for the cloud runner being late.",
+  "loader": "window",
+  "window_hours": 36,
+  "_window_hours_note": "36 rather than 24: the French evening edition and the following morning's wrap are the two halves of the same night, and a 24-hour window splits them.",
+  "max_items": 45,
+  "beats": [
+    "uro-europa"
+  ],
+  "overfetch": 25,
+  "_overfetch_note": "The beat draws from eleven foreign-language feeds, five of which are topical query feeds that return everything matching their query. Overfetching then ranking is what keeps a quiet night in Paris from being filled with a protest in another country entirely.",
+  "template": "unrest_brief",
+  "ethics": {
+    "code": "vvp",
+    "genre": "digest"
+  },
+  "lang": "nb",
+  "region": "Europa",
+  "provider": "gemini",
+  "_provider_note": "gemini like the other news desks. The column is mostly summarising and attributing foreign-language reporting rather than writing prose, which is the task this model is steadiest at.",
+  "max_revisions": 0,
+  "_max_revisions_note": "0. The ethics screens on this beat fire on the SUBJECT -- arrests, ethnicity in the political debate, injuries -- not on any abuse of it. A redraft cannot clear them without abandoning the story, and would sand off the attributed detail that makes the column worth reading. The flags publish as warnings instead.",
+  "renderer": "markdown",
+  "check_spelling": false,
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    }
+  ]
+}

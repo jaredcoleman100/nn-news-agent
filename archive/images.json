@@ -154,5 +154,18 @@
 "entity": "Tromsø",
 "subject_page": "https://no.wikipedia.org/wiki/Troms%C3%B8",
 "fetched_at": "2026-10-01T11:27:27Z"
+},
+"Stortinget": {
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/2025_Norwegian_Storting.svg/960px-2025_Norwegian_Storting.svg.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+"width": 900,
+"height": 463,
+"artist": "GlowstoneUnknown",
+"license": "Public domain",
+"license_url": "",
+"file_page": "https://commons.wikimedia.org/wiki/File:2025_Norwegian_Storting.svg",
+"descr": "Rødt: 9 seats Sosialistisk Venstreparti: 9 seats Arbeiderpartiet: 53 seats Miljøpartiet De Grønne: 8 seats Senterpartiet: 9 seats Venstre: 3 seats Høyre: 24 seats Kristlig Folkeparti: 7 seats Fremskri",
+"entity": "Stortinget",
+"subject_page": "https://no.wikipedia.org/wiki/Stortinget",
+"fetched_at": "2026-10-16T04:30:56Z"
 }
 }

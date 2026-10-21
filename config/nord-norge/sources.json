@@ -417,26 +417,28 @@
     "_note": "OFF. Added and withdrawn the same day, 2026-09-28. The feed parses and the content is about Norway, but it is a camper-van travel blog: 29 of its 60 items scored as hits (48%, against an 8% archive average) because the `transport` beat is about roads, ferries and the kortbanenett and the blog is about driving in Norway. 'Wintercamping in Norwegen' and 'Diesel, Benzin und Spartipps' are not newsroom material. Its items and hits were deleted. A feed parsing is not evidence that it belongs in a brief."
   },
   {
-    "name": "Le Monde (international)",
+    "name": "Le Monde — une",
     "kind": "rss",
-    "url": "https://www.lemonde.fr/international/rss_full.xml",
-    "beat_hint": "arctic-security",
-    "active": false,
+    "url": "https://www.lemonde.fr/rss/une.xml",
+    "beat_hint": "uro-europa",
+    "active": true,
     "config": {
       "lang": "fr",
       "region": "europe"
-    }
+    },
+    "_note": "2026-10-21: switched from international/rss_full.xml, which returns 1 entry, to une.xml, which returns 16. Reactivated for the unrest column."
   },
   {
     "name": "RFI Europe",
     "kind": "rss",
     "url": "https://www.rfi.fr/fr/europe/rss",
-    "beat_hint": "arctic-security",
-    "active": false,
+    "beat_hint": "uro-europa",
+    "active": true,
     "config": {
       "lang": "fr",
       "region": "europe"
-    }
+    },
+    "_note": "2026-10-21: reactivated for the unrest column; the feed returns 30 entries and was simply switched off."
   },
   {
     "name": "El Pais (internacional)",
@@ -1429,5 +1431,178 @@
     "active": false,
     "config": {},
     "_note": "Not a source. Record of the political feeds tested from the worker on 2026-10-06 that are NOT worth adding, so nobody re-tests them next month: Axios Politics: 404; WSJ Politics: 404 feed not found; Semafor Politics: 404; Reason: 504; Daily Kos Elections: feed served but zero items; Lawfare: 403 Cloudflare challenge; Sabato's Crystal Ball: 403 Cloudflare challenge; Gallup: 404 on every RSS path tried; Quinnipiac: 404; Morning Consult: 404; CFR: 404; Brookings: HTML, no feed; Cato: 403; Euractiv: 403 Cloudflare challenge; Kyiv Independent: 404 at /feed/; Monmouth Poll: live but last item Dec 2024; Marist Poll: live but non-political; AP-NORC: live but last item 2023; GMF: live but last item 2023"
+  },
+  {
+    "name": "RFI France",
+    "kind": "rss",
+    "url": "https://www.rfi.fr/fr/france/rss",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "Added 2026-10-21 for the civil-unrest column; entry count verified with feedparser before adding."
+  },
+  {
+    "name": "France 24 (FR)",
+    "kind": "rss",
+    "url": "https://www.france24.com/fr/rss",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "Added 2026-10-21 for the civil-unrest column; entry count verified with feedparser before adding."
+  },
+  {
+    "name": "franceinfo",
+    "kind": "rss",
+    "url": "https://www.francetvinfo.fr/titres.rss",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "Added 2026-10-21 for the civil-unrest column; entry count verified with feedparser before adding."
+  },
+  {
+    "name": "Google News FR: émeutes",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=%C3%A9meutes+OR+%22violences+urbaines%22&hl=fr&gl=FR&ceid=FR:fr",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe",
+      "trust_hint": true
+    },
+    "_note": "trust_hint: this is a Google News QUERY feed, pre-filtered to the beat's subject by the query itself, so the hint is an editorial judgement already made. Needed because a Norwegian- and English-written beat scores foreign-language items 0.45-0.57 -- below any sane threshold -- which is why run.py's score() has this escape hatch at all. The measured similarity is still recorded."
+  },
+  {
+    "name": "Google News FR: manifestations",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=manifestation+OR+gr%C3%A8ve+Paris&hl=fr&gl=FR&ceid=FR:fr",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe",
+      "trust_hint": true
+    },
+    "_note": "trust_hint: this is a Google News QUERY feed, pre-filtered to the beat's subject by the query itself, so the hint is an editorial judgement already made. Needed because a Norwegian- and English-written beat scores foreign-language items 0.45-0.57 -- below any sane threshold -- which is why run.py's score() has this escape hatch at all. The measured similarity is still recorded."
+  },
+  {
+    "name": "Google News DE: Ausschreitungen",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=Unruhen+OR+Ausschreitungen&hl=de&gl=DE&ceid=DE:de",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "de",
+      "region": "europe",
+      "trust_hint": true
+    },
+    "_note": "trust_hint: this is a Google News QUERY feed, pre-filtered to the beat's subject by the query itself, so the hint is an editorial judgement already made. Needed because a Norwegian- and English-written beat scores foreign-language items 0.45-0.57 -- below any sane threshold -- which is why run.py's score() has this escape hatch at all. The measured similarity is still recorded."
+  },
+  {
+    "name": "Google News ES: disturbios",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=disturbios+OR+protestas&hl=es&gl=ES&ceid=ES:es",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "es",
+      "region": "europe",
+      "trust_hint": true
+    },
+    "_note": "trust_hint: this is a Google News QUERY feed, pre-filtered to the beat's subject by the query itself, so the hint is an editorial judgement already made. Needed because a Norwegian- and English-written beat scores foreign-language items 0.45-0.57 -- below any sane threshold -- which is why run.py's score() has this escape hatch at all. The measured similarity is still recorded."
+  },
+  {
+    "name": "Google News IT: scontri",
+    "kind": "rss",
+    "url": "https://news.google.com/rss/search?q=proteste+OR+scontri&hl=it&gl=IT&ceid=IT:it",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "it",
+      "region": "europe",
+      "trust_hint": true
+    },
+    "_note": "trust_hint: this is a Google News QUERY feed, pre-filtered to the beat's subject by the query itself, so the hint is an editorial judgement already made. Needed because a Norwegian- and English-written beat scores foreign-language items 0.45-0.57 -- below any sane threshold -- which is why run.py's score() has this escape hatch at all. The measured similarity is still recorded."
+  },
+  {
+    "name": "RFI Monde",
+    "kind": "rss",
+    "url": "https://www.rfi.fr/fr/monde/rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "General French desk, NOT trust_hint: it carries bond yields and culture alongside unrest, and forcing every item into one beat would fill the column with noise. It scores like any other source. Added 2026-10-21; entry count verified with feedparser first."
+  },
+  {
+    "name": "Le Monde — international",
+    "kind": "rss",
+    "url": "https://www.lemonde.fr/international/rss_full.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "General French desk, NOT trust_hint: it carries bond yields and culture alongside unrest, and forcing every item into one beat would fill the column with noise. It scores like any other source. Added 2026-10-21; entry count verified with feedparser first."
+  },
+  {
+    "name": "France 24 (FR) — Europe",
+    "kind": "rss",
+    "url": "https://www.france24.com/fr/europe/rss",
+    "beat_hint": "uro-europa",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "General French desk, NOT trust_hint: it carries bond yields and culture alongside unrest, and forcing every item into one beat would fill the column with noise. It scores like any other source. Added 2026-10-21; entry count verified with feedparser first."
+  },
+  {
+    "name": "Euronews (FR)",
+    "kind": "rss",
+    "url": "https://fr.euronews.com/rss",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "General French desk, NOT trust_hint: it carries bond yields and culture alongside unrest, and forcing every item into one beat would fill the column with noise. It scores like any other source. Added 2026-10-21; entry count verified with feedparser first."
+  },
+  {
+    "name": "Courrier international",
+    "kind": "rss",
+    "url": "https://www.courrierinternational.com/feed/all/rss.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "General French desk, NOT trust_hint: it carries bond yields and culture alongside unrest, and forcing every item into one beat would fill the column with noise. It scores like any other source. Added 2026-10-21; entry count verified with feedparser first."
+  },
+  {
+    "name": "Le Figaro — international",
+    "kind": "rss",
+    "url": "https://www.lefigaro.fr/rss/figaro_international.xml",
+    "beat_hint": "verden",
+    "active": true,
+    "config": {
+      "lang": "fr",
+      "region": "europe"
+    },
+    "_note": "General French desk, NOT trust_hint: it carries bond yields and culture alongside unrest, and forcing every item into one beat would fill the column with noise. It scores like any other source. Added 2026-10-21; entry count verified with feedparser first."
   }
 ]
