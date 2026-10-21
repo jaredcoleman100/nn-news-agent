@@ -29,6 +29,17 @@ Return these sections, in this order, with these exact headings.
   buildings damaged, officers deployed), and who reported them. **Attribute every number to the
   outlet that published it** and give the French original for any official term you translate, e.g.
   «état d'urgence» (unntakstilstand).
+- `### Varslede samlinger`: gatherings that have been **announced, called or banned** for a named
+  place and time, each on one line with the place, the date, who called or banned it, and the
+  outlet. This section is reported fact — a union calling a march, a prefecture banning one — and
+  it is the only forward-looking thing in the column.
+
+  **It is not a prediction of where unrest will happen.** Do not list a place because disorder
+  seems likely there, because it has a history of it, or because a politician warned about it. If
+  nothing has been announced or banned in the window, write «Ingen varslede samlinger i dette
+  vinduet.» A guessed location presented next to real ones is worse than an empty section: it reads
+  with the same authority and it is the kind of thing that gets repeated.
+
 - `### Resten av Europa`: one bullet per other country with unrest in the window:
   `- **<Land>** (<Utgiver>): <two sentences>`. A country with nothing gets no bullet; do not pad.
 - `### Myndighetenes svar`: what interior ministries, prefectures, police and mayors have announced
@@ -47,6 +58,28 @@ Return these sections, in this order, with these exact headings.
   check before using it. Be specific to today: a casualty figure only one outlet carries, a number
   that moved between editions, an official claim no journalist has verified, a machine translation
   you would not stake a sentence on.
+
+## Map links
+
+Added 2026-10-21 at the editor's request. Give a map link for every place you name as a location of
+unrest, and for every place in `### Varslede samlinger`. Put it immediately after the place, as a
+markdown link reading **«kart»**:
+
+    #### Paris — Seine-Saint-Denis ([kart](https://www.google.com/maps/search/?api=1&query=Seine-Saint-Denis,+France))
+    - **Lyon** ([kart](https://www.google.com/maps/search/?api=1&query=Lyon,+France)): ...
+
+Build the URL yourself in exactly that form — `https://www.google.com/maps/search/?api=1&query=`
+followed by the place and the country, spaces as `+`, accents written normally (`Nanterre`,
+`Saint-Étienne`). Nothing else: no coordinates, no place IDs, no shortened links. You cannot look a
+place up, so a coordinate or an ID would be invented, and an invented coordinate points confidently
+at the wrong street.
+
+**Be no more precise than the reporting.** If an outlet says unrest was in a named commune, link
+the commune. If it says only «la banlieue parisienne», link the city — do not pick a suburb to make
+the link look specific. A map pin is read as a statement of fact about where something happened.
+
+Do not link a place merely mentioned in passing — a minister's home town, where a court sits — only
+places where unrest occurred or where a gathering has been announced or banned.
 
 ## This subject, specifically
 
