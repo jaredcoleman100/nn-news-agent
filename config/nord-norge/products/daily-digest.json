@@ -4,21 +4,41 @@
   "newsroom_id": "nord-norge",
   "name": "Morgenbrief — Nord-Norge",
   "trigger": "schedule",
-  "schedule": "0 6 * * 1-5",
+  "schedule": "0 6 * * *",
   "loader": "window",
   "window_hours": 24,
   "max_items": 30,
   "_max_items_note": "25 -> 30 on 2026-10-05 with per_beat_min, so the six reserved world items do not cost the regional beats their slots.",
-  "per_beat_min": {"verden": 6},
-  "exclude_beats": ["mellomvalg"],
+  "per_beat_min": {
+    "verden": 6
+  },
+  "exclude_beats": [
+    "mellomvalg"
+  ],
   "_exclude_beats_note": "US midterm items have their own daily brief (midterm-brief); in the morning brief they would crowd the regional beats and say nothing about Norway.",
   "_per_beat_min_note": "Reserve the top six `verden` hits (world news a news director must know, regardless of Norway) before the global fill, for the brief's «Verden» section. Same mechanism as the international brief's per_region_min; see plugins/loaders/db.py.",
   "template": "daily_digest",
-  "ethics": {"code": "vvp", "genre": "digest"},
+  "ethics": {
+    "code": "vvp",
+    "genre": "digest"
+  },
   "lang": "nb",
   "region": "Nord-Norge",
   "provider": "gemini",
   "max_revisions": 0,
   "renderer": "markdown",
-  "deliverers": [{"name": "email", "to": ["jaredcoleman100@gmail.com"]}, {"name": "slack", "webhook_env": "SLACK_DIGEST_WEBHOOK_URL", "renderer": "slack_md"}]
+  "deliverers": [
+    {
+      "name": "email",
+      "to": [
+        "jaredcoleman100@gmail.com"
+      ]
+    },
+    {
+      "name": "slack",
+      "webhook_env": "SLACK_DIGEST_WEBHOOK_URL",
+      "renderer": "slack_md"
+    }
+  ],
+  "_schedule_note": "Was `0 6 * * 1-5`. The desk has in fact drafted every day including weekends since the Windows tasks took over, because those pass --oslo-hour and never looked at the weekday field. Corrected 2026-10-27 when --run-due started reading the cron for real: the config has to say what the desk does, or making the schedule self-maintaining would quietly have stopped the weekend digest."
 }

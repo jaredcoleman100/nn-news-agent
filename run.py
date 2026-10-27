@@ -26,7 +26,7 @@ os.environ.setdefault("EMBED_DIM", "768")
 
 from core import archive, archive_site, enrich, outlets, pipeline, publish as publish_mod, registry, reports_export, translate
 from core.embeddings import embed
-from core.products import list_newsrooms, load_product, resolve_product
+from core.products import list_newsrooms, list_products, load_product, resolve_product
 from core.schema import Job, Report
 from plugins.loaders.db import sb
 
@@ -258,6 +258,72 @@ def oslo_hour() -> int:
     from datetime import datetime
     from zoneinfo import ZoneInfo
     return datetime.now(ZoneInfo("Europe/Oslo")).hour
+
+
+def _cron_hour_and_days(expr: str) -> tuple[int, set[int]] | None:
+    """(hour, weekdays) from a product's `schedule`. Weekdays are Python's: Monday 0 .. Sunday 6.
+
+    Minute is ignored on purpose. The desks are five minutes apart so they do not contend on one
+    machine, not because 06:25 means anything editorially, and a runner that waited for the exact
+    minute would simply miss whenever the cron fired late -- which is most mornings.
+    """
+    parts = (expr or "").split()
+    if len(parts) != 5:
+        return None
+    try:
+        hour = int(parts[1])
+    except ValueError:
+        return None          # ranges or lists in the hour field: not used here, not guessed at
+    field = parts[4]
+    if field in ("*", "?"):
+        return hour, set(range(7))
+    days: set[int] = set()
+    for part in field.split(","):
+        try:
+            lo, hi = (int(x) for x in part.split("-")) if "-" in part else (int(part), int(part))
+        except ValueError:
+            return hour, set(range(7))
+        for c in range(lo, hi + 1):
+            # cron: Sunday is 0 (and 7); Python: Monday is 0.
+            days.add(6 if c % 7 == 0 else c % 7 - 1)
+    return hour, days
+
+
+def due_products(newsroom_id: str, now_oslo=None) -> list[tuple[str, int]]:
+    """Which scheduled products of this newsroom are due, by their OWN config. (id, hour).
+
+    THE POINT OF THIS IS THAT NOBODY HAS TO REMEMBER. The cloud workflow used to carry a
+    hard-coded list, and when four desks were added over the following fortnight nobody added them
+    to it -- so from 23 to 26 October the site published one brief a day instead of five while
+    every cloud run reported success. A list kept in two places is a list that will disagree.
+
+    Due means: the product declares a cron `schedule`, today is one of its weekdays, the Oslo hour
+    has arrived, and it is not paused. Whether it has already been written today is decided by
+    drafted_today() at the point of drafting, not here, so this stays a pure question about the
+    clock.
+    """
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+
+    now = now_oslo or datetime.now(ZoneInfo("Europe/Oslo"))
+    out = []
+    for pid in list_products(newsroom_id):
+        try:
+            # (newsroom, product) -- the OPPOSITE order to resolve_product(product, newsroom).
+            p = load_product(newsroom_id, pid)
+        except Exception as e:                      # a broken config must not hide the others
+            print(f"  {pid}: config will not load ({e}); skipped")
+            continue
+        if p.get("trigger") != "schedule" or p.get("paused"):
+            continue
+        parsed = _cron_hour_and_days(p.get("schedule", ""))
+        if not parsed:
+            print(f"  {pid}: trigger=schedule but no usable `schedule` cron; skipped")
+            continue
+        hour, days = parsed
+        if now.weekday() in days and now.hour >= hour:
+            out.append((pid, hour))
+    return sorted(out, key=lambda x: x[1])
 
 
 def drafted_today(product_id: str, newsroom_id: str | None = None) -> bool:
@@ -626,6 +692,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--seed", action="store_true"); ap.add_argument("--loop", action="store_true")
     ap.add_argument("--backfill", action="store_true", help="enrich thin bodies, then re-embed and re-score")
     ap.add_argument("--ingest", action="store_true", help="fetch + score every newsroom; no drafting, no delivery")
+    ap.add_argument("--run-due", action="store_true",
+                    help="draft every scheduled product this newsroom says is due now, from the "
+                         "product configs themselves — no hard-coded list anywhere")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --run-due: print what would be drafted and spend nothing")
     ap.add_argument("--run", metavar="PRODUCT_ID",
                     help="draft one product now, as the worker's /run/<product-id> does")
     ap.add_argument("--newsroom", help="disambiguate a product id that both desks define")
@@ -651,6 +722,31 @@ if __name__ == "__main__":
         seed()
     if a.backfill:
         backfill(); raise SystemExit(0)
+    if a.run_due:
+        from zoneinfo import ZoneInfo
+        now = datetime.now(ZoneInfo("Europe/Oslo"))
+        due = due_products(a.newsroom or NEWSROOM, now)
+        print(f"Oslo {now:%Y-%m-%d %H:%M %Z} — {len(due)} scheduled product(s) due in "
+              f"{a.newsroom or NEWSROOM}: {', '.join(p for p, _ in due) or '(none)'}")
+        if a.dry_run:
+            for pid, hour in due:
+                print(f"  {pid:20s} scheduled {hour:02d}:xx  "
+                      f"{'already written today' if drafted_today(pid, a.newsroom) else 'WOULD DRAFT'}")
+            raise SystemExit(0)
+        failed, drafted, skipped = [], [], []
+        for pid, _ in due:
+            if drafted_today(pid, a.newsroom):
+                skipped.append(pid); print(f"skip: {pid} already has a report for today (Oslo)")
+                continue
+            try:
+                run_product(pid, a.newsroom); drafted.append(pid)
+            except Exception as e:
+                # One desk must never cost the others. A dry Gemini balance used to take down
+                # whatever came after it in the list.
+                failed.append(pid); print(f"FAILED: {pid}: {type(e).__name__}: {e}")
+        print(f"due: {len(due)} | drafted: {len(drafted)} | already done: {len(skipped)} "
+              f"| failed: {len(failed)}{' -> ' + ', '.join(failed) if failed else ''}")
+        raise SystemExit(1 if failed else 0)
     if a.run:
         # Before the while loop, like --ingest: falling through into one_pass() would draft a
         # SECOND time via report() and deliver both.

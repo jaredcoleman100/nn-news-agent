@@ -107,38 +107,24 @@ jobs:
       # lesson of publish_local.cmd: drafting dies whenever the Gemini credits run dry, and a page
       # frozen at yesterday with nothing saying so is worse than a page that refreshes and shows
       # its own build stamp. The deploy below therefore runs with `if: always()`.
-      # ALL FIVE DESKS, not just the digest (fixed 2026-10-27).
+      # THE LIST LIVES IN THE PRODUCT CONFIGS, NOT HERE.
       #
-      # This drafted `daily-digest` alone, and the other four desks -- world-brief, midterm-brief,
-      # unrest-brief, world-article -- existed only as Windows scheduled tasks on one laptop. From
-      # 23 to 26 October that laptop was off, and the site published exactly one brief a day
-      # instead of five for four days running. Nothing failed and nothing said anything: the cloud
-      # run went green every morning because the one desk it knew about worked fine.
+      # This step drafted `daily-digest` alone while four other desks existed only as scheduled
+      # tasks on one laptop. That laptop was off from 23 to 26 October and the site published one
+      # brief a day instead of five, with every cloud run reporting success, because the one desk
+      # the workflow knew about worked fine. Replacing one hard-coded list with a longer one would
+      # have failed again the next time a desk was added.
       #
-      # Each desk is drafted in its own command, and the loop does not stop at the first failure --
-      # a dry Gemini balance or one bad template must not cost the other four. Drafting is
-      # idempotent per Oslo day, so on the second and later cron slots every desk simply reports
-      # that today's edition already exists and nothing is spent on it.
-      - name: Draft today's briefs
+      # `--run-due` reads config/<newsroom>/products/*.json, takes everything with
+      # trigger=schedule, and drafts whatever the Oslo clock says is due by that product's OWN
+      # cron. Adding a desk is adding a config file; nothing here changes. One desk failing does
+      # not stop the others, and drafting stays idempotent per Oslo day, so the later cron slots
+      # find each edition already written and spend nothing.
+      - name: Draft everything due
         id: draft
         if: ${{ !inputs.skip_draft }}
         continue-on-error: true
-        run: |
-          failed=""
-          for p in daily-digest world-brief midterm-brief unrest-brief world-article; do
-            echo "::group::$p"
-            if python run.py --run "$p" --newsroom nord-norge --oslo-hour 5; then
-              echo "  $p ok"
-            else
-              echo "  $p FAILED"; failed="$failed $p"
-            fi
-            echo "::endgroup::"
-          done
-          if [ -n "$failed" ]; then
-            echo "desks that failed:$failed" >> "$GITHUB_STEP_SUMMARY"
-            echo "desks that failed:$failed"
-            exit 1
-          fi
+        run: python run.py --run-due --newsroom nord-norge
 
       - name: Build and deploy
         if: always()
