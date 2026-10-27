@@ -6,8 +6,9 @@
 Uses the same core/ and plugins/ as the full deployment; only the entrypoint differs.
 """
 from __future__ import annotations
-import argparse, json, os, sys, time
+import argparse, json, os, re, sys, time, unicodedata
 from datetime import datetime, timezone
+from urllib.parse import quote_plus, unquote_plus
 from email.utils import parsedate_to_datetime
 from typing import Any
 from pathlib import Path
@@ -229,7 +230,88 @@ _APPROVAL_REASON = ("Approved on draft under the editor's standing instruction (
                     "publish everything, do not hold back. Not a per-report decision.")
 
 
+_MAP_LINK = re.compile(r"\[kart\]\(https://www\.google\.com/maps/search/\?api=1&query=([^)]+)\)")
+
+
+def _verify_map_links(r: Report) -> None:
+    """Strip map pins for places that appear nowhere in the material the desk was given.
+
+    WHY THIS IS CODE AND NOT AN INSTRUCTION
+    The unrest template already says, in as many words, to be no more precise than the reporting
+    and never to invent a location. On 2026-10-27 the desk pinned Rillieux-la-Pape and Bilbao.
+    Both are real places, both geocode cleanly, both are entirely plausible for the story -- and
+    neither appeared in a single one of the thousand items on the beat. That is what makes an
+    invented pin worse than invented prose: it is specific, it is checkable-looking, and a reader
+    takes a map pin as a statement of fact about where something happened.
+
+    A rule the model has already broken is not a control. So the place has to be present in the
+    text the desk actually read, or the LINK comes off. The place name stays in the sentence --
+    removing it would make the prose lie about what the desk wrote -- and the editor note says what
+    was stripped, so a recurring invention is visible rather than silently cleaned up.
+
+    Cheap and skipped entirely for the products that have no map links, which is all but one.
+    """
+    body = r.draft.body or ""
+    places = _MAP_LINK.findall(body) + _MAP_LINK.findall(r.draft.sections.get("body_en", "") or "")
+    if not places:
+        return
+
+    product = resolve_product(r.job.product_id, r.job.newsroom_id)
+    beats = product.get("beats") or []
+    hay = ""
+    if beats:
+        ids = [h["item_id"] for h in sb().table("hits").select("item_id")
+               .in_("beat_id", beats).eq("newsroom_id", r.job.newsroom_id).limit(3000).execute().data]
+        for i in range(0, len(ids), 200):
+            for row in sb().table("items").select("title,body").in_("id", ids[i:i + 200]).execute().data:
+                hay += f" {row.get('title') or ''} {row.get('body') or ''}"
+    hay = hay.lower()
+
+    def norm(s: str) -> str:
+        """Lowercase, accents folded. «Genève» and «Geneve» are the same place."""
+        return "".join(ch for ch in unicodedata.normalize("NFKD", s.lower())
+                       if not unicodedata.combining(ch))
+
+    hay = norm(hay)
+
+    stripped = []
+    for raw in set(places):
+        # "Rillieux-la-Pape,+France" -> the place, without the country we appended ourselves.
+        place = unquote_plus(raw).split(",")[0].strip()
+        if not place:
+            continue
+        # A place is present if the corpus contains the name, its first element, or a six-letter
+        # prefix of it. The prefix is what makes this usable across five languages: the French
+        # items say «Barcelone» and the pin says Barcelona, and an exact match called that an
+        # invention and removed a legitimate link. Six is long enough that it does not start
+        # matching unrelated words, and the test only has to show the place was WRITTEN ABOUT --
+        # whether the reporting supports the claim is the ethics screen's job, not this one's.
+        n = norm(place)
+        cands = {n, norm(re.split(r"[-\s]", place)[0])} | ({n[:6]} if len(n) > 6 else set())
+        if any(c and len(c) >= 4 and c in hay for c in cands):
+            continue
+        stripped.append(place)
+
+    if not stripped:
+        return
+    for place in stripped:
+        body = re.sub(r"\s*\[kart\]\(https://www\.google\.com/maps/search/\?api=1&query="
+                      + re.escape(quote_plus(place)) + r"[^)]*\)", "", body)
+        for key in ("body_en",):
+            if r.draft.sections.get(key):
+                r.draft.sections[key] = re.sub(
+                    r"\s*\[kart\]\(https://www\.google\.com/maps/search/\?api=1&query="
+                    + re.escape(quote_plus(place)) + r"[^)]*\)", "", r.draft.sections[key])
+    note = ("Kartlenker fjernet for steder som ikke finnes i kildematerialet: "
+            + ", ".join(sorted(stripped)) + ".")
+    r.draft.body = body.rstrip() + "\n\n" + note
+    r.log.append({"step": "map_links", "stripped": sorted(stripped),
+                  "why": "place absent from every item on the product's beats"})
+    print(f"  map links: stripped {len(stripped)} unverifiable pin(s): {', '.join(sorted(stripped))}")
+
+
 def _store(r: Report) -> Report:
+    _verify_map_links(r)
     job = sb().table("jobs").insert({"newsroom_id": r.job.newsroom_id, "product_id": r.job.product_id,
                                      "trigger": r.job.trigger, "payload": r.job.payload}).execute().data[0]
     r.job.id = job["id"]
