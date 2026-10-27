@@ -107,11 +107,38 @@ jobs:
       # lesson of publish_local.cmd: drafting dies whenever the Gemini credits run dry, and a page
       # frozen at yesterday with nothing saying so is worse than a page that refreshes and shows
       # its own build stamp. The deploy below therefore runs with `if: always()`.
-      - name: Draft today's brief
+      # ALL FIVE DESKS, not just the digest (fixed 2026-10-27).
+      #
+      # This drafted `daily-digest` alone, and the other four desks -- world-brief, midterm-brief,
+      # unrest-brief, world-article -- existed only as Windows scheduled tasks on one laptop. From
+      # 23 to 26 October that laptop was off, and the site published exactly one brief a day
+      # instead of five for four days running. Nothing failed and nothing said anything: the cloud
+      # run went green every morning because the one desk it knew about worked fine.
+      #
+      # Each desk is drafted in its own command, and the loop does not stop at the first failure --
+      # a dry Gemini balance or one bad template must not cost the other four. Drafting is
+      # idempotent per Oslo day, so on the second and later cron slots every desk simply reports
+      # that today's edition already exists and nothing is spent on it.
+      - name: Draft today's briefs
         id: draft
         if: ${{ !inputs.skip_draft }}
         continue-on-error: true
-        run: python run.py --run daily-digest --newsroom nord-norge --oslo-hour 5
+        run: |
+          failed=""
+          for p in daily-digest world-brief midterm-brief unrest-brief world-article; do
+            echo "::group::$p"
+            if python run.py --run "$p" --newsroom nord-norge --oslo-hour 5; then
+              echo "  $p ok"
+            else
+              echo "  $p FAILED"; failed="$failed $p"
+            fi
+            echo "::endgroup::"
+          done
+          if [ -n "$failed" ]; then
+            echo "desks that failed:$failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "desks that failed:$failed"
+            exit 1
+          fi
 
       - name: Build and deploy
         if: always()
