@@ -112,26 +112,41 @@ jobs:
       #
       # Checked here, by length, so it is caught in ten seconds rather than after the draft step
       # has burned a model call. Nothing is printed but the name and the verdict.
+      # A TAINTED MODEL KEY MUST NOT STOP THE DEPLOY. The first version of this step failed the
+      # job outright, which would have taken the site down to a stale page the moment it found the
+      # very fault it was written for -- breaking the rule the rest of this workflow is built on.
+      # So the check distinguishes what it is checking FOR: without Supabase or Cloudflare there
+      # is nothing to build and nowhere to put it, and stopping early beats a confusing failure
+      # six minutes in. A model key only stops DRAFTING, which is already allowed to fail, so it
+      # is annotated and carried to the summary and the run still publishes.
       - name: Check the secrets are not whitespace-tainted
+        id: secrets
         run: |
           set -uo pipefail
-          bad=0
+          fatal=0; warned=0
           check() {
-            local name="$1" val="$2"
-            if [ -z "$val" ]; then echo "  $name: MISSING"; bad=1; return; fi
-            if [ "${#val}" -ne "$(printf %s "$val" | tr -d '[:space:]' | wc -c)" ]; then
-              echo "  $name: contains whitespace -- re-paste it with no trailing newline"; bad=1
+            name="$1"; val="$2"; needed_to_deploy="$3"
+            if [ -z "$val" ]; then verdict="MISSING";
+            elif [ "${#val}" -ne "$(printf %s "$val" | tr -d '[:space:]' | wc -c)" ]; then
+              verdict="HAS WHITESPACE -- re-paste it with no trailing newline"
             else
-              echo "  $name: ok (${#val} chars)"
+              echo "  $name: ok (${#val} chars)"; return
+            fi
+            if [ "$needed_to_deploy" = yes ]; then
+              echo "::error::$name: $verdict"; fatal=1
+            else
+              echo "::warning::$name: $verdict -- drafting will fail, the site will still publish"
+              warned=1
             fi
           }
-          check SUPABASE_URL "${SUPABASE_URL:-}"
-          check SUPABASE_SERVICE_ROLE_KEY "${SUPABASE_SERVICE_ROLE_KEY:-}"
-          check GEMINI_API_KEY "${GEMINI_API_KEY:-}"
-          check OPENAI_API_KEY "${OPENAI_API_KEY:-}"
-          check CLOUDFLARE_API_TOKEN "${CLOUDFLARE_API_TOKEN:-}"
-          check CLOUDFLARE_ACCOUNT_ID "${CLOUDFLARE_ACCOUNT_ID:-}"
-          [ "$bad" = 0 ] || { echo "::error::A credential is missing or has stray whitespace; see above."; exit 1; }
+          check SUPABASE_URL              "${SUPABASE_URL:-}"              yes
+          check SUPABASE_SERVICE_ROLE_KEY "${SUPABASE_SERVICE_ROLE_KEY:-}" yes
+          check CLOUDFLARE_API_TOKEN      "${CLOUDFLARE_API_TOKEN:-}"      yes
+          check CLOUDFLARE_ACCOUNT_ID     "${CLOUDFLARE_ACCOUNT_ID:-}"     yes
+          check GEMINI_API_KEY            "${GEMINI_API_KEY:-}"            no
+          check OPENAI_API_KEY            "${OPENAI_API_KEY:-}"            no
+          echo "tainted=$warned" >> "$GITHUB_OUTPUT"
+          [ "$fatal" = 0 ] || { echo "::error::A credential needed to build or deploy is unusable; see above."; exit 1; }
 
       - name: Install toolchain
         run: |
@@ -204,6 +219,9 @@ jobs:
           if [ -f "$RUNNER_TEMP/draft.log" ]; then
             grep -E '^(due:|FAILED:|skip:|  [a-z-]+ +scheduled)' "$RUNNER_TEMP/draft.log"               | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY" || true
           fi
+          if [ "${{ steps.secrets.outputs.tainted }}" = "1" ]; then
+            echo "A model API key is missing or has stray whitespace -- re-paste the secret." >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ "${{ steps.draft.outcome }}" = "failure" ]; then
             echo "The site was still rebuilt and deployed; it carries its own build stamp and a stale banner if today's brief is missing." >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -220,9 +238,9 @@ jobs:
       # So: deploy first, verify, publish the summary -- then fail. The site is already updated by
       # the time this runs, so going red costs nothing but the notification it should have been
       # sending all along.
-      - name: Fail the run if any desk failed to draft
-        if: ${{ always() && steps.draft.outcome == 'failure' }}
+      - name: Fail the run if a desk failed or a key is tainted
+        if: ${{ always() && (steps.draft.outcome == 'failure' || steps.secrets.outputs.tainted == '1') }}
         run: |
-          echo "::error::A scheduled desk failed to draft. The site was deployed anyway; see the draft step."
-          grep -E '^(FAILED:|due:)' "$RUNNER_TEMP/draft.log" || true
+          echo "::error::A scheduled desk failed to draft, or a model key is unusable. The site was deployed anyway."
+          [ -f "$RUNNER_TEMP/draft.log" ] && grep -E '^(FAILED:|due:)' "$RUNNER_TEMP/draft.log" || true
           exit 1
