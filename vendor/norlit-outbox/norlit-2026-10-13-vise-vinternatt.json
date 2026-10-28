@@ -1,0 +1,109 @@
+{
+ "id": "norlit-2026-10-13-vise-vinternatt",
+ "kind": "vise",
+ "date": "2026-10-13",
+ "title": "Vinternatt",
+ "title_en": "Winter Night",
+ "body": "# Vinternatt\n\n*En vise til 14. oktober, den dagen primstaven merker som første vinterdag.*\n\nSiste blad har funnet fred,\ngult det seilte sakte ned.\nLyngen brun og myra grå –\nvinternatt, kom så.\n\nKlokka tikker, klokka slår,\nslag for slag går høst og år.\nIngen annen lyd enn den –\nvinternatt igjen.\n\nStjerner tindrer, blått og kaldt,\nover tak og over alt.\nNordlys flyr fra fjell til fjell –\nvinternatt, god kveld.\n\nGamle folk sa ånder for\ni det lyset over jord.\nVi skal ikke frykte dem –\nvinternatt, kom hjem.\n\nHalve året skal du rå,\nverden øde, snø på strå.\nVi har lys i hvert et glass –\nvinternatt, ta plass.\n\n## Kilder\n\n- **Formen** er Nordahl Griegs *Vuggesang i mørketiden* i *Norge i våre hjerter*: tre syvstavelses trokéiske linjer på parrim, og en kort fjerde linje som alltid begynner likt og slutter ulikt – hos Grieg «lille lys — kom du.» Den åpner med «Natten er så lang her nord». Her er den faste inngangen «vinternatt».\n- **Det siste bladet** (strofe 1) er hentet fra Griegs ungdomsdikt «Høst» (*Løse dikt*, 1917): «Et gulnende blad fandt fred».\n- **Klokka i stua** (strofe 2) er fra Hjalmar Christensens *Bastarder* (1894), om de lange vinternettene «hvor bare det store taffelur i stuen ved siden af brød stilheden».\n- **Stjernene og nordlyset** (strofe 3) er fra Regine Normanns *Krabvaag* (1905): «stjerner tindred fra sortblaa himlen, nordlys glitred i svage blaf». Bjørnson har det samme bildet «i Nordens vinternat», «mens nordlys flyver in» («Til fæsten for fædrenes minne»).\n- **Åndene i nordlyset** (strofe 4) er fra Laura Kielers *André fra Kautokejno* (1879), der en samisk mann forklarer suset i lufta: «I Nordlys fare de altid hen over Fjeldet.»\n- **Den øde verden** (strofe 5) er fra Arne Garborgs *Haugtussa* (1895): «Vinter ligg yver Verdi aud».",
+ "body_en": "# Winter Night\n\n*A song for 14 October, the day the primstav (the old rune-staff calendar) marks as the first day of winter.*\n\nThe last leaf has found its peace,\nyellow, it sailed slowly down.\nThe heather brown and the bog grey –\nwinter night, come then.\n\nThe clock ticks, the clock strikes,\nstroke by stroke go autumn and year.\nNo other sound but that –\nwinter night again.\n\nStars glitter, blue and cold,\nover roofs and over all.\nNorthern lights fly from fell to fell –\nwinter night, good evening.\n\nOld folk said that spirits rode\nin that light above the earth.\nWe shall not be afraid of them –\nwinter night, come home.\n\nHalf the year you shall rule,\nthe world desolate, snow on the stalks.\nWe have a light in every pane –\nwinter night, take your seat.\n\n*(A plain translation, not meant to be sung.)*\n\n## Sources\n\n- **The form** is Nordahl Grieg's \"Lullaby in the Dark Time\" (*Vuggesang i mørketiden*) in *Norge i våre hjerter*: three seven-syllable trochaic lines in rhyming couplets, and a short fourth line that always begins the same way and ends differently – in Grieg, \"little light — come you\" (translation). It opens with \"The night is so long here in the north\" (translation). Here the fixed opening is \"winter night\".\n- **The last leaf** (stanza 1) comes from Grieg's youthful poem \"Autumn\" (*Løse dikt*, 1917): \"A yellowing leaf found peace\" (translation).\n- **The clock in the living room** (stanza 2) is from Hjalmar Christensen's *Bastarder* (1894), about the long winter nights \"when only the big clock in the next room broke the silence\" (translation).\n- **The stars and the northern lights** (stanza 3) are from Regine Normann's *Krabvaag* (1905): \"stars glittered from the black-blue sky, northern lights shimmered in faint flickers\" (translation). Bjørnson has the same picture \"in the winter night of the North\", \"while northern lights fly in\" (\"For the Feast in Memory of Our Forefathers\", translation).\n- **The spirits in the northern lights** (stanza 4) are from Laura Kieler's *André fra Kautokejno* (1879), where a Sámi man explains the rushing in the air: \"In the northern lights they always travel over the mountain\" (translation).\n- **The desolate world** (stanza 5) is from Arne Garborg's *Haugtussa* (1895): \"Winter lies over the world, desolate\" (translation).",
+ "theme": "å ønske vinteren velkommen inn",
+ "season": "Vinternatt (14. oktober) – vinterhalvåret begynner på primstaven",
+ "chapter": null,
+ "summary": null,
+ "summary_en": null,
+ "sources": [
+  {
+   "work_id": "bokselskap:norgehjerter",
+   "author": "Nordahl Grieg og Sverre Helge Bolstad",
+   "title": "Norge i våre hjerter",
+   "year": null,
+   "url": "https://www.bokselskap.no/boker/norgehjerter",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  },
+  {
+   "work_id": "bokselskap:losedikt",
+   "author": "Nordahl Grieg og Ørjan Persen",
+   "title": "Løse dikt",
+   "year": null,
+   "url": "https://www.bokselskap.no/boker/losedikt",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  },
+  {
+   "work_id": "wikikilden:Bastarder",
+   "author": "Hjalmar Christensen",
+   "title": "Bastarder",
+   "year": 1894,
+   "url": "https://no.wikisource.org/wiki/Bastarder",
+   "license": "Wikikilden (no.wikisource.org), HTML-dump 2025-03-20 — teksten fri (PD-old), transkripsjonen CC BY-SA 4.0",
+   "pd_eu": "yes"
+  },
+  {
+   "work_id": "bokselskap:krabvaag",
+   "author": "Regine Normann",
+   "title": "Krabvaag",
+   "year": 1905,
+   "url": "https://www.bokselskap.no/boker/krabvaag",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  },
+  {
+   "work_id": "wikikilden:Til fæsten for fædrenes minne",
+   "author": null,
+   "title": "Til fæsten for fædrenes minne",
+   "year": null,
+   "url": "https://no.wikisource.org/wiki/Til_f%C3%A6sten_for_f%C3%A6drenes_minne",
+   "license": "Wikikilden (no.wikisource.org), HTML-dump 2025-03-20 — teksten fri (PD-old), transkripsjonen CC BY-SA 4.0",
+   "pd_eu": "unknown"
+  },
+  {
+   "work_id": "bokselskap:kautokejno",
+   "author": "Laura Kieler",
+   "title": "André fra Kautokejno",
+   "year": 1879,
+   "url": "https://www.bokselskap.no/boker/kautokejno",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  },
+  {
+   "work_id": "bokselskap:haugtussa",
+   "author": "Arne Garborg",
+   "title": "Haugtussa",
+   "year": 1895,
+   "url": "https://www.bokselskap.no/boker/haugtussa",
+   "license": "bokselskap.no / Det norske språk- og litteraturselskap: fri bruk kun til private, ikke-kommersielle formål; annen bruk etter skriftlig avtale. Utgiverens innledning og kommentarer er vernet.",
+   "pd_eu": "yes"
+  }
+ ],
+ "news": [],
+ "gate": "publish",
+ "gate_reasons": [],
+ "checks": {
+  "quotations": 10,
+  "failing": 0,
+  "review_words": [],
+  "screen": {
+   "gate": "review",
+   "flags": [
+    {
+     "flag": "ethnicity_or_identity",
+     "severity": "review",
+     "clauses": [
+      "VVP 4.3",
+      "NN-SUPPLEMENT-1"
+     ],
+     "evidence": [
+      "samisk"
+     ]
+    }
+   ],
+   "style_verdict": "fix_required",
+   "not_applied": []
+  }
+ },
+ "ai_note": "Teksten er skrevet av en KI-modell (Claude) på grunnlag av tekster i Bokselskap, Wikikilden og andre frie samlinger. Alle sitater er kontrollert ord for ord mot kildene.",
+ "ai_note_en": "Written by an AI model (Claude) from texts in Bokselskap, Wikikilden and other open collections. Every quotation has been checked word for word against its source.",
+ "source_file": "H:\\Shared drives\\Coleman & Associates\\Norway\\norlit\\viser\\2026-10-13-vinternatt.md",
+ "created_at": "2026-10-13T10:20:53+00:00"
+}

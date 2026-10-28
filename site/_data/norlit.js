@@ -47,6 +47,36 @@ const OUTBOX = CANDIDATES.find((d) => {
   try { return fs.statSync(d).isDirectory(); } catch { return false; }
 }) || CANDIDATES[CANDIDATES.length - 1];
 
+// SAY WHEN THE SNAPSHOT HAS FALLEN BEHIND. The comment above calls a stale vendor copy a far
+// smaller failure than the section vanishing, which is true, and it is still a failure nobody was
+// told about: on 2026-10-28 the live outbox held three pieces the snapshot did not -- the 10
+// October children's story, the 13 October vise and the 21 October essay -- so the site carried 26
+// pieces when the laptop deployed and 23 when the cloud did, flipping back and forth with no
+// indication which build a reader had landed on. The workflow's own check only asserts that the
+// section is not empty, and 23 of 26 passes that comfortably.
+//
+// Only the laptop can notice: it is the only machine that can see both directories, because the
+// live outbox is on the shared drive and a runner clones this repo alone. So this warns when both
+// exist and disagree, and stays silent in CI, where there is nothing to compare.
+(() => {
+  // Named, not indexed. CANDIDATES[1] was the live outbox only while NORLIT_OUTBOX was set --
+  // .filter(Boolean) drops the unset env var and shifts everything down one, so the first version
+  // of this check compared the snapshot against itself, found no difference, and said nothing.
+  const live = path.join(__dirname, "..", "..", "..", "norlit", "outbox");
+  const snap = path.join(__dirname, "..", "..", "vendor", "norlit-outbox");
+  if (OUTBOX !== live) return;              // in CI, or NORLIT_OUTBOX was pointed elsewhere
+  try {
+    const json = (d) => new Set(fs.readdirSync(d).filter((f) => f.endsWith(".json")));
+    const missing = [...json(live)].filter((f) => !json(snap).has(f)).sort();
+    if (missing.length) {
+      console.warn(`  norlit: ${missing.length} piece(s) are NOT in vendor/norlit-outbox, so the `
+        + `cloud build will publish without them:`);
+      for (const f of missing) console.warn(`    ${f}`);
+      console.warn("    copy them into vendor/norlit-outbox and commit.");
+    }
+  } catch { /* nothing to compare; the section still builds from whatever OUTBOX resolved to */ }
+})();
+
 const KINDS = {
   essay: { name: ["Essay", "Essay"],
            note: ["A scene from Norwegian literature, held against a story in the briefs.",
