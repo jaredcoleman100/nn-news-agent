@@ -89,7 +89,19 @@ class OpenAIProvider:
 
     def _client(self):
         if self._c is None:
-            self._c = openai.OpenAI()
+            # STRIP THE KEY. A secret with a trailing newline is not a wrong key, it is an illegal
+            # HTTP header value: httpx refuses to send it and the SDK reports the refusal as
+            # `APIConnectionError: Connection error.` -- which reads as a network fault and sends
+            # you looking at the runner's egress instead of at the secret. A key that is merely
+            # wrong returns a clean 401, so the misleading error is the one you get for whitespace.
+            #
+            # That is exactly what took editor-letter off the site from 10 to 28 October: it
+            # failed every weekday in CI with that message while working locally, because the
+            # GitHub secret had been pasted with a trailing newline. CLOUDFLARE_API_TOKEN in this
+            # same repo failed the same way three weeks earlier ("Invalid format for Authorization
+            # header"), so this is the second time one paste has cost days.
+            key = (os.environ.get("OPENAI_API_KEY") or "").strip()
+            self._c = openai.OpenAI(api_key=key) if key else openai.OpenAI()
         return self._c
 
     def _json(self, system: str, user: str, max_output_tokens: int | None = None,

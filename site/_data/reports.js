@@ -122,7 +122,14 @@ module.exports = function () {
   // her mood or her opinions, it comes off the public site again rather than being edited to look
   // harmless.
   return raw.map((r) => {
-    const day = String(r.created_at || "").slice(0, 10);
+    // The Oslo day, from the export. Slicing created_at gave the UTC day, and for the hour or two
+    // around midnight that is the wrong date: report 125 was written 23:55 UTC on 27 October,
+    // which is 00:55 Oslo on the 28th, and the page filed it under the 27th while run.py's
+    // drafted_today() counted the 28th as covered. The site then showed nothing newer than
+    // yesterday on a day the desk considered done. core/reports_export.py owns the conversion --
+    // see oslo_day() there for why it is not done here. The slice stays as a fallback so a stale
+    // export from before that field existed still builds.
+    const day = r.day || String(r.created_at || "").slice(0, 10);
     const stories = (r.stories || []).map((s) => ({ ...s, itemSlug: slugs.get(s.url) || "" }));
     return {
       ...r,

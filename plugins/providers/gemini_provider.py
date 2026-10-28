@@ -63,7 +63,9 @@ class GeminiProvider:
     def _client(self):
         if self._c is None:
             from google import genai
-            self._c = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+            # .strip() for the same reason as openai_provider._client(): a secret pasted with a
+            # trailing newline becomes an illegal header value and surfaces as a connection error.
+            self._c = genai.Client(api_key=(os.environ.get("GEMINI_API_KEY") or "").strip())
         return self._c
 
     def _json(self, system: str, user: str, max_output_tokens: int | None = None,

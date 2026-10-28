@@ -371,6 +371,29 @@ def _cron_hour_and_days(expr: str) -> tuple[int, set[int]] | None:
     return hour, days
 
 
+# The morning block: the desks whose whole purpose is to be on the site before 08:00 Oslo.
+#
+# WHY A FLOOR AND A DEADLINE RATHER THAN JUST THE CRON HOUR. due_products() used to ask only
+# `has this product's hour arrived?`, which is the right question on a machine whose clock you
+# trust. Actions cron is not that machine. Measured in this repo: slots fire two to seven hours
+# late, so the 05:00 UTC slot meant to land at 06:00 Oslo arrived at 08:52 Oslo on 28 October.
+# That left no run at all inside 06:00-08:00 Oslo, and the deadline was met by the laptop the
+# cloud was supposed to replace -- every cloud run that day either arrived before the desks were
+# due (00:49 and 04:16 UTC, nothing to do) or after the deadline had passed.
+#
+# Scheduling the crons earlier cannot fix that on its own: a run that fires ON time at Oslo 03:00
+# would still find nothing due, because the gate is the clock. So from DRAFT_FLOOR_HOUR onward the
+# scheduled hour is read as a DEADLINE rather than a gate -- whichever run arrives first in the
+# window writes the whole morning, and drafted_today() stops the later ones repeating it. The
+# floor is 05:00 and not earlier because the overnight ingest has to have run: a brief drafted at
+# 02:00 Oslo is a brief that has not seen the French evening edition.
+#
+# Desks outside the block keep the plain gate. international-brief at 14:00 is not deadline work
+# and there is no reason to pull it forward into the morning.
+DRAFT_FLOOR_HOUR = int(os.environ.get("DRAFT_FLOOR_HOUR", "5"))
+DEADLINE_HOUR = int(os.environ.get("DRAFT_DEADLINE_HOUR", "7"))
+
+
 def due_products(newsroom_id: str, now_oslo=None) -> list[tuple[str, int]]:
     """Which scheduled products of this newsroom are due, by their OWN config. (id, hour).
 
@@ -379,10 +402,11 @@ def due_products(newsroom_id: str, now_oslo=None) -> list[tuple[str, int]]:
     to it -- so from 23 to 26 October the site published one brief a day instead of five while
     every cloud run reported success. A list kept in two places is a list that will disagree.
 
-    Due means: the product declares a cron `schedule`, today is one of its weekdays, the Oslo hour
-    has arrived, and it is not paused. Whether it has already been written today is decided by
-    drafted_today() at the point of drafting, not here, so this stays a pure question about the
-    clock.
+    Due means: the product declares a cron `schedule`, today is one of its weekdays, it is not
+    paused, and EITHER its Oslo hour has arrived OR it belongs to the morning block and the floor
+    has passed -- see DRAFT_FLOOR_HOUR above for why the second clause exists. Whether it has
+    already been written today is decided by drafted_today() at the point of drafting, not here,
+    so this stays a pure question about the clock.
     """
     from datetime import datetime
     from zoneinfo import ZoneInfo
@@ -403,7 +427,10 @@ def due_products(newsroom_id: str, now_oslo=None) -> list[tuple[str, int]]:
             print(f"  {pid}: trigger=schedule but no usable `schedule` cron; skipped")
             continue
         hour, days = parsed
-        if now.weekday() in days and now.hour >= hour:
+        if now.weekday() not in days:
+            continue
+        morning = hour <= DEADLINE_HOUR and now.hour >= DRAFT_FLOOR_HOUR
+        if now.hour >= hour or morning:
             out.append((pid, hour))
     return sorted(out, key=lambda x: x[1])
 

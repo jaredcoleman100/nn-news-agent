@@ -27,8 +27,10 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from core.archive import ARCHIVE_DIR
 from core import outlets
@@ -38,6 +40,37 @@ REPORTS_FILE = Path(os.environ.get("ARCHIVE_REPORTS", str(ARCHIVE_DIR.parent / "
 # How many digests the site keeps pages for. Every one ever drafted, in practice -- 13 today, one
 # per weekday, so this is a guard against an accident rather than a real limit.
 LIMIT = int(os.environ.get("ARCHIVE_REPORTS_LIMIT", "400"))
+
+
+# The Oslo calendar day a report belongs to. THE SITE MUST NOT WORK THIS OUT FOR ITSELF.
+#
+# `created_at` is UTC and the newsroom's day is Oslo's, and for the hour or two either side of
+# midnight the two disagree. On 2026-10-28 that disagreement cost the site a column: the unrest
+# brief was redrafted at 23:55 UTC, which is 00:55 Oslo on the 28th, so run.py's drafted_today()
+# -- which reckons in Oslo, correctly -- saw the 28th as already covered and the 06:25 desk
+# skipped. The page meanwhile filed that same report under 2026-10-27, because the slug sliced the
+# UTC string. Guard and URL disagreed about which day a brief belonged to, and the reader saw
+# nothing newer than yesterday.
+#
+# Exported here rather than computed in site/_data/reports.js so there is ONE implementation of
+# "which day is this in Oslo" in the engine. A second one in JavaScript would be a different
+# implementation of the same rule, which is how the two markdown renderers drifted apart and
+# published 605 links as literal text.
+def oslo_day(created_at: str) -> str:
+    """`created_at` -> the YYYY-MM-DD it falls on in Europe/Oslo. Empty string if unparseable."""
+    if not created_at:
+        return ""
+    try:
+        when = datetime.fromisoformat(str(created_at).replace("Z", "+00:00"))
+    except ValueError:
+        return str(created_at)[:10]
+    # Naive means UTC: Postgres stores timestamptz and some PostgREST versions serialise it without
+    # an offset. astimezone() on a naive value would assume the MACHINE's zone -- US Pacific on the
+    # laptop this runs on -- and put the report a day out. Same trap as drafted_today()'s.
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    return when.astimezone(ZoneInfo("Europe/Oslo")).date().isoformat()
+
 
 
 def _items_by_url(sb, urls: list[str]) -> dict[str, list[dict[str, Any]]]:
@@ -311,6 +344,8 @@ def export(sb) -> Path:
             "body": r.get("body") or "",
             "body_en": sections.get("body_en") or "",
             "created_at": r.get("created_at") or "",
+            # The Oslo day, which is what the slug and the printed date must both use.
+            "day": oslo_day(r.get("created_at") or ""),
             "decision": r.get("editor_decision") or "",
             "flags": [{
                 "flag": f.get("flag"),

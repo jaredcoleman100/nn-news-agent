@@ -89,7 +89,7 @@ def _throttled(e: Exception) -> bool:
 def _gemini(texts: list[str]) -> list[list[float]]:
     from google import genai
     from google.genai import types
-    c = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+    c = genai.Client(api_key=(os.environ.get("GEMINI_API_KEY") or "").strip())
     cfg = types.EmbedContentConfig(output_dimensionality=EMBED_DIM)
     out: list[list[float]] = []
     for i in range(0, len(texts), EMBED_CHUNK):

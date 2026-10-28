@@ -19,16 +19,28 @@
 # So the slots now start the previous EVENING and span eight hours, on the reasoning that a cron
 # delayed by N hours still has to fire eventually and one of these should land in the window:
 #
-#     22:00 UTC (prev day) -> 00:00 Oslo on time, ~07:00 Oslo at the delay seen on 8 Oct
-#     00:00 UTC            -> 02:00 Oslo on time
-#     02:00 UTC            -> 04:00 Oslo on time
-#     03:30 UTC            -> 05:30 Oslo on time
-#     05:00 UTC            -> 07:00 Oslo on time
+#     22:00 UTC (prev day) -> 23:00 Oslo on time, ~06:00 Oslo at the delay seen on 8 Oct
+#     00:00 UTC            -> 01:00 Oslo on time
+#     02:00 UTC            -> 03:00 Oslo on time
+#     03:30 UTC            -> 04:30 Oslo on time
+#     04:00 UTC            -> 05:00 Oslo on time   <- the drafting floor exactly
+#     05:00 UTC            -> 06:00 Oslo on time
+#     06:00 UTC            -> 07:00 Oslo on time   <- last on-time chance before the deadline
 #
-# An early slot costs nothing when it runs ON time, because the --oslo-hour guard refuses to draft
-# before Oslo 05:00 and the run simply redeploys. That is what makes this safe to spread: the guard,
-# not the cron, decides when a brief is written. Drafting is also idempotent per Oslo day, so
-# whichever slot gets there first writes the brief and the rest skip and redeploy.
+# An early slot costs nothing when it runs ON time: run.py refuses to draft before Oslo 05:00 and
+# the run simply redeploys. That is what makes this safe to spread -- run.py, not the cron, decides
+# when a brief is written. Drafting is idempotent per Oslo day, so whichever slot gets there first
+# writes the morning and the rest skip and redeploy.
+#
+# MEASURED 2026-10-28, and the reason the last three slots exist. Every run that day was green and
+# not one of them drafted anything. The slots fired at 00:49, 04:16, 07:52, 09:54 and 10:56 UTC:
+# the first two arrived before any desk was due under the old hour-gate, and the last three arrived
+# after 08:00 Oslo. The paper was written at 06:01-06:41 Oslo by the laptop -- the single machine
+# this workflow was built to stop depending on -- and the cloud runs found the work already done.
+# Two things came out of that: these later slots, so an ON-TIME firing lands inside the drafting
+# window, and the floor in run.py's due_products(), so a run arriving EARLY drafts the morning
+# instead of finding nothing due. Neither alone is enough; cron punctuality cannot be relied on in
+# either direction.
 name: morning
 
 on:
@@ -37,7 +49,9 @@ on:
     - cron: "0 0 * * *"
     - cron: "0 2 * * *"
     - cron: "30 3 * * *"
+    - cron: "0 4 * * *"
     - cron: "0 5 * * *"
+    - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
       skip_draft:
@@ -89,6 +103,36 @@ jobs:
         with:
           node-version: "22"
 
+      # Secrets are pasted by hand, and a paste that picks up a trailing newline does not fail
+      # like a wrong secret. It fails like a broken network: an illegal HTTP header value, which
+      # the OpenAI SDK reports as `APIConnectionError: Connection error.` and wrangler reported as
+      # "Invalid format for Authorization header". Both cost this project days -- editor-letter was
+      # off the site from 10 to 28 October on exactly this. A wrong-but-clean secret returns a
+      # clean 401, so whitespace is the failure mode with the most misleading error message.
+      #
+      # Checked here, by length, so it is caught in ten seconds rather than after the draft step
+      # has burned a model call. Nothing is printed but the name and the verdict.
+      - name: Check the secrets are not whitespace-tainted
+        run: |
+          set -uo pipefail
+          bad=0
+          check() {
+            local name="$1" val="$2"
+            if [ -z "$val" ]; then echo "  $name: MISSING"; bad=1; return; fi
+            if [ "${#val}" -ne "$(printf %s "$val" | tr -d '[:space:]' | wc -c)" ]; then
+              echo "  $name: contains whitespace -- re-paste it with no trailing newline"; bad=1
+            else
+              echo "  $name: ok (${#val} chars)"
+            fi
+          }
+          check SUPABASE_URL "${SUPABASE_URL:-}"
+          check SUPABASE_SERVICE_ROLE_KEY "${SUPABASE_SERVICE_ROLE_KEY:-}"
+          check GEMINI_API_KEY "${GEMINI_API_KEY:-}"
+          check OPENAI_API_KEY "${OPENAI_API_KEY:-}"
+          check CLOUDFLARE_API_TOKEN "${CLOUDFLARE_API_TOKEN:-}"
+          check CLOUDFLARE_ACCOUNT_ID "${CLOUDFLARE_ACCOUNT_ID:-}"
+          [ "$bad" = 0 ] || { echo "::error::A credential is missing or has stray whitespace; see above."; exit 1; }
+
       - name: Install toolchain
         run: |
           python -m pip install --upgrade pip
@@ -124,7 +168,9 @@ jobs:
         id: draft
         if: ${{ !inputs.skip_draft }}
         continue-on-error: true
-        run: python run.py --run-due --newsroom nord-norge
+        run: |
+          set -o pipefail
+          python run.py --run-due --newsroom nord-norge 2>&1 | tee "$RUNNER_TEMP/draft.log"
 
       - name: Build and deploy
         if: always()
@@ -155,6 +201,28 @@ jobs:
         if: always()
         run: |
           echo "draft step: ${{ steps.draft.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f "$RUNNER_TEMP/draft.log" ]; then
+            grep -E '^(due:|FAILED:|skip:|  [a-z-]+ +scheduled)' "$RUNNER_TEMP/draft.log"               | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY" || true
+          fi
           if [ "${{ steps.draft.outcome }}" = "failure" ]; then
             echo "The site was still rebuilt and deployed; it carries its own build stamp and a stale banner if today's brief is missing." >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      # THE RUN MUST GO RED WHEN A DESK DIES.
+      #
+      # `continue-on-error` on the draft step is right -- a failed draft must not stop the deploy,
+      # because a page frozen at yesterday with nothing saying so is worse than one that refreshes
+      # and shows its own build stamp. But it also made the whole run GREEN, and that is how
+      # editor-letter stayed broken from 10 to 28 October: eighteen days of successful-looking runs,
+      # each one printing `failed: 1 -> editor-letter` into a log nobody opens. The step summary
+      # said `draft step: failure` and nothing read it either.
+      #
+      # So: deploy first, verify, publish the summary -- then fail. The site is already updated by
+      # the time this runs, so going red costs nothing but the notification it should have been
+      # sending all along.
+      - name: Fail the run if any desk failed to draft
+        if: ${{ always() && steps.draft.outcome == 'failure' }}
+        run: |
+          echo "::error::A scheduled desk failed to draft. The site was deployed anyway; see the draft step."
+          grep -E '^(FAILED:|due:)' "$RUNNER_TEMP/draft.log" || true
+          exit 1
