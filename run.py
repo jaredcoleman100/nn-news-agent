@@ -175,6 +175,29 @@ def fetch() -> int:
     return n
 
 
+def corpus_age_hours() -> float | None:
+    """Hours since the newest item this newsroom owns was fetched. None if there are none.
+
+    WHY THIS EXISTS. The cloud runner has to decide whether to ingest, and asking "has ingest run
+    today?" needs state nothing writes. The corpus answers it directly: if the newest item is two
+    hours old the feeds have been read, whoever read them. That makes the check indifferent to
+    WHICH machine did the work -- the laptop's 02:00 Oslo pass and a cloud pass satisfy it
+    equally, so the two can overlap for as long as both exist without doing the work twice.
+
+    Cheap on purpose: one indexed row, so a run can ask before paying to install Ollama.
+    """
+    rows = (sb().table("items").select("fetched_at").in_("source_id", _source_ids())
+            .order("fetched_at", desc=True).limit(1).execute().data)
+    if not rows:
+        return None
+    when = _parse_dt(rows[0].get("fetched_at"))
+    if not when:
+        return None
+    if when.tzinfo is None:                  # naive means UTC -- see drafted_today()
+        when = when.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - when).total_seconds() / 3600.0
+
+
 # ---------------------------------------------------------------- embed + score
 def score() -> int:
     rows = sb().table("items").select("id,title,body,source_id").is_("embedding", "null").in_("source_id", _source_ids()).order("fetched_at").limit(64).execute().data
@@ -801,6 +824,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--seed", action="store_true"); ap.add_argument("--loop", action="store_true")
     ap.add_argument("--backfill", action="store_true", help="enrich thin bodies, then re-embed and re-score")
     ap.add_argument("--ingest", action="store_true", help="fetch + score every newsroom; no drafting, no delivery")
+    ap.add_argument("--corpus-age", action="store_true",
+                    help="print hours since the newest item was fetched, and nothing else; for a "
+                         "runner deciding whether ingest is worth setting up")
     ap.add_argument("--run-due", action="store_true",
                     help="draft every scheduled product this newsroom says is due now, from the "
                          "product configs themselves — no hard-coded list anywhere")
@@ -827,6 +853,12 @@ if __name__ == "__main__":
     ap.add_argument("--translate", action="store_true",
                     help="fill in English twins for every untranslated item, rewrite the archive, stop")
     a = ap.parse_args()
+    if a.corpus_age:
+        # Prints a number and exits. Nothing else, so a shell can read it without parsing logs.
+        # Empty corpus prints a very large age: "never fetched" must read as stale, not as fresh.
+        age = corpus_age_hours()
+        print(f"{age:.2f}" if age is not None else "99999")
+        raise SystemExit(0)
     if a.seed:
         seed()
     if a.backfill:

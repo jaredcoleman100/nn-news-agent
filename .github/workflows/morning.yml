@@ -58,6 +58,13 @@ on:
         description: "Publish only, do not draft"
         type: boolean
         default: false
+      force_ingest:
+        # Without this the ingest path is untestable: the laptop reads the feeds hourly, so the
+        # staleness gate is always closed and the steps it guards would first run in anger on the
+        # day the laptop is off -- which is the worst possible time to discover a typo in them.
+        description: "Ingest even if the corpus is fresh"
+        type: boolean
+        default: false
 
 # Never let two attempts overlap: both would deploy, and the loser could publish an older build
 # over a newer one. Queue instead of cancel -- a run that is already deploying should finish.
@@ -68,7 +75,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       PYTHONPATH: .
       PYTHONIOENCODING: utf-8
@@ -90,6 +97,23 @@ jobs:
       # a secret: an account id is an identifier that appears in dashboard URLs, not a credential,
       # and writing it down where it can be read makes this failure obvious next time.
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      # Ingest here is a BACKSTOP, not the schedule. The laptop reads the feeds every hour, so on
+      # any normal day the corpus is minutes old when this runs and the ingest steps below skip
+      # without installing anything. They exist for the day the laptop is shut: until now nothing
+      # in the cloud read a feed, so a closed lid meant the site kept publishing on time from a
+      # corpus that quietly stopped moving -- and the live-site check could not see it, because
+      # every page was present and correct.
+      INGEST_IF_OLDER_THAN_H: "6"
+      # Pinned, and from the vendor's own image rather than piping their install script into a
+      # shell. 0.40.13 was the newest non-rc tag on 2026-11-02; the laptop runs 0.40.6.
+      OLLAMA_IMAGE: "ollama/ollama:0.40.13"
+      # bge-m3 as the laptop has it: 1024-d, F16, 1.16 GB. ASSERTED, not assumed -- `bge-m3` is a
+      # moving tag, and a re-quantised build would still embed, still return 1024 numbers, and
+      # still score against the 46,000 vectors already in the table while no longer being
+      # comparable with them. That failure is invisible: hit rates drift and nothing errors. The
+      # digest is the only thing that makes "the same embedder" checkable, so a mismatch stops the
+      # ingest and leaves the corpus alone.
+      BGE_M3_DIGEST: "7907646426070047a77226ac3e684fbbe8410524f7b4a74d02837e43f2146bab"
 
     steps:
       - uses: actions/checkout@v4
@@ -179,6 +203,69 @@ jobs:
       # cron. Adding a desk is adding a config file; nothing here changes. One desk failing does
       # not stop the others, and drafting stays idempotent per Oslo day, so the later cron slots
       # find each edition already written and spend nothing.
+      # Ask before paying. One indexed row answers "have the feeds been read lately?", and it does
+      # not care which machine read them -- so the laptop's hourly pass and this satisfy it
+      # equally, and the two can coexist for as long as both exist without doubling the work.
+      - name: Is the corpus stale?
+        id: corpus
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          age=$(python run.py --corpus-age 2>/dev/null | tail -1)
+          echo "newest item fetched ${age}h ago; ingest threshold ${INGEST_IF_OLDER_THAN_H}h"
+          if [ "${{ inputs.force_ingest }}" = "true" ]; then
+            echo "stale=1" >> "$GITHUB_OUTPUT"; echo "age=$age" >> "$GITHUB_OUTPUT"
+            echo "forced by workflow_dispatch -- ingesting regardless of age"
+            exit 0
+          fi
+          if python -c "import sys; sys.exit(0 if float(sys.argv[1]) > float(sys.argv[2]) else 1)"                "$age" "$INGEST_IF_OLDER_THAN_H"; then
+            echo "stale=1" >> "$GITHUB_OUTPUT"; echo "the laptop has not ingested recently -- ingesting here"
+          else
+            echo "stale=0" >> "$GITHUB_OUTPUT"; echo "corpus is fresh -- skipping ingest, installing nothing"
+          fi
+          echo "age=$age" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the embedding model
+        if: ${{ steps.corpus.outputs.stale == '1' }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/ollama
+          key: ollama-bge-m3-${{ env.BGE_M3_DIGEST }}
+
+      - name: Start Ollama and verify the embedding model
+        id: ollama
+        if: ${{ steps.corpus.outputs.stale == '1' }}
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ollama"
+          docker run -d --name ollama -p 11434:11434             -v "$RUNNER_TEMP/ollama:/root/.ollama" "$OLLAMA_IMAGE"
+          for _ in $(seq 1 45); do
+            curl -sf http://localhost:11434/api/version >/dev/null && break || sleep 2
+          done
+          curl -sf http://localhost:11434/api/version
+          docker exec ollama ollama pull bge-m3
+          got=$(curl -sf http://localhost:11434/api/tags             | python -c "import json,sys; print(next(m['digest'] for m in json.load(sys.stdin)['models'] if m['name'].startswith('bge-m3')))")
+          echo "bge-m3 digest: $got"
+          if [ "$got" != "$BGE_M3_DIGEST" ]; then
+            echo "::error::bge-m3 digest does not match the laptop's ($BGE_M3_DIGEST)."
+            echo "::error::Embedding with a different build would produce vectors that are not comparable with the 46,000 already stored. Not ingesting."
+            exit 1
+          fi
+
+      # Allowed to fail without touching the publish, exactly like drafting: an ingest that dies
+      # leaves the corpus as it was, and drafting from slightly older items beats not publishing.
+      - name: Ingest if the corpus is stale
+        id: ingest
+        if: ${{ steps.corpus.outputs.stale == '1' && steps.ollama.outcome == 'success' }}
+        continue-on-error: true
+        env:
+          EMBEDDER: ollama
+          EMBED_MODEL: bge-m3
+          OLLAMA_URL: http://localhost:11434
+          EMBED_RPM: "0"          # a local model has no per-minute quota to pace against
+        run: python run.py --ingest
+
       - name: Draft everything due
         id: draft
         if: ${{ !inputs.skip_draft }}
@@ -216,6 +303,10 @@ jobs:
         if: always()
         run: |
           echo "draft step: ${{ steps.draft.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "corpus age: ${{ steps.corpus.outputs.age }}h (ingest here: ${{ steps.ingest.outcome }})" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.ollama.outcome }}" = "failure" ] || [ "${{ steps.ingest.outcome }}" = "failure" ]; then
+            echo "The corpus was stale and ingesting here failed, so the feeds have not been read. Drafting used whatever was already stored." >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f "$RUNNER_TEMP/draft.log" ]; then
             grep -E '^(due:|FAILED:|skip:|  [a-z-]+ +scheduled)' "$RUNNER_TEMP/draft.log"               | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY" || true
           fi
@@ -238,9 +329,9 @@ jobs:
       # So: deploy first, verify, publish the summary -- then fail. The site is already updated by
       # the time this runs, so going red costs nothing but the notification it should have been
       # sending all along.
-      - name: Fail the run if a desk failed or a key is tainted
-        if: ${{ always() && (steps.draft.outcome == 'failure' || steps.secrets.outputs.tainted == '1') }}
+      - name: Fail the run if a desk failed, ingest failed, or a key is tainted
+        if: ${{ always() && (steps.draft.outcome == 'failure' || steps.ingest.outcome == 'failure' || steps.ollama.outcome == 'failure' || steps.secrets.outputs.tainted == '1') }}
         run: |
-          echo "::error::A scheduled desk failed to draft, or a model key is unusable. The site was deployed anyway."
+          echo "::error::A scheduled desk failed to draft, a stale-corpus ingest failed, or a model key is unusable. The site was deployed anyway."
           [ -f "$RUNNER_TEMP/draft.log" ] && grep -E '^(FAILED:|due:)' "$RUNNER_TEMP/draft.log" || true
           exit 1

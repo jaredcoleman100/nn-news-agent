@@ -13,10 +13,25 @@ MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")   # verify against ai
 MAX_OUTPUT_TOKENS = int(os.environ.get("GEMINI_MAX_OUTPUT_TOKENS", "16000"))
 # The 3.x flash builds return 503 UNAVAILABLE often enough that one attempt makes a scheduled
 # product (the 06:00 digest) unreliable. Try the configured model, then progressively older builds.
+# A FALLBACK MUST RESOLVE IN THE ENVIRONMENT THAT RUNS THE MORNING. The chain used to lead with
+# gemini-2.5-flash, chosen when it was the cheapest usable build ($0.30/$2.50 per 1M against 3.6's
+# $0.75/$3.75 and 3.5's $1.50/$9.00). Google has since closed it to new users, and on the Actions
+# runner it now returns
+#
+#     404 NOT_FOUND  models/gemini-2.5-flash is no longer available to new users
+#
+# so on 2026-11-02 midterm-brief and world-brief both failed in the cloud while drafting fine on
+# the laptop, where that model still resolves on the same key. Two things made it worse than a
+# missing rung: the chain is entered on a transient 503, so a retry path rewrote a temporary
+# upstream wobble into a permanent-looking 404 about a model nobody had configured -- which reads
+# as a broken config rather than a dead fallback -- and the primary (3.6-flash) was fine throughout.
+#
+# Newest first now, because what matters in a fallback is that it resolves. Both entries were
+# checked against this key before being written here. The old cheapest-first ordering is dropped
+# rather than re-sorted: 3.8's price is not verified here, and ordering a safety net by price is
+# what put a model that no longer resolves at the front of it.
 FALLBACK_MODELS = [m.strip() for m in os.environ.get(
-    # 2.5-flash before 3.5-flash on purpose: 3.5 costs $1.50/$9.00 per 1M vs 3.6's $0.75/$3.75
-    # and 2.5's $0.30/$2.50, so the cheapest usable build is tried before the priciest.
-    "GEMINI_FALLBACK_MODELS", "gemini-2.5-flash,gemini-3.5-flash").split(",") if m.strip()]
+    "GEMINI_FALLBACK_MODELS", "gemini-3.8-flash,gemini-3.5-flash").split(",") if m.strip()]
 ATTEMPTS_PER_MODEL = int(os.environ.get("GEMINI_ATTEMPTS_PER_MODEL", "2"))
 RETRY_STATUS = (429, 500, 502, 503, 504)
 # Ceiling on one "fast" call (translation). Unbounded is the dangerous default: the fast path runs
