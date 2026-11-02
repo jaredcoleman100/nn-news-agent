@@ -17,6 +17,22 @@ def sb():
 
 ITEM_FIELDS = ("id", "title", "body", "url", "published_at", "source_id", "title_en", "body_en", "lang")
 
+# What the WINDOW loader asks Postgres for, as opposed to what it keeps. `fetched_at` is here and
+# not in ITEM_FIELDS because _in_window() needs it as the published_at fallback while the drafter
+# never sees it -- exactly as before, when `items(*)` returned it and _slim() dropped it.
+#
+# WHY THIS IS A LIST AND NOT `items(*)`. `*` includes `embedding`: 1024 floats serialised as JSON,
+# ~15-20 KB per row. international-brief fetches max_items * overfetch = 36 * 40 = 1440 rows, so
+# the query was shipping ~25 MB of vectors per draft and discarding every one of them in _slim().
+# On 2026-11-02 it crossed the Supabase statement timeout outright -- `canceling statement due to
+# statement timeout` (57014) from `.order("score", desc=True).limit(1440)` -- and that, not the
+# missing afternoon cron slot, is why the brief had published nothing since 30 September. It fails
+# before a single model call, so it costs nothing and looks like a scheduling problem.
+#
+# No behaviour changes: _slim() already discarded everything outside ITEM_FIELDS, and the hit
+# loader above still selects `*` because it genuinely reads `embedding` for related_items().
+_WINDOW_ITEM_SELECT = ",".join(ITEM_FIELDS + ("fetched_at",))
+
 
 def _slim(rows: list[dict]) -> list[dict]:
     return [{k: r.get(k) for k in ITEM_FIELDS} for r in rows]
@@ -139,7 +155,7 @@ class WindowLoader:
         # window pulls the rikspolitikk desk's hits into the Nord-Norge digest: measured at
         # 18 of 25 items on a 30-day window before this filter existed.
         newsroom = product["newsroom_id"]
-        q = (sb().table("hits").select("id,score,beat_id,items(*)")
+        q = (sb().table("hits").select(f"id,score,beat_id,items({_WINDOW_ITEM_SELECT})")
              .eq("newsroom_id", newsroom).gte("created_at", cutoff))
         beats = product.get("beats")
         if beats:
