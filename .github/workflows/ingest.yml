@@ -178,6 +178,14 @@ jobs:
             echo "::error::Embedding with a different build would produce vectors that are not comparable with the ones already stored. Not ingesting."
             exit 1
           fi
+          # The container runs as root and the volume mount is a host directory, so everything it
+          # writes here is root-owned -- including `id_ed25519` at mode 600. The cache post-step
+          # runs as `runner` and tars the path, so without this it fails with "Cannot open:
+          # Permission denied" and saves nothing. MEASURED: the cache step looked fine in both
+          # workflows from the day it was added and never stored a byte; the only evidence was a
+          # `##[warning]Failed to save` at the very bottom of post-job cleanup, under a deprecation
+          # notice. A caching step that silently does nothing is worse than no caching step.
+          sudo chown -R "$(id -u):$(id -g)" "$RUNNER_TEMP/ollama"
 
       - name: Ingest
         id: ingest

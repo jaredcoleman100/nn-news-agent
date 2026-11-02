@@ -264,6 +264,9 @@ jobs:
             echo "::error::Embedding with a different build would produce vectors that are not comparable with the 46,000 already stored. Not ingesting."
             exit 1
           fi
+          # Root-owned by the container; the cache post-step runs as `runner` and would fail to tar
+          # it. See the same lines in ingest.yml -- this step cached nothing until 2026-11-02.
+          sudo chown -R "$(id -u):$(id -g)" "$RUNNER_TEMP/ollama"
 
       # Allowed to fail without touching the publish, exactly like drafting: an ingest that dies
       # leaves the corpus as it was, and drafting from slightly older items beats not publishing.
