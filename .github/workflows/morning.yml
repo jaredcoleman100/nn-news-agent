@@ -59,9 +59,9 @@ on:
         type: boolean
         default: false
       force_ingest:
-        # Without this the ingest path is untestable: the laptop reads the feeds hourly, so the
-        # staleness gate is always closed and the steps it guards would first run in anger on the
-        # day the laptop is off -- which is the worst possible time to discover a typo in them.
+        # Without this the ingest path is untestable: something is nearly always reading the feeds,
+        # so the staleness gate is closed and the steps it guards would first run in anger on the
+        # day everything else is off -- the worst possible time to discover a typo in them.
         description: "Ingest even if the corpus is fresh"
         type: boolean
         default: false
@@ -75,7 +75,12 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # 60, not 45. The ingest step below was measured at 21 minutes against a FRESH corpus (run
+    # 41431514517), and the only time it runs at all is when the corpus is six hours stale and
+    # therefore has a backlog -- so the measured figure is a floor, not a typical case. At 45 the
+    # worst case was a timeout on the one morning this step exists for, which would have taken the
+    # deploy down with it.
+    timeout-minutes: 60
     env:
       PYTHONPATH: .
       PYTHONIOENCODING: utf-8
@@ -97,12 +102,19 @@ jobs:
       # a secret: an account id is an identifier that appears in dashboard URLs, not a credential,
       # and writing it down where it can be read makes this failure obvious next time.
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-      # Ingest here is a BACKSTOP, not the schedule. The laptop reads the feeds every hour, so on
-      # any normal day the corpus is minutes old when this runs and the ingest steps below skip
-      # without installing anything. They exist for the day the laptop is shut: until now nothing
-      # in the cloud read a feed, so a closed lid meant the site kept publishing on time from a
-      # corpus that quietly stopped moving -- and the live-site check could not see it, because
-      # every page was present and correct.
+      # Ingest here is a BACKSTOP, and since 2026-11-02 a backstop to a backstop. Reading the
+      # feeds is `ingest.yml`'s job: hourly slots against a two-hour gate, with no deadline and no
+      # deploy to put at risk. The laptop keeps a six-hourly pass behind that. So on any normal
+      # morning the corpus is an hour or two old when this runs and the steps below skip without
+      # installing anything.
+      #
+      # Six hours, deliberately looser than ingest.yml's two: this must only fire when BOTH of the
+      # other two have stopped -- a GitHub cron stall long enough to swallow six hourly slots, plus
+      # a laptop that is off. Tightening it would mean the publish regularly doing a 20-minute
+      # ingest in front of an 08:00 Oslo deadline, which is exactly what ingest.yml exists to
+      # prevent. What it guards against is the quiet failure: nothing in the cloud read a feed for
+      # a day, the site kept publishing on time from a corpus that had stopped moving, and the
+      # live-site check could not see it, because every page was present and correct.
       INGEST_IF_OLDER_THAN_H: "6"
       # Pinned, and from the vendor's own image rather than piping their install script into a
       # shell. 0.40.13 was the newest non-rc tag on 2026-11-02; the laptop runs 0.40.6.
@@ -204,8 +216,8 @@ jobs:
       # not stop the others, and drafting stays idempotent per Oslo day, so the later cron slots
       # find each edition already written and spend nothing.
       # Ask before paying. One indexed row answers "have the feeds been read lately?", and it does
-      # not care which machine read them -- so the laptop's hourly pass and this satisfy it
-      # equally, and the two can coexist for as long as both exist without doubling the work.
+      # not care WHO read them -- ingest.yml, the laptop and this all satisfy it equally, which is
+      # what lets three overlapping schedules exist without doing the work three times.
       - name: Is the corpus stale?
         id: corpus
         continue-on-error: true
@@ -219,7 +231,7 @@ jobs:
             exit 0
           fi
           if python -c "import sys; sys.exit(0 if float(sys.argv[1]) > float(sys.argv[2]) else 1)"                "$age" "$INGEST_IF_OLDER_THAN_H"; then
-            echo "stale=1" >> "$GITHUB_OUTPUT"; echo "the laptop has not ingested recently -- ingesting here"
+            echo "stale=1" >> "$GITHUB_OUTPUT"; echo "nothing has ingested recently -- ingesting here"
           else
             echo "stale=0" >> "$GITHUB_OUTPUT"; echo "corpus is fresh -- skipping ingest, installing nothing"
           fi
