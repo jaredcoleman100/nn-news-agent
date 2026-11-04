@@ -58,6 +58,12 @@ const OUTBOX = CANDIDATES.find((d) => {
 // Only the laptop can notice: it is the only machine that can see both directories, because the
 // live outbox is on the shared drive and a runner clones this repo alone. So this warns when both
 // exist and disagree, and stays silent in CI, where there is nothing to compare.
+//
+// It is now a BACKSTOP rather than the control. A warning in a build log is not a mechanism: it
+// fired for the 3 November vise and the 4 November cloud build published the magazine without it
+// anyway. core/publish.py::build() now runs core/sync_norlit.py before Eleventy, so the files are
+// copied in without anyone reading this line; what is left for a human is the commit, and
+// `python -m core.sync_norlit --check` exits non-zero when that has not happened.
 (() => {
   // Named, not indexed. CANDIDATES[1] was the live outbox only while NORLIT_OUTBOX was set --
   // .filter(Boolean) drops the unset env var and shifts everything down one, so the first version
@@ -72,7 +78,7 @@ const OUTBOX = CANDIDATES.find((d) => {
       console.warn(`  norlit: ${missing.length} piece(s) are NOT in vendor/norlit-outbox, so the `
         + `cloud build will publish without them:`);
       for (const f of missing) console.warn(`    ${f}`);
-      console.warn("    copy them into vendor/norlit-outbox and commit.");
+      console.warn("    run `python -m core.sync_norlit --commit` and push.");
     }
   } catch { /* nothing to compare; the section still builds from whatever OUTBOX resolved to */ }
 })();

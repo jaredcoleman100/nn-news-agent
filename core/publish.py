@@ -35,7 +35,7 @@ import subprocess
 import tarfile
 from pathlib import Path
 
-from core import hits_export, reports_export
+from core import hits_export, reports_export, sync_norlit
 from core.archive import ARCHIVE_DIR
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -124,6 +124,11 @@ def build(sb=None, public: bool = False) -> Path:
             images.export(_ents)
         except Exception as _ex:  # noqa: BLE001 - a picture is never worth failing a build over
             print(f"  images: skipped ({type(_ex).__name__}: {str(_ex)[:60]})")
+    # Level the norlit snapshot BEFORE Eleventy reads it. site/_data/norlit.js prefers norlit's
+    # live outbox and falls back to vendor/norlit-outbox, which is all a cloud runner can see -- so
+    # a piece that is only in the live outbox builds here and vanishes there. This is a no-op on a
+    # machine that cannot see the live outbox, which is every runner. See core/sync_norlit.py.
+    sync_norlit.sync()
     out = TOOLCHAIN / ("_public" if public else "_site")
     with _build_lock(out):
         # Eleventy does not remove files it no longer generates, so a page that stops existing -- a
