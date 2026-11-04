@@ -151,6 +151,14 @@ module.exports = {
                "Ingenting er godkjent for publisering ennå."],
     satireWaiting: ["drafted and waiting for an editor's decision.",
                     "skrevet og venter på redaktørens avgjørelse."],
+    comedy: ["Comedy", "Vitsedesken"],
+    comedyNote: [
+      "One short joke on each of the day's biggest stories, drawn from both desks. The target is always an institution, a euphemism or an arrangement — never the person a story happened to. Written by machine and published under a standing editorial instruction; the ethics flags each brief carries are shown with it.",
+      "Én kort vits på hver av døgnets største saker, hentet fra begge desker. Målet er alltid en institusjon, en eufemisme eller en ordning — aldri mennesket saken handlet om. Maskinskrevet og publisert etter en stående redaksjonell instruks; etikkflaggene hver brief bærer vises sammen med den."],
+    noComedy: ["Nothing approved for publication yet.",
+               "Ingenting er godkjent for publisering ennå."],
+    comedyWaiting: ["drafted and waiting for an editor's decision.",
+                    "skrevet og venter på redaktørens avgjørelse."],
     categories: ["Categories", "Kategorier"],
     hits: ["hits", "treff"],
     score: ["score", "skår"],
@@ -208,6 +216,9 @@ module.exports = {
     noticeRights: [
       "Headlines, links and outlet names belong to the outlets that published them. Nothing here reproduces an article; every item links to its source.",
       "Titler, lenker og redaksjonsnavn tilhører redaksjonene som har publisert dem. Ingenting her gjengir en artikkel; hver sak lenker til kilden."],
+    noticeComedy: [
+      "The comedy section is satire: invented jokes anchored to a real, linked news story. The jokes target institutions, official language and arrangements, not the people the stories concern. They are not statements of fact and were said by nobody.",
+      "Vitsedelen er satire: oppdiktede vitser forankret i en ekte, lenket nyhetssak. Vitsene retter seg mot institusjoner, offentlig språk og ordninger, ikke mot menneskene sakene handler om. De er ikke faktapåstander, og de er ikke sagt av noen."],
     noticeSatire: [
       "The satire section is satire: invented jokes anchored to a real, linked quotation from a named politician. The jokes are not statements of fact and were never said by the person quoted.",
       "Satiredelen er satire: oppdiktede vitser forankret i et ekte, lenket sitat fra en navngitt politiker. Vitsene er ikke faktapåstander, og de er aldri sagt av den som siteres."],

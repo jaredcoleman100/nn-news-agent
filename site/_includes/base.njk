@@ -440,6 +440,7 @@
     {%- else %}{{ site.t.topics[0] }} / {{ site.t.topics[1] }}{% endif %}</a>
   <a href="{{ linkBase }}regions/"{% if navKey == "regions" %} aria-current="page"{% endif %}>{{ site.t.regions[0] }} / {{ site.t.regions[1] }}</a>
   <a href="{{ linkBase }}satire/"{% if navKey == "satire" %} aria-current="page"{% endif %}>{{ site.t.satire[0] }}</a>
+  <a href="{{ linkBase }}comedy/"{% if navKey == "comedy" %} aria-current="page"{% endif %}>{{ site.t.comedy[0] }}</a>
   <a href="{{ linkBase }}norlit/"{% if navKey == "norlit" %} aria-current="page"{% endif %}>{{ site.t.norlitNav[0] }}</a>
   <a href="{{ linkBase }}about/"{% if navKey == "about" %} aria-current="page"{% endif %}>{{ site.t.about[0] }} / {{ site.t.about[1] }}</a>
   {% if site.internal %}
@@ -457,8 +458,14 @@
 </div>
 {{ content | safe }}
 {# THE PUBLIC NOTICE. On every page, because with the gate off a reader can arrive on any one of
-   them without passing a front door. `navKey == "satire"` adds the satire disclaimer only where it
-   applies: putting it on all seventy pages would train readers to skip the block that matters. #}
+   them without passing a front door. The humour disclaimer is added only where it applies:
+   putting it on all seventy pages would train readers to skip the block that matters.
+
+   Two notices, not one, because the two desks aim at different targets and say so: the satire
+   desk quotes named politicians, the joke desk reads all the news and must hit the institution
+   rather than the person a story happened to. `noticeComedy` was written for that and then
+   rendered NOWHERE -- this block tested only `navKey == "satire"`, so /comedy/ and every joke
+   brief's own page carried no humour notice at all. #}
 <footer class="site-notice">
   <div class="rule"></div>
   <svg class="rosette" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -475,6 +482,9 @@
   <p>{{ site.t.noticeAi[0] }}<span class="alt">{{ site.t.noticeAi[1] }}</span></p>
   {% if navKey == "satire" %}
   <p class="sat">{{ site.t.noticeSatire[0] }}<span class="alt">{{ site.t.noticeSatire[1] }}</span></p>
+  {% endif %}
+  {% if navKey == "comedy" %}
+  <p class="sat">{{ site.t.noticeComedy[0] }}<span class="alt">{{ site.t.noticeComedy[1] }}</span></p>
   {% endif %}
   <p>{{ site.t.noticeRights[0] }}<span class="alt">{{ site.t.noticeRights[1] }}</span></p>
   {% if built.stale %}

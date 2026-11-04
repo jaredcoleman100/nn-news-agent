@@ -8,18 +8,22 @@ permalink: "index.html"
 {#
   The home page: the latest news brief in full, then the categories, then every brief.
 
-  SATIRE IS NOT HERE, by instruction (2026-09-28). The satire desk has its own section and its own
-  rules -- jokes about named living politicians, publishable only once an editor has approved them
-  -- and mixing it into the news front page blurs exactly the line the desk's template draws. It
-  stays reachable from the nav on every page, including this one; what it does not do is lead, or
-  turn up unannounced in the brief list.
+  NO HUMOUR IS HERE, by instruction (satire 2026-09-28, the joke desk 2026-11-03). Those desks
+  have their own sections and their own rules -- jokes about named living politicians, or on all
+  of the day's news, publishable only once an editor has approved them -- and mixing either into
+  the news front page blurs exactly the line their templates draw. They stay reachable from the
+  nav on every page, including this one; what they do not do is lead, or turn up unannounced in
+  the brief list.
+
+  The exclusion reads its list from _data/humour.js rather than naming a product here, because
+  naming one here is what let the joke desk's first run lead this page.
 
   The categories come from `topics`, not `categories`: the latter is built from the archive's hits
   and is empty in the public build, which is why this strip used to be hidden behind
   `site.internal` and the public home page had no categories at all.
 #}
 
-{% set news = reports | without("product", "satire-desk") %}
+{% set news = reports | withoutAny("product", humour.products) %}
 {% set latest = news | first %}
 
 {% if not latest %}
@@ -75,5 +79,5 @@ permalink: "index.html"
     <span class="n">{{ r.day }} · {{ r.stories | length }}</span></a></li>
 {% endfor %}
 </ul>
-<p class="sub" style="margin-top:14px"><a href="{{ linkBase }}digests/">{{ site.t.allDigests[0] }} / {{ site.t.allDigests[1] }} ({{ reports | length }}) →</a></p>
+<p class="sub" style="margin-top:14px"><a href="{{ linkBase }}digests/">{{ site.t.allDigests[0] }} / {{ site.t.allDigests[1] }} ({{ news | length }}) →</a></p>
 {% endif %}

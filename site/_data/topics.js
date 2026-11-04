@@ -19,9 +19,14 @@
 const reports = require("./reports.js");
 
 const DESKS = require("./desks.js");   // the one canonical list
+const HUMOUR = require("./humour.js").products;
 
 module.exports = function () {
-  const briefs = reports();
+  // News briefs only. A humour brief cites real, linked stories, but a topic page renders the
+  // citing brief's headline next to each story, so including them put joke headlines on the news
+  // topic pages -- and put 48 stories there (measured 2026-11-03: 966 -> 918) whose only
+  // provenance was a joke. The jokes stay in /satire/ and /comedy/, with their disclaimers.
+  const briefs = reports().filter((r) => !HUMOUR.includes(r.product));
   const groups = new Map();
   const seen = new Map();          // url -> the story object already placed
 
@@ -78,6 +83,10 @@ module.exports = function () {
     })).filter((d) => d.categories.length),
     // Distinct stories, not the sum of category counts: a story in two categories is one story.
     total: seen.size,
+    // How many briefs these stories came from. topics.njk used `reports | length`, which counts
+    // the humour briefs this file no longer reads -- so the sentence "N stories from M briefs"
+    // over-counted M.
+    briefs: briefs.length,
     uncategorised: [...seen.values()].filter((s) => !s.cats.length).length,
   };
 };

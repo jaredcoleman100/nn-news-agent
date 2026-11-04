@@ -64,6 +64,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("without", (list, key, value) =>
     (list || []).filter((x) => x && x[key] !== value));
 
+  // Same as `without`, for a list of values. The news surfaces exclude EVERY humour product
+  // (_data/humour.js), and chaining `without` once per product is how one of them got forgotten.
+  eleventyConfig.addFilter("withoutAny", (list, key, values) =>
+    (list || []).filter((x) => x && !(values || []).includes(x[key])));
+
   // Thousands separators. "9230" on a page about scale reads as a typo.
   eleventyConfig.addFilter("num", (n) => Number(n || 0).toLocaleString("en-GB"));
 

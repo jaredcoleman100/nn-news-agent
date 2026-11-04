@@ -1,6 +1,5 @@
 ---
 layout: base.njk
-navKey: digests
 pagination:
   data: reports
   size: 1
@@ -8,6 +7,9 @@ pagination:
 permalink: "digest/{{ r.slug }}/index.html"
 eleventyComputed:
   pageTitle: "{{ r.headline_en or r.headline }}"
+  # Not a fixed `navKey: digests`: a humour brief's own page belongs to its own section, and the
+  # footer disclaimer in base.njk is gated on this value. See `section` in _data/reports.js.
+  navKey: "{{ r.section }}"
 ---
 {% from "digest.njk" import digest %}
 {{ digest(r, site, linkBase, site.internal, images) }}

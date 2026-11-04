@@ -63,9 +63,18 @@ function blocks(text) {
   return out;
 }
 
+// Humour products render in their own sections; everything else is news. Keyed by product, like
+// PRODUCT below, and kept consistent with _data/humour.js -- which lists the same products as the
+// ones excluded from the news surfaces.
+const SECTION = {
+  "satire-desk": "satire",
+  "vitsedesken": "comedy",
+};
+
 const PRODUCT = {
   "daily-digest": ["Morning brief", "Morgenbrief"],
   "satire-desk": ["Satire desk", "Satiredesken"],
+  "vitsedesken": ["Comedy", "Vitsedesken"],
   "international-brief": ["International brief", "Internasjonal brief"],
   "midterm-brief": ["US midterms brief", "Mellomvalgbrief"],
   "world-brief": ["World brief", "Verdensbrief"],
@@ -136,6 +145,12 @@ module.exports = function () {
       day,
       slug: `${day}-${r.product}-${r.id}`,
       productName: PRODUCT[r.product] || [r.product, r.product],
+      // Which section of the site this brief belongs to, so its own page can carry that section's
+      // nav state and disclaimer. digest.njk paginates over EVERY brief, humour included, and
+      // declared `navKey: digests` for all of them -- so a page of jokes rendered as a news page,
+      // under the news nav, with no satire notice in the footer, because base.njk gates that
+      // notice on navKey. The humour sections are defined in humour.js.
+      section: SECTION[r.product] || "digests",
       blocks: blocks(r.body),
       blocksEn: blocks(r.body_en),
       // Split for the page, because the editorial rule is that the lead must come from outside

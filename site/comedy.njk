@@ -1,0 +1,60 @@
+---
+layout: base.njk
+navKey: comedy
+pageTitle: "Comedy / Vitsedesken"
+permalink: "comedy/index.html"
+---
+{#
+  The joke desk: one short joke on each of the day's biggest stories, read across BOTH newsrooms
+  (regional and world news from Nord-Norge, national politics from the satire desk). The humour is
+  built on George Carlin's method -- soft language, the club, the premise taken literally, scale,
+  the list -- see templates/vitsedesken.md.
+
+  This filters on reports.editor_decision, exactly as satire.njk does. BE CLEAR ABOUT WHAT THAT
+  MEANS NOW: since AUTO_APPROVE (run.py, the editor's standing instruction of 2026-10-08 to
+  publish everything) `editor_decision` records "falls under a standing instruction", NOT "a
+  person read this one". So a brief reaches this page on the next build without anyone having read
+  it, and a `blocked` gate does not hold it back -- it travels with its flags shown instead.
+
+  That is the editor's settled choice for the news products and it is not this file's place to
+  override it. It is worth stating here only because THIS desk's risk profile is different from
+  the products the instruction was written for: the satire desk mocks politicians, who hold power
+  on the public's behalf, while this one reads ALL the news, so its window holds deaths,
+  accidents, charges, children and asylum cases. The template's rule -- hit the institution, the
+  euphemism or the arrangement, never the person a story happened to -- held in both of the first
+  two runs, but it holds because a model followed an instruction.
+
+  If that ever needs to change, the switch is AUTO_APPROVE=0, which restores per-report review for
+  every desk; there is no per-product setting today.
+#}
+{% set drafted = reports | where("product", "vitsedesken") %}
+{% set approved = drafted | where("decision", "approved") %}
+
+<p class="sub">{{ site.t.comedyNote[0] }}
+<span class="alt">{{ site.t.comedyNote[1] }}</span></p>
+
+{% if not approved | length %}
+  <p class="body empty">{{ site.t.noComedy[0] }}<br>{{ site.t.noComedy[1] }}</p>
+  {% if drafted | length %}
+  <p class="sub">{{ drafted | length }} {{ site.t.comedyWaiting[0] }}
+  <span class="alt">{{ drafted | length }} {{ site.t.comedyWaiting[1] }}</span></p>
+  {% endif %}
+{% else %}
+  {# Latest approved in full; the rest as an archive list, so the section keeps working as it
+     grows rather than becoming one endless page. Same shape as satire.njk on purpose -- a reader
+     moving between the two sections should not have to learn a second layout. #}
+  {% from "digest.njk" import digest %}
+  {{ digest(approved | first, site, linkBase, site.internal, images) }}
+
+  {% set older = approved | drop(1) %}
+  {% if older | length %}
+  <h2 class="day">{{ site.t.earlier[0] }} / {{ site.t.earlier[1] }} · {{ older | length }}</h2>
+  <ul class="browse briefs">
+  {% for r in older %}
+    <li><a href="{{ linkBase }}digest/{{ r.slug }}/">
+      <span>{{ r.headline_en or r.headline }}</span>
+      <span class="n">{{ r.day }}</span></a></li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+{% endif %}

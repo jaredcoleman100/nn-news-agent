@@ -4,14 +4,21 @@ navKey: digests
 pageTitle: "Briefs / Brief"
 permalink: "digests/index.html"
 ---
-{# Every digest ever drafted, newest first, grouped by desk so the two products do not interleave.
-   Held ones are marked: a reader asking "why did this never arrive" gets the answer here rather
-   than from the outbox table. #}
-<p class="sub">{{ reports | length }} {{ site.t.briefs[0] | lower }}
-<span class="alt">{{ reports | length }} {{ site.t.briefs[1] | lower }}</span></p>
+{# Every NEWS digest ever drafted, newest first, grouped by desk so the products do not
+   interleave. Held ones are marked: a reader asking "why did this never arrive" gets the answer
+   here rather than from the outbox table.
+
+   The humour desks are excluded (_data/humour.js), because this page groups by NEWSROOM and the
+   joke desk shares `nord-norge` with the news desk -- so a brief of 39 jokes listed here appeared
+   under "Northern Norway" with nothing to mark it as jokes. The satire desk, in a newsroom of its
+   own, had been getting its own heading; it is excluded on the same rule rather than on where it
+   happens to sit. Both sections carry the briefs, with their disclaimers: /satire/ and /comedy/. #}
+{% set news = reports | withoutAny("product", humour.products) %}
+<p class="sub">{{ news | length }} {{ site.t.briefs[0] | lower }}
+<span class="alt">{{ news | length }} {{ site.t.briefs[1] | lower }}</span></p>
 
 {% for desk in desks %}
-  {% set mine = reports | where("newsroom", desk.id) %}
+  {% set mine = news | where("newsroom", desk.id) %}
   {% if mine | length %}
   <h2 class="day">{{ desk.name[0] }} / {{ desk.name[1] }} · {{ mine | length }}</h2>
   <ul class="browse briefs">
