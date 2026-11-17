@@ -101,6 +101,12 @@ class OpenAIProvider:
             # same repo failed the same way three weeks earlier ("Invalid format for Authorization
             # header"), so this is the second time one paste has cost days.
             key = (os.environ.get("OPENAI_API_KEY") or "").strip()
+            # A clean key from the wrong vendor gets OpenAI's 401 with a masked key, which does not
+            # say whose key it is. Measured 2026-11-17: the GitHub secret held an Anthropic key.
+            if key.startswith("sk-ant-"):
+                raise RuntimeError("OPENAI_API_KEY holds an Anthropic key (sk-ant-...). "
+                                   "Replace it with an OpenAI key, or set the product's provider "
+                                   "to anthropic and put the key in ANTHROPIC_API_KEY.")
             self._c = openai.OpenAI(api_key=key) if key else openai.OpenAI()
         return self._c
 

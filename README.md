@@ -372,6 +372,10 @@ browser — a User-Agent problem, not a missing feed, and worth retrying. See `s
 
 ## What runs where (2026-09-14)
 
+**Superseded.** Ingest, drafting, build and deploy all run in GitHub Actions now (`ingest.yml`,
+`morning.yml`); the table below is the September layout. What still ties the pipeline to the laptop,
+and the order to switch it off in, is in `CLOUD_SETUP.md` section 6.
+
 The pipeline is split across three surfaces, and the split is not obvious from the code:
 
 | Surface | Job | Embeds? | Scheduled by |
