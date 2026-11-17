@@ -119,23 +119,51 @@ gh run view --log-failed
 
 ---
 
-## 6. Leave the laptop tasks running for a week
+## 6. Retire the laptop (updated 2026-11-17)
 
-Do **not** disable the Task Scheduler jobs yet. Running both is safe — drafting is idempotent per
-Oslo day, so whichever fires first writes the brief and the other skips, and a second deploy is a
-no-op upload. For a week you get a cloud publish and a laptop publish, which is exactly the
-redundancy you want while the new path is unproven.
+Both halves of the pipeline now run in the cloud:
 
-Once you have seen seven green Actions runs:
+| Job | Cloud | Since |
+| --- | --- | --- |
+| Read the feeds, embed, score | `ingest.yml`, hourly at :40, bge-m3 in a container on the runner | 2026-11-02 |
+| Draft every scheduled `nord-norge` desk, build, deploy | `morning.yml`, morning slots plus three weekday afternoon slots for the 14:00 desk | 2026-10-04, afternoon slots 2026-11-17 |
+| Email delivery | Supabase pg_cron `drain-outbox` -> `send-outbox` Edge Function | 2026-09-14 |
+
+The ingest backlog that used to pin `NNNewsAgentIngest` to this machine is gone: the cloud uses
+the same bge-m3 build, asserted by digest, so no re-embedding was needed.
+
+### Before switching the laptop off, three things
+
+1. **Fix the OpenAI secret.** On 2026-11-17 `OPENAI_API_KEY` in GitHub held an Anthropic key
+   (`sk-ant-...`), so `editor-letter` fails every cloud run with a 401 and only the laptop writes
+   it. Re-set it from the machine that has the right key:
+
+   ```bash
+   printf '%s' "$OPENAI_API_KEY" | gh secret set OPENAI_API_KEY
+   ```
+
+   The secrets step now warns when a key starts with another vendor's prefix.
+
+2. **Decide where norlit's pieces come from.** The cloud build reads `vendor/norlit-outbox`,
+   which only moves when the laptop copies norlit's live outbox into it and someone commits and
+   pushes. With the laptop off, the magazine freezes at the last pushed snapshot (it does not
+   vanish). norlit has to deliver its outbox somewhere the cloud can read before this stops
+   depending on the laptop.
+
+3. **Decide on the satire desk.** `rikspolitikk/satire-desk` has a different owner and is not
+   drafted in the cloud (`morning.yml` runs `--newsroom nord-norge` only). If the laptop drafts
+   it today, switching the laptop off stops it.
+
+### Then
 
 ```powershell
-Disable-ScheduledTask -TaskName NNNewsAgentPublish
+Disable-ScheduledTask -TaskName NNNewsAgentIngest
 Disable-ScheduledTask -TaskName NNNewsAgentDigest
+Disable-ScheduledTask -TaskName NNNewsAgentPublish
 ```
 
-Keep **`NNNewsAgentIngest`** enabled. Ingest still needs the local Ollama for embeddings and has
-not moved to the cloud — that is the third stage, and it requires the Gemini embedding migration
-(re-embedding 14,966 items and re-tuning thresholds across 16 categories).
+Disable, not unregister, so any of them can come back with `Enable-ScheduledTask` if a cloud run
+misbehaves. After a week of green `ingest` and `morning` runs with the laptop off, delete them.
 
 ---
 

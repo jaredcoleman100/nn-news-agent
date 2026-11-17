@@ -52,6 +52,15 @@ on:
     - cron: "0 4 * * *"
     - cron: "0 5 * * *"
     - cron: "0 6 * * *"
+    # THE AFTERNOON DESK. international-brief is due at 14:00 Oslo on weekdays, and every slot above
+    # is a morning one -- so on a day the crons fired on time the cloud never drafted it, and it
+    # was written only by the laptop or by a morning slot delayed into the afternoon. These three
+    # are 14:00-16:00 Oslo in winter (15:00-17:00 in summer). Same rules as the morning slots:
+    # run.py decides what is due, drafting is idempotent per Oslo day, and a slot that finds the
+    # brief written just redeploys.
+    - cron: "0 13 * * 1-5"
+    - cron: "0 14 * * 1-5"
+    - cron: "0 15 * * 1-5"
   workflow_dispatch:
     inputs:
       skip_draft:
@@ -181,6 +190,19 @@ jobs:
           check CLOUDFLARE_ACCOUNT_ID     "${CLOUDFLARE_ACCOUNT_ID:-}"     yes
           check GEMINI_API_KEY            "${GEMINI_API_KEY:-}"            no
           check OPENAI_API_KEY            "${OPENAI_API_KEY:-}"            no
+          # THE RIGHT VENDOR'S KEY IN THE RIGHT SLOT. Measured 2026-11-17: OPENAI_API_KEY held an
+          # Anthropic key (sk-ant-...). It is clean, so the whitespace check passes, and the run
+          # then fails 90 seconds later with OpenAI's 401 -- editor-letter has not drafted in the
+          # cloud since. A prefix check names the actual fault before any model call.
+          wrong_vendor() {
+            name="$1"; val="$2"; bad="$3"; vendor="$4"
+            case "$val" in "$bad"*)
+              echo "::warning::$name holds a $vendor key ($bad...), not the key it is named for -- drafting with it will 401"
+              warned=1 ;;
+            esac
+          }
+          wrong_vendor OPENAI_API_KEY "${OPENAI_API_KEY:-}" sk-ant- Anthropic
+          wrong_vendor GEMINI_API_KEY "${GEMINI_API_KEY:-}" sk-     OpenAI/Anthropic
           echo "tainted=$warned" >> "$GITHUB_OUTPUT"
           [ "$fatal" = 0 ] || { echo "::error::A credential needed to build or deploy is unusable; see above."; exit 1; }
 
@@ -326,7 +348,7 @@ jobs:
             grep -E '^(due:|FAILED:|skip:|  [a-z-]+ +scheduled)' "$RUNNER_TEMP/draft.log"               | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY" || true
           fi
           if [ "${{ steps.secrets.outputs.tainted }}" = "1" ]; then
-            echo "A model API key is missing or has stray whitespace -- re-paste the secret." >> "$GITHUB_STEP_SUMMARY"
+            echo "A model API key is missing, has stray whitespace, or belongs to the wrong vendor -- see the warnings on the secrets step and re-paste it." >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "${{ steps.draft.outcome }}" = "failure" ]; then
             echo "The site was still rebuilt and deployed; it carries its own build stamp and a stale banner if today's brief is missing." >> "$GITHUB_STEP_SUMMARY"
